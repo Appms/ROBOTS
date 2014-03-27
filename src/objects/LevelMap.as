@@ -1,5 +1,6 @@
 package objects 
 {
+	import adobe.utils.CustomActions;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
@@ -23,8 +24,9 @@ package objects
 									[1, 2, 2, 0, 0, 2],
 									[1, 2, 2, 2, 2, 2],
 									[1, 0, 0, 0, 0, 0,]];
-		trace("Vector construido!");
-		private var DrawVector:Vector.<Image>;
+
+		private var drawArray:Array = new Array();
+		
 		public function LevelMap() 
 		{
 			super();
@@ -47,7 +49,7 @@ package objects
 							Tile1Object.x = 128 * (j-i);
 							Tile1Object.y = 64 * (j + i) - 384;
 							if (j < i) Tile1Object.y * -1;
-							this.addChild(Tile1Object);
+							drawArray.push(Tile1Object);
 						}
 						else 
 						{	
@@ -55,9 +57,35 @@ package objects
 							Tile2Object.x = 128 * (j-i);
 							Tile2Object.y = 64 * (j + i);
 							if (j < i) Tile2Object.y * -1;
-							this.addChild(Tile2Object);
+							drawArray.push(Tile2Object);
 						}
 					}
+				}
+			}
+			
+			for each (var tile:Image in drawArray)
+			{
+				this.addChild(tile);
+			}
+			
+		}
+		
+		public function Draw(cam_x:int,cam_y:int):void 
+		{
+			for each (var tile:Image in drawArray) 
+			{
+				if (cam_x + 800 < tile.x + cam_x || cam_x - 300 > tile.x + cam_x + 256) 
+				{
+					tile.visible = false;
+					
+				}
+				else if (cam_y + 600 < tile.y + cam_y || cam_y - 600 > tile.y + cam_y + 512)
+				{
+					tile.visible = false;
+				}
+				else 
+				{
+					tile.visible = true;
 				}
 			}
 		}
@@ -67,5 +95,4 @@ package objects
 			return matrix;
 		}
 	}
-
 }

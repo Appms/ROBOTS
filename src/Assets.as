@@ -21,6 +21,12 @@ package
 		[Embed(source = "../media/graphics/robot.png")]
 		public static const Robot:Class;
 		
+		[Embed(source = "../media/graphics/HIPS1.png")]
+		public static const Icon_1:Class;
+		
+		[Embed(source = "../media/graphics/HIPS2.png")]
+		public static const Icon_2:Class;
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		
 		/*private static var gameTextureAtlas:TextureAtlas;
