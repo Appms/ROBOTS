@@ -28,7 +28,8 @@ package screens
 		private var camera_offset_y:int = 300;
 		
 		private var map:LevelMap;
-		private var robot:Hipsbot;
+		private var robots_vector:Vector.<Hipsbot>;
+		private var current_robot:Hipsbot;
 		private var user_int:UI;
 		
 		public function Playground() 
@@ -53,27 +54,33 @@ package screens
 			map.x += camera_offset_x;
 			map.y += camera_offset_y;
 			
-			robot = new Hipsbot(1);
+			// robots_vector should be defined on instances layer.
+			// Playground.as should read that vector and create its own.
+			robots_vector = new<Hipsbot>[new Hipsbot(1,2,1)];
+			
+			current_robot = robots_vector[0];
+			current_robot.state = 1;
 			
 			user_int = new UI();
 			
 			this.addChild(map);
-			this.addChild(robot);
+			this.addChild(current_robot);
 			this.addChild(user_int);
 			
 		}
 		
 		private function KeyDown(event:KeyboardEvent):void 
 		{
-			if (robot.state == 1)
+			if (current_robot.state == 1)
 			{
 				switch (event.keyCode) 
 				{
 					case Keyboard.W:
-						if (map.Matrix[robot.i - 1][robot.j] == 2)
+						if (current_robot.aim != 8) current_robot.aim = 8;
+						else if (map.Matrix[current_robot.i - 1][current_robot.j] == 2)
 						{
-							robot.state = 2;
-							robot.i--;
+							current_robot.state = 2;
+							current_robot.i--;
 							camera_offset_x -= TileSizeX;
 							camera_offset_y += TileSizeY;
 							trace("moving UP");
@@ -82,11 +89,12 @@ package screens
 						break;
 						
 					case Keyboard.S:
-						if (map.Matrix[robot.i + 1][robot.j] == 2)
+						if (current_robot.aim != 2) current_robot.aim = 2;
+						else if (map.Matrix[current_robot.i + 1][current_robot.j] == 2)
 						{
 							//animate
-							robot.state = 2;
-							robot.i++;
+							current_robot.state = 2;
+							current_robot.i++;
 							camera_offset_x += TileSizeX;
 							camera_offset_y -= TileSizeY;
 							trace("moving DOWN");
@@ -95,11 +103,12 @@ package screens
 						break;
 					
 					case Keyboard.A:
-						if (map.Matrix[robot.i][robot.j - 1] == 2)
+						if (current_robot.aim != 4) current_robot.aim = 4;
+						else if (map.Matrix[current_robot.i][current_robot.j - 1] == 2)
 						{
 							//animate
-							robot.state = 2;
-							robot.j--;
+							current_robot.state = 2;
+							current_robot.j--;
 							camera_offset_x += TileSizeX;
 							camera_offset_y += TileSizeY;
 							trace("moving LEFT");
@@ -108,11 +117,12 @@ package screens
 						break;
 					
 					case Keyboard.D:
-						if (map.Matrix[robot.i][robot.j + 1] == 2)
+						if (current_robot.aim != 6) current_robot.aim = 6;
+						else if (map.Matrix[current_robot.i][current_robot.j + 1] == 2)
 						{
 							//animate
-							robot.state = 2;
-							robot.j++;
+							current_robot.state = 2;
+							current_robot.j++;
 							camera_offset_x -= TileSizeX;
 							camera_offset_y -= TileSizeY;
 							trace("moving RIGHT");
@@ -123,14 +133,14 @@ package screens
 					case Keyboard.SPACE:
 						//check viability
 						//animate
-						robot.state = 3;
-						//robotInteraction();
+						current_robot.state = 3;
+						current_robot.robotInteraction();
 						break;
 					
 					case Keyboard.Q:
-						//animate
-						robot.state = 4;
-						//robotTool();
+						//animated
+						current_robot.state = 4;
+						current_robot.robotTool();
 						break;
 					
 					default:
@@ -142,38 +152,40 @@ package screens
 		
 		private function onGameTick(event:Event):void 
 		{
-			switch (robot.state)
+			for (var robot:Hipsbot in robots_vector)
 			{
-				case 1:
-					//CURRENT ROBOT IDLE ANIMATION
-					break;
-					
-				case 2:
-					//MAP MOVEMENT UPDATE
-					if (map.x < camera_offset_x) map.x += SpeedX;
+				switch (robot.state)
+				{
+					case 1:
+						//CURRENT ROBOT IDLE ANIMATION
+						break;
+						
+					case 2:
+						//MAP MOVEMENT UPDATE
+						if (map.x < camera_offset_x) map.x += SpeedX;
 
-					else if (map.x > camera_offset_x) map.x -= SpeedX;
-					
-					if (map.y < camera_offset_y) map.y += SpeedY;
-					
-					else if (map.y > camera_offset_y) map.y -= SpeedY;
-					
-					if (map.x == camera_offset_x && map.y == camera_offset_y) robot.state = 1;
-					
-					map.Draw(camera_offset_x, camera_offset_y);
-					
-					break;
-					
-				case 3:
-					//CURRENT ROBOT INTERACTION
-					break;
-					
-				case 4:
-					//CURRENT ROBOT TOOLS
-					break;
-					
+						else if (map.x > camera_offset_x) map.x -= SpeedX;
+						
+						if (map.y < camera_offset_y) map.y += SpeedY;
+						
+						else if (map.y > camera_offset_y) map.y -= SpeedY;
+						
+						if (map.x == camera_offset_x && map.y == camera_offset_y) robot.state = 1;
+						
+						map.Draw(camera_offset_x, camera_offset_y);
+						
+						break;
+						
+					case 3:
+						//CURRENT ROBOT INTERACTION
+						break;
+						
+					case 4:
+						//CURRENT ROBOT TOOLS
+						break;
+						
+				}
 			}
-			
 		}
 		
 	}

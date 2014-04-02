@@ -16,40 +16,36 @@ package objects
 	{	
 		
 		// Provisional code (until son classes made)
-		private var robotIMG:Image;
+		protected var robotIMG:Image;
 		// ID Number to identify each robot on screen.
-		private var idRobot:uint;
+		protected var idRobot:uint;
 		
 		// 0: Bypass, 1: StandBY, 2: Moving, 3: Interaction, 4: Tool 
-		private var _state:uint;
-
-		//Movement destination variables
-		private var destX:Number;
-		private var destY:Number;
+		protected var _state:uint;
+		
+		private const TileSizeX:Number = 128;
+		private const TileSizeY:Number = 64;
 		
 		// Counter as time delayer
-		private var counter:uint;
+		protected var counter:uint;
 		
-		private var map:Array;
+		protected var _i:uint;
+		protected var _j:uint;
 		
-		private var _i:uint;
-		private var _j:uint;
+		protected var _aim:uint; // 8 = Up, 2 = Down, 4 = Left, 6 = Right
 		
-		
-		public function Hipsbot(id:uint) 
+		public function Hipsbot(id:uint, setI:uint, setJ:uint) 
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			this.idRobot = id;
-			this.state = 1;
+			this.state = 0;
 			// Self Sprite Origin Change Representation
-			this.x += 338 ; // RobotIMG/2
-			this.y += 97 ;// RobotIMG/2
-			this.i = 2;
-			this.j = 1;
-			this.y += 64;
-			//this.x = -i * TileSizeX + j * TileSizeX;
-			//this.y = i * TileSizeY + j * TileSizeY;
+			this.i = setI;
+			this.j = setJ;
+			this.x = - i * TileSizeX + j * TileSizeX + TileSizeX;
+			this.y = i * TileSizeY + j * TileSizeY + TileSizeY*3/4;
+			this.aim = 8;
 		}
 		
 		private function onAddedToStage(event:Event):void
@@ -58,12 +54,36 @@ package objects
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
-		private function robotInteraction():void 
+		public function robotInteraction():void 
 		{
+			var aimI:uint = i;
+			var aimJ:uint = j;
+			switch(aim)
+			{
+				case 8:
+					aimI--;
+					break;
+				case 2:
+					aimI++;
+					break;
+				case 4:
+					aimJ--;
+					break;
+				case 6:
+					aimJ++;
+					break;
+				default:
+					break;
+			}
+			sonInteraction(aimI, aimJ);
 			trace("Contextual Interaction");
 		}
+		protected function sonInteraction(aimI:uint, aimJ:uint):void
+		{
+			trace("WARNING: override failed");
+		}
 		
-		private function robotTool():void
+		public function robotTool():void
 		{
 			trace("WOW SUCH TOOLS");
 		}
@@ -71,12 +91,13 @@ package objects
 		//AnimationFunctions
 		
 		// PROVISIONAL VISUALIZATION FUNCTION
-		private function setSprite():void
+		protected function setSprite():void
 		{
-			robotIMG = new Image(Assets.getTexture("Robot"));
-			this.addChild(robotIMG);
+			trace("WARNING: override failed");
 		}
 		
+		
+		//*********** GETTERS - SETTERS ***********
 		public function get state():uint 
 		{
 			return _state;
@@ -107,6 +128,15 @@ package objects
 			_j = value;
 		}
 		
+		public function get aim():uint 
+		{
+			return _aim;
+		}
+		
+		public function set aim(value:uint):void 
+		{
+			_aim = value;
+		}
 	}
 
 }

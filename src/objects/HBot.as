@@ -19,13 +19,13 @@ package objects
 			switch(map[aimI][aimJ])
 			{
 				case 0:
-					trace("I can drain dat Bitch");
+					trace("Let's GO!");
 					break;
 				default:
 					trace("I can't do that.");
 					break;
 			}
-			trace("HBot Contextual Interaction");
+			trace("HBot Contextual Interaction: Override Success");
 		}
 		
 		override protected function setSprite():void
