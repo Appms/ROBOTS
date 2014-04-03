@@ -18,14 +18,14 @@ package objects
 	public class LevelMap extends Sprite 
 	{
 		//This matrix MUST be NxN
-		private var matrix:Array = [[0, 0, 1, 1, 1, 1],
-									[1, 1, 1, 2, 2, 2],
-									[1, 2, 2, 2, 2, 2],
-									[1, 2, 2, 0, 0, 2],
-									[1, 2, 2, 2, 2, 2],
-									[1, 0, 0, 0, 0, 0,]];
+		private var _matrix:Array = [[0, 0, 1, 1, 1, 1],
+									 [1, 1, 1, 2, 2, 2],
+									 [1, 2, 2, 2, 2, 2],
+									 [1, 2, 2, 2, 2, 2],
+									 [1, 2, 2, 2, 2, 2],
+									 [1, 0, 0, 0, 0, 0,]];
 
-		private var drawArray:Array = new Array();
+		public var drawArray:Array = new Array();
 		
 		public function LevelMap() 
 		{
@@ -45,15 +45,19 @@ package objects
 					{
 						if (matrix[i][j]==1) 
 						{
-							var Tile1Object:Image = new Image(Assets.getTexture("Wall"));
+							var Tile1Object:Image =  new Image(Assets.getTexture("Wall"));
+							Tile1Object.pivotX = 128;
+							Tile1Object.pivotY = 448;
 							Tile1Object.x = 128 * (j-i);
-							Tile1Object.y = 64 * (j + i) - 384;
+							Tile1Object.y = 64 * (j + i);
 							if (j < i) Tile1Object.y * -1;
 							drawArray.push(Tile1Object);
 						}
 						else 
 						{	
 							var Tile2Object:Image = new Image(Assets.getTexture("Floor"));
+							Tile2Object.pivotX = 128;
+							Tile2Object.pivotY = 64;
 							Tile2Object.x = 128 * (j-i);
 							Tile2Object.y = 64 * (j + i);
 							if (j < i) Tile2Object.y * -1;
@@ -90,9 +94,9 @@ package objects
 			}
 		}
 		
-		public function get Matrix():Array 
+		public function get matrix():Array 
 		{
-			return matrix;
+			return _matrix;
 		}
 	}
 }

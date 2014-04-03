@@ -23,6 +23,8 @@ package objects
 		// 0: Bypass, 1: StandBY, 2: Moving, 3: Interaction, 4: Tool 
 		protected var _state:uint;
 		
+		private var _selected:Boolean;
+		
 		private const TileSizeX:Number = 128;
 		private const TileSizeY:Number = 64;
 		
@@ -43,8 +45,10 @@ package objects
 			// Self Sprite Origin Change Representation
 			this.i = setI;
 			this.j = setJ;
-			this.x = - i * TileSizeX + j * TileSizeX + TileSizeX;
-			this.y = i * TileSizeY + j * TileSizeY + TileSizeY*3/4;
+			this.x = 400;
+			this.y = 570;
+			this.state = 1;
+			this.selected = false;
 			this.aim = 8;
 		}
 		
@@ -136,6 +140,16 @@ package objects
 		public function set aim(value:uint):void 
 		{
 			_aim = value;
+		}
+		
+		public function get selected():Boolean 
+		{
+			return _selected;
+		}
+		
+		public function set selected(value:Boolean):void 
+		{
+			_selected = value;
 		}
 	}
 

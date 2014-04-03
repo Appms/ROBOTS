@@ -8,16 +8,16 @@ package objects
 	public class HNano extends Hipsbot 
 	{
 		
-		public function HNano(id:uint, levelMap:Array, setI:uint, setJ:uint) 
+		public function HNano(id:uint, setI:uint, setJ:uint) 
 		{
-			super(id, levelMap, setI, setJ);
+			super(id, setI, setJ);
 			
 		}
 		
 		
 		override protected function sonInteraction(aimI:uint, aimJ:uint):void 
 		{
-			switch(map[aimI][aimJ])
+			switch(0)
 			{
 				case 0:
 					trace("I can drain dat NanoBitch");
@@ -31,9 +31,9 @@ package objects
 		
 		override protected function setSprite():void
 		{
-			robotIMG = new Image(Assets.getTexture("HipsbotNano"));
-			robotIMG.pivotX = 32;
-			robotIMG.pivotY = 188;
+			robotIMG = new Image(Assets.getTexture("Robot_N"));
+			robotIMG.pivotX = 31;
+			robotIMG.pivotY = 204;
 			this.addChild(robotIMG);
 		}
 		

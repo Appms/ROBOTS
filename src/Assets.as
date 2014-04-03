@@ -21,6 +21,12 @@ package
 		[Embed(source = "../media/graphics/robot.png")]
 		public static const Robot:Class;
 		
+		[Embed(source = "../media/graphics/HMini.png")]
+		public static const Robot_M:Class;
+		
+		[Embed(source = "../media/graphics/HNano.png")]
+		public static const Robot_N:Class;
+		
 		[Embed(source = "../media/graphics/HIPS1.png")]
 		public static const Icon_1:Class;
 		

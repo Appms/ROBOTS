@@ -15,8 +15,8 @@ package objects
 	 */
 	public class UI extends Sprite 
 	{
-		private var normalBtn:Button;
-		private var miniBtn:Button;
+		public var normalBtn:Button;
+		public var miniBtn:Button;
 		
 		public function UI() 
 		{

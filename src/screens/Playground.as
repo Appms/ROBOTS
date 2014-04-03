@@ -1,12 +1,17 @@
 package screens 
 {
 
+	import objects.HBot;
 	import objects.Hipsbot;
+	import objects.HMini;
+	import objects.HNano;
 	import objects.LevelMap;
+	import objects.ObjectsMap;
 	import objects.UI;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import flash.ui.Keyboard;
+	import starling.display.Button;
 	import starling.events.KeyboardEvent;
 	
 	/**
@@ -28,7 +33,7 @@ package screens
 		private var camera_offset_y:int = 300;
 		
 		private var map:LevelMap;
-		private var robots_vector:Vector.<Hipsbot>;
+		private var obj:ObjectsMap;
 		private var current_robot:Hipsbot;
 		private var user_int:UI;
 		
@@ -39,8 +44,8 @@ package screens
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			this.addEventListener(Event.ENTER_FRAME, onGameTick);
 			this.addEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
+			this.addEventListener(Event.TRIGGERED, changeCurrentRobot);
 		}
-		
 		
 		private function onAddedToStage(event:Event):void 
 		{
@@ -54,19 +59,17 @@ package screens
 			map.x += camera_offset_x;
 			map.y += camera_offset_y;
 			
-			// robots_vector should be defined on instances layer.
-			// Playground.as should read that vector and create its own.
-			robots_vector = new<Hipsbot>[new Hipsbot(1,2,1)];
-			
-			current_robot = robots_vector[0];
-			current_robot.state = 1;
+			obj = new ObjectsMap();
+			obj.x += camera_offset_x;
+			obj.y += camera_offset_y;
 			
 			user_int = new UI();
 			
 			this.addChild(map);
-			this.addChild(current_robot);
+			this.addChild(obj);
 			this.addChild(user_int);
 			
+			current_robot = obj.robotsArray[0];
 		}
 		
 		private function KeyDown(event:KeyboardEvent):void 
@@ -77,7 +80,7 @@ package screens
 				{
 					case Keyboard.W:
 						if (current_robot.aim != 8) current_robot.aim = 8;
-						else if (map.Matrix[current_robot.i - 1][current_robot.j] == 2)
+						else if (map.matrix[current_robot.i - 1][current_robot.j] == 2)
 						{
 							current_robot.state = 2;
 							current_robot.i--;
@@ -90,7 +93,7 @@ package screens
 						
 					case Keyboard.S:
 						if (current_robot.aim != 2) current_robot.aim = 2;
-						else if (map.Matrix[current_robot.i + 1][current_robot.j] == 2)
+						else if (map.matrix[current_robot.i + 1][current_robot.j] == 2)
 						{
 							//animate
 							current_robot.state = 2;
@@ -104,7 +107,7 @@ package screens
 					
 					case Keyboard.A:
 						if (current_robot.aim != 4) current_robot.aim = 4;
-						else if (map.Matrix[current_robot.i][current_robot.j - 1] == 2)
+						else if (map.matrix[current_robot.i][current_robot.j - 1] == 2)
 						{
 							//animate
 							current_robot.state = 2;
@@ -118,7 +121,7 @@ package screens
 					
 					case Keyboard.D:
 						if (current_robot.aim != 6) current_robot.aim = 6;
-						else if (map.Matrix[current_robot.i][current_robot.j + 1] == 2)
+						else if (map.matrix[current_robot.i][current_robot.j + 1] == 2)
 						{
 							//animate
 							current_robot.state = 2;
@@ -150,44 +153,94 @@ package screens
 			}
 		}
 		
-		private function onGameTick(event:Event):void 
+		private function changeCurrentRobot(e:Event):void 
 		{
-			for (var robot:Hipsbot in robots_vector)
+			var buttonClicked:Button = e.target as Button;
+			if ((buttonClicked as Button) == user_int.normalBtn)
 			{
-				switch (robot.state)
-				{
-					case 1:
-						//CURRENT ROBOT IDLE ANIMATION
-						break;
-						
-					case 2:
-						//MAP MOVEMENT UPDATE
-						if (map.x < camera_offset_x) map.x += SpeedX;
-
-						else if (map.x > camera_offset_x) map.x -= SpeedX;
-						
-						if (map.y < camera_offset_y) map.y += SpeedY;
-						
-						else if (map.y > camera_offset_y) map.y -= SpeedY;
-						
-						if (map.x == camera_offset_x && map.y == camera_offset_y) robot.state = 1;
-						
-						map.Draw(camera_offset_x, camera_offset_y);
-						
-						break;
-						
-					case 3:
-						//CURRENT ROBOT INTERACTION
-						break;
-						
-					case 4:
-						//CURRENT ROBOT TOOLS
-						break;
-						
-				}
+				var diff_x:uint = current_robot.x - obj.robotsArray[0].x;
+				var diff_y:uint = current_robot.y - obj.robotsArray[0].y;
+				current_robot.selected = false;
+				current_robot = obj.robotsArray[0];
+				camera_offset_x += diff_x;
+				camera_offset_y += diff_y;
+				current_robot.state = 2;
+			}
+			else if ((buttonClicked as Button) == user_int.miniBtn)
+			{
+				var diff_x:uint = current_robot.x - obj.robotsArray[2].x;
+				var diff_y:uint = current_robot.y - obj.robotsArray[2].y;
+				current_robot.selected = false;
+				current_robot = obj.robotsArray[2];
+				camera_offset_x += diff_x;
+				camera_offset_y += diff_y;
+				current_robot.state = 2;
 			}
 		}
 		
+		private function onGameTick(event:Event):void 
+		{
+			switch (current_robot.state)
+			{
+				case 1:
+					//CURRENT ROBOT IDLE ANIMATION
+					break;
+					
+				case 2:
+					//MAP MOVEMENT UPDATE
+					if (map.x < camera_offset_x) { map.x += SpeedX; obj.x += SpeedX; }
+
+					else if (map.x > camera_offset_x) {map.x -= SpeedX; obj.x -= SpeedX; }
+					
+					if (map.y < camera_offset_y) {map.y += SpeedY; obj.y += SpeedY; }
+					
+					else if (map.y > camera_offset_y) {map.y -= SpeedY; obj.y -= SpeedY; }
+					
+					if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1; current_robot.selected = true; }
+					
+					map.Draw(camera_offset_x, camera_offset_y);
+					
+					for each (var bot:Hipsbot in obj.robotsArray) 
+					{
+						if (!bot.selected) 
+						{
+							//PLAY IDLE ANIMATION
+						}
+						else 
+						{
+							if (map.x < camera_offset_x) { bot.x -= SpeedX; }
+
+							else if (map.x > camera_offset_x) { bot.x += SpeedX; }
+					
+							if (map.y < camera_offset_y) { bot.y -= SpeedY; }
+					
+							else if (map.y > camera_offset_y) { bot.y += SpeedY; }
+					
+						}
+					}
+					
+					obj.sortChildren(entitySort);
+					
+					break;
+					
+				case 3:
+					//CURRENT ROBOT INTERACTION
+					break;
+					
+				case 4:
+					//CURRENT ROBOT TOOLS
+					break;
+					
+			}
+		}
+		
+		private function entitySort(a:Sprite, b:Sprite):int
+		{
+		if (a.y > b.y)
+			return 1;
+		else (a.y < b.y)
+			return -1;
+		}
 	}
 
 }

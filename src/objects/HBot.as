@@ -8,15 +8,15 @@ package objects
 	public class HBot extends Hipsbot 
 	{
 		
-		public function HBot(id:uint, levelMap:Array, setI:uint, setJ:uint) 
+		public function HBot(id:uint, setI:uint, setJ:uint) 
 		{
-			super(id, levelMap, setI, setJ);
+			super(id, setI, setJ);
 		}
 		
 		
 		override protected function sonInteraction(aimI:uint, aimJ:uint):void 
 		{
-			switch(map[aimI][aimJ])
+			switch(0)
 			{
 				case 0:
 					trace("Let's GO!");
@@ -32,7 +32,7 @@ package objects
 		{
 			robotIMG = new Image(Assets.getTexture("Robot"));
 			robotIMG.pivotX = 62;
-			robotIMG.pivotY = 378;
+			robotIMG.pivotY = 407;
 			this.addChild(robotIMG);
 		}
 		
