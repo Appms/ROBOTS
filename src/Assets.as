@@ -33,6 +33,15 @@ package
 		[Embed(source = "../media/graphics/HIPS2.png")]
 		public static const Icon_2:Class;
 		
+		[Embed(source = "../media/graphics/HIPS3.png")]
+		public static const Icon_3:Class;
+		
+		[Embed(source = "../media/graphics/ChooseLeft.png")]
+		public static const LeftBtn:Class;
+		
+		[Embed(source = "../media/graphics/ChooseRight.png")]
+		public static const RightBtn:Class;
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		
 		/*private static var gameTextureAtlas:TextureAtlas;

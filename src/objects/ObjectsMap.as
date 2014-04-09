@@ -1,6 +1,7 @@
 package objects 
 {
 	import adobe.utils.CustomActions;
+	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
@@ -14,25 +15,27 @@ package objects
 	{	
 		private var _matrix:Array = [[0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0],
-									 [0, 0, 1, 0, 0, 0],
+									 [0, 0, 1, 1, 0, 0],
 									 [0, 3, 0, 2, 0, 0],
 									 [0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0,]];
 
 		private var _objectsArray:Array;
-		private var _robotsArray:Array;
+		private var _robotsArray:Array = [new Array(), new Array(), new Array()];
 		
 		public function ObjectsMap() 
 		{
 			super();
 			_objectsArray = new Array();
-			_robotsArray = new Array();
+			//_robotsArray = new Array();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
 		private function onAddedToStage(event:Event):void 
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			
+			var Bot:Hipsbot;
 			
 			for (var i:int = 0; i < _matrix.length; i++) 
 			{
@@ -42,27 +45,30 @@ package objects
 					{
 						if (_matrix[i][j]==1) 
 						{
-							var Bot1:HBot = new HBot(1,2,2);
-							Bot1.x = 128 * (j-i);
-							Bot1.y = 64 * (j + i);
-							if (j < i) Bot1.y * -1;
-							robotsArray.push(Bot1);
+							Bot = new HBot(i,j);
+							Bot.x = 128 * (j-i);
+							Bot.y = 64 * (j + i);
+							if (j < i) Bot.y * -1;
+							robotsArray[0].push(Bot);
+							this.addChild(Bot);
 						}
 						else if (_matrix[i][j]==2) 
 						{
-							var Bot2:HMini = new HMini(2,3,3);
-							Bot2.x = 128 * (j-i);
-							Bot2.y = 64 * (j + i);
-							if (j < i) Bot2.y * -1;
-							robotsArray.push(Bot2);
+							Bot = new HMini(i,j);
+							Bot.x = 128 * (j-i);
+							Bot.y = 64 * (j + i);
+							if (j < i) Bot.y * -1;
+							robotsArray[1].push(Bot);
+							this.addChild(Bot);
 						}
 						else
 						{
-							var Bot3:HNano = new HNano(3,1,3);
-							Bot3.x = 128 * (j-i) + 128;
-							Bot3.y = 64 * (j + i) + 64;
-							if (j < i) Bot3.y * -1;
-							robotsArray.push(Bot3);
+							Bot = new HNano(i,j);
+							Bot.x = 128 * (j-i);
+							Bot.y = 64 * (j + i);
+							if (j < i) Bot.y * -1;
+							robotsArray[2].push(Bot);
+							this.addChild(Bot);
 						}
 					}
 				}
@@ -72,12 +78,6 @@ package objects
 			{
 				this.addChild(object);
 			}
-			
-			for each (var bot:Hipsbot in robotsArray)
-			{
-				this.addChild(bot);
-			}
-			
 		}
 		
 		public function Draw(cam_x:int,cam_y:int):void 
@@ -101,9 +101,9 @@ package objects
 			
 			for each (var bot:Hipsbot in robotsArray) 
 			{
-				if (!bot.selected) 
+				if (bot.state == 0)
 				{
-					if (cam_x + 800 < bot.x + cam_x || cam_x - 300 > bot.x + cam_x + 256) 
+					if (cam_x + 800 < bot.x + cam_x || cam_x - 300 > bot.x + cam_x + 256)
 					{
 						bot.visible = false;
 						
@@ -112,7 +112,7 @@ package objects
 					{
 						bot.visible = false;
 					}
-					else 
+					else
 					{
 						bot.visible = true;
 					}
@@ -134,6 +134,16 @@ package objects
 		{
 			return _robotsArray;
 		}
+		
+		/*public function get uiArray():Array 
+		{
+			return _uiArray;
+		}
+		
+		public function set uiArray(value:Array):void 
+		{
+			_uiArray = value;
+		}*/
 		
 	}
 

@@ -1,5 +1,6 @@
 package objects 
 {
+	import starling.display.Button;
 	import starling.display.Image;
 	/**
 	 * ...
@@ -8,9 +9,9 @@ package objects
 	public class HNano extends Hipsbot 
 	{
 		
-		public function HNano(id:uint, setI:uint, setJ:uint) 
+		public function HNano(setI:uint, setJ:uint) 
 		{
-			super(id, setI, setJ);
+			super(setI, setJ);
 			
 		}
 		

@@ -1,5 +1,6 @@
 package objects 
 {
+	import starling.display.Button;
 	import starling.display.Image;
 	/**
 	 * ...
@@ -8,9 +9,9 @@ package objects
 	public class HBot extends Hipsbot 
 	{
 		
-		public function HBot(id:uint, setI:uint, setJ:uint) 
+		public function HBot(setI:uint, setJ:uint) 
 		{
-			super(id, setI, setJ);
+			super(setI, setJ);
 		}
 		
 		
@@ -25,7 +26,7 @@ package objects
 					trace("I can't do that.");
 					break;
 			}
-			trace("HBot Contextual Interaction: Override Success");
+			trace("HBot Contextual Interaction");
 		}
 		
 		override protected function setSprite():void

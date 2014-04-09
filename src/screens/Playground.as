@@ -37,7 +37,8 @@ package screens
 		private var current_robot:Hipsbot;
 		private var user_int:UI;
 		
-		public function Playground() 
+		
+		public function Playground()
 		{
 			super();
 			trace("Playground inicializado!");
@@ -69,7 +70,8 @@ package screens
 			this.addChild(obj);
 			this.addChild(user_int);
 			
-			current_robot = obj.robotsArray[0];
+			current_robot = obj.robotsArray[0][0];
+			current_robot.state = 1;
 		}
 		
 		private function KeyDown(event:KeyboardEvent):void 
@@ -155,26 +157,49 @@ package screens
 		
 		private function changeCurrentRobot(e:Event):void 
 		{
-			var buttonClicked:Button = e.target as Button;
-			if ((buttonClicked as Button) == user_int.normalBtn)
+			if (current_robot.state == 1)
 			{
-				var diff_x:uint = current_robot.x - obj.robotsArray[0].x;
-				var diff_y:uint = current_robot.y - obj.robotsArray[0].y;
-				current_robot.selected = false;
-				current_robot = obj.robotsArray[0];
-				camera_offset_x += diff_x;
-				camera_offset_y += diff_y;
-				current_robot.state = 2;
-			}
-			else if ((buttonClicked as Button) == user_int.miniBtn)
-			{
-				var diff_x:uint = current_robot.x - obj.robotsArray[2].x;
-				var diff_y:uint = current_robot.y - obj.robotsArray[2].y;
-				current_robot.selected = false;
-				current_robot = obj.robotsArray[2];
-				camera_offset_x += diff_x;
-				camera_offset_y += diff_y;
-				current_robot.state = 2;
+				var diff_x:uint
+				var diff_y:uint
+				var buttonClicked:Button = e.target as Button;
+				if ((buttonClicked as Button) == user_int.normalBtn)
+				{
+					diff_x = current_robot.x - obj.robotsArray[0][user_int.normalID].x;
+					diff_y = current_robot.y - obj.robotsArray[0][user_int.normalID].y;
+					current_robot.state = 0;
+					current_robot = obj.robotsArray[0][user_int.normalID];
+					camera_offset_x += diff_x;
+					camera_offset_y += diff_y;
+					//current_robot.state = 0;
+				}
+				else if ((buttonClicked as Button) == user_int.normalRightBtn && user_int.normalID < obj.robotsArray[0].length)
+				{
+					user_int.normalID++;
+				}
+				else if ((buttonClicked as Button) == user_int.normalLeftBtn && user_int.normalID > 0)
+				{
+					user_int.normalID--;
+				}
+				else if ((buttonClicked as Button) == user_int.miniBtn)
+				{
+					diff_x = current_robot.x - obj.robotsArray[1][user_int.miniID].x;
+					diff_y = current_robot.y - obj.robotsArray[1][user_int.miniID].y;
+					current_robot.state = 0;
+					current_robot = obj.robotsArray[1][user_int.miniID];
+					camera_offset_x += diff_x;
+					camera_offset_y += diff_y;
+					//current_robot.state = 0;
+				}
+				else if ((buttonClicked as Button) == user_int.nanoBtn)
+				{
+					diff_x = current_robot.x - obj.robotsArray[2][user_int.nanoID].x;
+					diff_y = current_robot.y - obj.robotsArray[2][user_int.nanoID].y;
+					current_robot.state = 0;
+					current_robot = obj.robotsArray[2][user_int.nanoID];
+					camera_offset_x += diff_x;
+					camera_offset_y += diff_y;
+					//current_robot.state = 0;
+				}
 			}
 		}
 		
@@ -182,8 +207,91 @@ package screens
 		{
 			switch (current_robot.state)
 			{
+				//case 0:
+				//	if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1;}
+				case 0:
+					//CURRENT ROBOT IDLE ANIMATION
+					if (map.x < camera_offset_x) { map.x += SpeedX; obj.x += SpeedX; }
+
+					else if (map.x > camera_offset_x) {map.x -= SpeedX; obj.x -= SpeedX; }
+					
+					if (map.y < camera_offset_y) {map.y += SpeedY; obj.y += SpeedY; }
+					
+					else if (map.y > camera_offset_y) { map.y -= SpeedY; obj.y -= SpeedY; }
+					
+					if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1;}
+					
+					map.Draw(camera_offset_x, camera_offset_y);
+					break;
+					
+				case 2:
+					//MAP MOVEMENT UPDATE
+					if (map.x < camera_offset_x) { map.x += SpeedX; obj.x += SpeedX; current_robot.x -= SpeedX; }
+
+					else if (map.x > camera_offset_x) {map.x -= SpeedX; obj.x -= SpeedX; current_robot.x += SpeedX; }
+					
+					if (map.y < camera_offset_y) {map.y += SpeedY; obj.y += SpeedY; current_robot.y -= SpeedY;}
+					
+					else if (map.y > camera_offset_y) {map.y -= SpeedY; obj.y -= SpeedY; current_robot.y += SpeedY;}
+					
+					if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1;}
+					
+					map.Draw(camera_offset_x, camera_offset_y);
+					
+					/*for (var i:int = 0; i < 3; i++)
+					{
+						for each (var bot:Hipsbot in obj.robotsArray[i]) 
+						{
+							if (bot.state == 0) 
+							{
+								//PLAY IDLE ANIMATION
+							}
+							else 
+							{
+								if (map.x < camera_offset_x) { bot.x -= SpeedX; }
+
+								else if (map.x > camera_offset_x) { bot.x += SpeedX; }
+						
+								if (map.y < camera_offset_y) { bot.y -= SpeedY; }
+						
+								else if (map.y > camera_offset_y) { bot.y += SpeedY; }
+						
+							}
+						}
+					}*/
+					
+					obj.sortChildren(entitySort);
+					
+					break;
+					
+				case 3:
+					//CURRENT ROBOT INTERACTION
+					break;
+					
+				case 4:
+					//CURRENT ROBOT TOOLS
+					break;
+					
+			}
+		}
+		
+		/*private function onGameTick(event:Event):void 
+		{
+			switch (current_robot.state)
+			{
 				case 1:
 					//CURRENT ROBOT IDLE ANIMATION
+					if (map.x < camera_offset_x) { map.x += SpeedX; obj.x += SpeedX; }
+
+					else if (map.x > camera_offset_x) {map.x -= SpeedX; obj.x -= SpeedX; }
+					
+					if (map.y < camera_offset_y) {map.y += SpeedY; obj.y += SpeedY; }
+					
+					else if (map.y > camera_offset_y) {map.y -= SpeedY; obj.y -= SpeedY; }
+					
+					if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1; current_robot.selected = true; }
+					
+					map.Draw(camera_offset_x, camera_offset_y);
 					break;
 					
 				case 2:
@@ -200,22 +308,25 @@ package screens
 					
 					map.Draw(camera_offset_x, camera_offset_y);
 					
-					for each (var bot:Hipsbot in obj.robotsArray) 
+					for (var i:int = 0; i < 3; i++)
 					{
-						if (!bot.selected) 
+						for each (var bot:Hipsbot in obj.robotsArray[i]) 
 						{
-							//PLAY IDLE ANIMATION
-						}
-						else 
-						{
-							if (map.x < camera_offset_x) { bot.x -= SpeedX; }
+							if (!bot.selected) 
+							{
+								//PLAY IDLE ANIMATION
+							}
+							else 
+							{
+								if (map.x < camera_offset_x) { bot.x -= SpeedX; }
 
-							else if (map.x > camera_offset_x) { bot.x += SpeedX; }
-					
-							if (map.y < camera_offset_y) { bot.y -= SpeedY; }
-					
-							else if (map.y > camera_offset_y) { bot.y += SpeedY; }
-					
+								else if (map.x > camera_offset_x) { bot.x += SpeedX; }
+						
+								if (map.y < camera_offset_y) { bot.y -= SpeedY; }
+						
+								else if (map.y > camera_offset_y) { bot.y += SpeedY; }
+						
+							}
 						}
 					}
 					
@@ -232,7 +343,7 @@ package screens
 					break;
 					
 			}
-		}
+		}*/
 		
 		private function entitySort(a:Sprite, b:Sprite):int
 		{

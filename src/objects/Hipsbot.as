@@ -1,5 +1,6 @@
 package objects 
 {
+	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.display.MovieClip;
@@ -23,7 +24,6 @@ package objects
 		// 0: Bypass, 1: StandBY, 2: Moving, 3: Interaction, 4: Tool 
 		protected var _state:uint;
 		
-		private var _selected:Boolean;
 		
 		private const TileSizeX:Number = 128;
 		private const TileSizeY:Number = 64;
@@ -36,19 +36,18 @@ package objects
 		
 		protected var _aim:uint; // 8 = Up, 2 = Down, 4 = Left, 6 = Right
 		
-		public function Hipsbot(id:uint, setI:uint, setJ:uint) 
+		public var ui:Button;
+		
+		public function Hipsbot(setI:uint, setJ:uint) 
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			this.idRobot = id;
 			this.state = 0;
 			// Self Sprite Origin Change Representation
 			this.i = setI;
 			this.j = setJ;
 			this.x = 400;
 			this.y = 570;
-			this.state = 1;
-			this.selected = false;
 			this.aim = 8;
 		}
 		
@@ -142,15 +141,6 @@ package objects
 			_aim = value;
 		}
 		
-		public function get selected():Boolean 
-		{
-			return _selected;
-		}
-		
-		public function set selected(value:Boolean):void 
-		{
-			_selected = value;
-		}
 	}
 
 }
