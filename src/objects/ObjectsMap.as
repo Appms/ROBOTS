@@ -120,7 +120,7 @@ package objects
 			}
 		}
 		
-		public function get Matrix():Array 
+		public function get matrix():Array 
 		{
 			return _matrix;
 		}

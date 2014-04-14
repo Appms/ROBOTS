@@ -70,7 +70,12 @@ package screens
 			this.addChild(obj);
 			this.addChild(user_int);
 			
-			current_robot = obj.robotsArray[0][0];
+			var i:uint;
+			while (current_robot == null)
+			{
+				current_robot = obj.robotsArray[i][0];
+				i++;
+			}
 			current_robot.state = 1;
 		}
 		
@@ -82,8 +87,10 @@ package screens
 				{
 					case Keyboard.W:
 						if (current_robot.aim != 8) current_robot.aim = 8;
-						else if (map.matrix[current_robot.i - 1][current_robot.j] == 2)
+						else if (map.matrix[current_robot.i - 1][current_robot.j] == 2 && obj.matrix[current_robot.i - 1][current_robot.j] == 0 )
 						{
+							obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+							obj.matrix[current_robot.i][current_robot.j] = 0;
 							current_robot.state = 2;
 							current_robot.i--;
 							camera_offset_x -= TileSizeX;
@@ -95,9 +102,11 @@ package screens
 						
 					case Keyboard.S:
 						if (current_robot.aim != 2) current_robot.aim = 2;
-						else if (map.matrix[current_robot.i + 1][current_robot.j] == 2)
+						else if (map.matrix[current_robot.i + 1][current_robot.j] == 2 && obj.matrix[current_robot.i + 1][current_robot.j] == 0)
 						{
 							//animate
+							obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+							obj.matrix[current_robot.i][current_robot.j] = 0;
 							current_robot.state = 2;
 							current_robot.i++;
 							camera_offset_x += TileSizeX;
@@ -109,9 +118,11 @@ package screens
 					
 					case Keyboard.A:
 						if (current_robot.aim != 4) current_robot.aim = 4;
-						else if (map.matrix[current_robot.i][current_robot.j - 1] == 2)
+						else if (map.matrix[current_robot.i][current_robot.j - 1] == 2 && obj.matrix[current_robot.i][current_robot.j - 1] == 0)
 						{
 							//animate
+							obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
+							obj.matrix[current_robot.i][current_robot.j] = 0;
 							current_robot.state = 2;
 							current_robot.j--;
 							camera_offset_x += TileSizeX;
@@ -123,9 +134,11 @@ package screens
 					
 					case Keyboard.D:
 						if (current_robot.aim != 6) current_robot.aim = 6;
-						else if (map.matrix[current_robot.i][current_robot.j + 1] == 2)
+						else if (map.matrix[current_robot.i][current_robot.j + 1] == 2 && obj.matrix[current_robot.i][current_robot.j + 1] == 0)
 						{
 							//animate
+							obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
+							obj.matrix[current_robot.i][current_robot.j] = 0;
 							current_robot.state = 2;
 							current_robot.j++;
 							camera_offset_x -= TileSizeX;
@@ -136,10 +149,46 @@ package screens
 						break;
 					
 					case Keyboard.SPACE:
-						//check viability
+						/* CHECK VIABILITY
+						 * Think about of what of this code should be on the overrided function on son classes
+						switch (current_robot.aim)
+						{
+							case 8:
+								switch (obj.matrix[current_robot.i - 1][current_robot.j])
+								{
+									default:
+										break;
+								}
+								break;
+							case 2:
+								switch (obj.matrix[current_robot.i + 1][current_robot.j])
+								{
+									default:
+										break;
+								}
+								break;
+							case 4:
+								switch (obj.matrix[current_robot.i][current_robot.j - 1])
+								{
+									default:
+										break;
+								}
+								break;
+							case 6:
+								switch (obj.matrix[current_robot.i][current_robot.j + 1])
+								{
+									default:
+										break;
+								}
+								break;
+							default:
+								break;
+						}
+						*/
 						//animate
 						current_robot.state = 3;
-						current_robot.robotInteraction();
+						current_robot.robotInteraction(); // Destination object should be passed here as argument¿?
+						current_robot.state = 1;
 						break;
 					
 					case Keyboard.Q:
@@ -170,16 +219,19 @@ package screens
 					current_robot = obj.robotsArray[0][user_int.normalID];
 					camera_offset_x += diff_x;
 					camera_offset_y += diff_y;
-					//current_robot.state = 0;
 				}
-				else if ((buttonClicked as Button) == user_int.normalRightBtn && user_int.normalID < obj.robotsArray[0].length)
+				else if ((buttonClicked as Button) == user_int.normalRightBtn)
 				{
 					user_int.normalID++;
+					if (user_int.normalID == obj.robotsArray[0].length) user_int.normalID = 0;
 				}
-				else if ((buttonClicked as Button) == user_int.normalLeftBtn && user_int.normalID > 0)
+				else if ((buttonClicked as Button) == user_int.normalLeftBtn)
 				{
+					if (user_int.normalID == 0) user_int.normalID = obj.robotsArray[0].length;
 					user_int.normalID--;
+
 				}
+				
 				else if ((buttonClicked as Button) == user_int.miniBtn)
 				{
 					diff_x = current_robot.x - obj.robotsArray[1][user_int.miniID].x;
@@ -188,8 +240,18 @@ package screens
 					current_robot = obj.robotsArray[1][user_int.miniID];
 					camera_offset_x += diff_x;
 					camera_offset_y += diff_y;
-					//current_robot.state = 0;
 				}
+				else if ((buttonClicked as Button) == user_int.miniRightBtn)
+				{
+					user_int.miniID++;
+					if (user_int.miniID == obj.robotsArray[1].length) user_int.miniID = 0;
+				}
+				else if ((buttonClicked as Button) == user_int.miniLeftBtn)
+				{
+					if (user_int.miniID == 0) user_int.miniID = obj.robotsArray[1].length;
+					user_int.miniID--;
+				}
+				
 				else if ((buttonClicked as Button) == user_int.nanoBtn)
 				{
 					diff_x = current_robot.x - obj.robotsArray[2][user_int.nanoID].x;
@@ -198,7 +260,16 @@ package screens
 					current_robot = obj.robotsArray[2][user_int.nanoID];
 					camera_offset_x += diff_x;
 					camera_offset_y += diff_y;
-					//current_robot.state = 0;
+				}
+				else if ((buttonClicked as Button) == user_int.nanoRightBtn)
+				{
+					user_int.nanoID++;
+					if (user_int.nanoID == obj.robotsArray[2].length) user_int.nanoID = 0;
+				}
+				else if ((buttonClicked as Button) == user_int.nanoLeftBtn)
+				{
+					if (user_int.nanoID == 0) user_int.nanoID = obj.robotsArray[2].length - 1;
+					user_int.nanoID--;
 				}
 			}
 		}

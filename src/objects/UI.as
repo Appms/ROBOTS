@@ -50,11 +50,11 @@ package objects
 			normalBtn.x = 660;
 			normalBtn.y = 460;
 			normalRightBtn = new Button(Assets.getTexture("RightBtn"));
-			normalRightBtn.x = 670;
-			normalRightBtn.y = 360;
+			normalRightBtn.x = 750;
+			normalRightBtn.y = 562;
 			normalLeftBtn = new Button(Assets.getTexture("LeftBtn"));
-			normalLeftBtn.x = 650;
-			normalLeftBtn.y = 360;
+			normalLeftBtn.x = 680;
+			normalLeftBtn.y = 562;
 			normalID = 0;
 			this.addChild(normalBtn);
 			this.addChild(normalRightBtn);
@@ -63,14 +63,30 @@ package objects
 			miniBtn = new Button(Assets.getTexture("Icon_2"));
 			miniBtn.x = 560;
 			miniBtn.y = 460;
+			miniRightBtn = new Button(Assets.getTexture("RightBtn"));
+			miniRightBtn.x = 650;
+			miniRightBtn.y = 562;
+			miniLeftBtn = new Button(Assets.getTexture("LeftBtn"));
+			miniLeftBtn.x = 580;
+			miniLeftBtn.y = 562;
 			miniID = 0;
 			this.addChild(miniBtn);
+			this.addChild(miniRightBtn);
+			this.addChild(miniLeftBtn);
 			
 			nanoBtn = new Button(Assets.getTexture("Icon_3"));
 			nanoBtn.x = 460;
 			nanoBtn.y = 460;
+			nanoRightBtn = new Button(Assets.getTexture("RightBtn"));
+			nanoRightBtn.x = 550;
+			nanoRightBtn.y = 562;
+			nanoLeftBtn = new Button(Assets.getTexture("LeftBtn"));
+			nanoLeftBtn.x = 480;
+			nanoLeftBtn.y = 562;
 			nanoID = 0;
 			this.addChild(nanoBtn);
+			this.addChild(nanoRightBtn);
+			this.addChild(nanoLeftBtn);
 		}
 		
 		public function get normalID():uint 
