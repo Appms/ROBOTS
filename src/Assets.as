@@ -42,6 +42,15 @@ package
 		[Embed(source = "../media/graphics/ChooseRight.png")]
 		public static const RightBtn:Class;
 		
+		[Embed(source = "../media/graphics/ESC.png")]
+		public static const Esc_BG:Class;
+		
+		[Embed(source = "../media/graphics/BACK.jpg")]
+		public static const Esc_Btn:Class;
+		
+		[Embed(source = "../media/graphics/Switch.png")]
+		public static const Switch:Class;
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		
 		/*private static var gameTextureAtlas:TextureAtlas;

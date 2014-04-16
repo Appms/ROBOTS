@@ -1,4 +1,4 @@
-package objects 
+package screens.stages.lmaps 
 {
 	import adobe.utils.CustomActions;
 	import starling.display.Image;

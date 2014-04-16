@@ -1,6 +1,11 @@
-package objects 
+package screens.stages.omaps 
 {
 	import adobe.utils.CustomActions;
+	import objects.Hipsbot;
+	import objects.HBot;
+	import objects.HMini;
+	import objects.HNano;
+	import objects.Switch;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -14,20 +19,18 @@ package objects
 	public class ObjectsMap extends Sprite 
 	{	
 		private var _matrix:Array = [[0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0],
+									 [0, 4, 0, 0, 0, 0],
 									 [0, 0, 1, 1, 0, 0],
 									 [0, 3, 0, 2, 0, 0],
 									 [0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0,]];
 
-		private var _objectsArray:Array;
+		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		private var _robotsArray:Array = [new Array(), new Array(), new Array()];
 		
 		public function ObjectsMap() 
 		{
 			super();
-			_objectsArray = new Array();
-			//_robotsArray = new Array();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -41,42 +44,44 @@ package objects
 			{
 				for (var j:int = 0; j < _matrix.length; j++) 
 				{
-					if (_matrix[i][j]!=0) 
+					switch (_matrix[i][j]) 
 					{
-						if (_matrix[i][j]==1) 
-						{
+						case 1:
 							Bot = new HBot(i,j);
 							Bot.x = 128 * (j-i);
 							Bot.y = 64 * (j + i);
 							if (j < i) Bot.y * -1;
 							robotsArray[0].push(Bot);
 							this.addChild(Bot);
-						}
-						else if (_matrix[i][j]==2) 
-						{
+							break;
+						case 2:
 							Bot = new HMini(i,j);
 							Bot.x = 128 * (j-i);
 							Bot.y = 64 * (j + i);
 							if (j < i) Bot.y * -1;
 							robotsArray[1].push(Bot);
 							this.addChild(Bot);
-						}
-						else
-						{
+							break;
+						case 3:
 							Bot = new HNano(i,j);
 							Bot.x = 128 * (j-i);
 							Bot.y = 64 * (j + i);
 							if (j < i) Bot.y * -1;
 							robotsArray[2].push(Bot);
 							this.addChild(Bot);
-						}
-					}
+							break;
+						case 4:
+							var sw:Switch = new Switch(i, j);
+							sw.x = 128 * (j-i) - 64;
+							sw.y = 64 * (j + i) - 128;
+							if (j < i) sw.y * -1;
+							_objectsArray[0].push(sw);
+							this.addChild(sw);
+							break;
+						default:
+							break;
+					} 
 				}
-			}
-			
-			for each (var object:Sprite in objectsArray)
-			{
-				this.addChild(object);
 			}
 		}
 		
@@ -134,16 +139,6 @@ package objects
 		{
 			return _robotsArray;
 		}
-		
-		/*public function get uiArray():Array 
-		{
-			return _uiArray;
-		}
-		
-		public function set uiArray(value:Array):void 
-		{
-			_uiArray = value;
-		}*/
 		
 	}
 

@@ -1,7 +1,7 @@
 package  
 {
 	import events.NavigationEvent;
-	import screens.Playground;
+	import screens.stages.Playground;
 	import starling.animation.DelayedCall;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -12,7 +12,7 @@ package
 	 */
 	public class Game extends Sprite 
 	{
-		private var screenPlayground:Playground;
+		private var screenPlayground:screens.stages.Playground;
 		public function Game() 
 		{
 			super();

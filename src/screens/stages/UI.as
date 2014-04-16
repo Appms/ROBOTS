@@ -1,4 +1,4 @@
-package objects 
+package screens.stages 
 {
 	import starling.display.Sprite;
 	import starling.display.Button;
