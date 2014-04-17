@@ -18,12 +18,14 @@ package screens.stages.lmaps
 	public class LevelMap extends Sprite 
 	{
 		//This matrix MUST be NxN
-		private var _matrix:Array = [[0, 0, 1, 1, 1, 1],
-									 [1, 1, 1, 2, 2, 2],
-									 [1, 2, 2, 2, 2, 2],
-									 [1, 2, 2, 2, 2, 2],
-									 [1, 2, 2, 2, 2, 2],
-									 [1, 0, 0, 0, 0, 0,]];
+		private var _matrix:Array = [[0, 0, 1, 1, 1, 1, 1, 1],
+									 [1, 1, 1, 2, 2, 2, 2, 2],
+									 [1, 2, 2, 2, 2, 2, 2, 2],
+									 [1, 2, 2, 2, 2, 2, 2, 2],
+									 [1, 2, 2, 2, 2, 2, 2, 2],
+									 [1, 2, 2, 2, 2, 2, 2, 2],
+									 [1, 2, 2, 2, 2, 2, 2, 2],
+									 [0, 0, 0, 0, 0, 0, 0, 0]];
 
 		public var drawArray:Array = new Array();
 		
@@ -72,26 +74,6 @@ package screens.stages.lmaps
 				this.addChild(tile);
 			}
 			
-		}
-		
-		public function Draw(cam_x:int,cam_y:int):void 
-		{
-			for each (var tile:Image in drawArray) 
-			{
-				if (cam_x + 800 < tile.x + cam_x || cam_x - 300 > tile.x + cam_x + 256) 
-				{
-					tile.visible = false;
-					
-				}
-				else if (cam_y + 600 < tile.y + cam_y || cam_y - 600 > tile.y + cam_y + 512)
-				{
-					tile.visible = false;
-				}
-				else 
-				{
-					tile.visible = true;
-				}
-			}
 		}
 		
 		public function get matrix():Array 

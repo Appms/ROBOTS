@@ -51,6 +51,9 @@ package
 		[Embed(source = "../media/graphics/Switch.png")]
 		public static const Switch:Class;
 		
+		[Embed(source = "../media/graphics/Cube.png")]
+		public static const Cube:Class;
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		
 		/*private static var gameTextureAtlas:TextureAtlas;

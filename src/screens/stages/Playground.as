@@ -1,6 +1,7 @@
 package screens.stages 
 {
 
+	import objects.Cube;
 	import screens.stages.EscMenu;
 	import objects.HBot;
 	import objects.Hipsbot;
@@ -10,6 +11,7 @@ package screens.stages
 	import screens.stages.lmaps.LevelMap;
 	import screens.stages.UI;
 	import starling.display.Sprite;
+	import starling.display.Image;
 	import starling.events.Event;
 	import flash.ui.Keyboard;
 	import starling.display.Button;
@@ -39,6 +41,7 @@ package screens.stages
 		private var user_int:UI;
 		private var esc_menu:EscMenu;
 		
+		private var k:int; //iterator
 		
 		public function Playground()
 		{
@@ -78,7 +81,7 @@ package screens.stages
 			var i:uint;
 			while (current_robot == null)
 			{
-				current_robot = obj.robotsArray[i][0];
+				current_robot = obj.objectsArray[i][0];
 				i++;
 			}
 			current_robot.state = 1;
@@ -101,82 +104,173 @@ package screens.stages
 					{
 						case Keyboard.W:
 							if (current_robot.aim != 8) current_robot.aim = 8;
-							else if (map.matrix[current_robot.i - 1][current_robot.j] == 2 && obj.matrix[current_robot.i - 1][current_robot.j] == 0 )
+							else if (map.matrix[current_robot.i - 1][current_robot.j] == 2)
 							{
-								obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
-								obj.matrix[current_robot.i][current_robot.j] = 0;
-								current_robot.state = 2;
-								current_robot.i--;
-								camera_offset_x -= TileSizeX;
-								camera_offset_y += TileSizeY;
-								trace("moving UP");
+								if(obj.matrix[current_robot.i - 1][current_robot.j] == 0)
+								{
+									obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.state = 2;
+									current_robot.i--;
+									camera_offset_x -= TileSizeX;
+									camera_offset_y += TileSizeY;
+								}
+								else if (obj.matrix[current_robot.i - 1][current_robot.j] == 5 && obj.matrix[current_robot.i - 2][current_robot.j] == 0 && map.matrix[current_robot.i - 2][current_robot.j] == 2)
+								{
+									for (k = 0; k < obj.objectsArray[4].length ; k++) 
+										{
+											if (obj.objectsArray[4][k].i == (current_robot.i - 1) && obj.objectsArray[4][k].j == current_robot.j) 
+											{
+												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
+												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
+												obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j];
+												obj.matrix[current_robot.i][current_robot.j] = 0;
+												obj.matrix[current_robot.i - 2][current_robot.j] = 5;
+												current_robot.i--;
+												obj.objectsArray[4][k].i --;
+												current_robot.state = 2;
+												obj.objectsArray[4][k].state = 1;
+												camera_offset_x -= TileSizeX;
+												camera_offset_y += TileSizeY;
+											}
+											break;
+										}
+								}
 							}
-							else trace("NOPE");
 							break;
 							
 						case Keyboard.S:
 							if (current_robot.aim != 2) current_robot.aim = 2;
-							else if (map.matrix[current_robot.i + 1][current_robot.j] == 2 && obj.matrix[current_robot.i + 1][current_robot.j] == 0)
+							else if (map.matrix[current_robot.i + 1][current_robot.j] == 2)
 							{
-								//animate
-								obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
-								obj.matrix[current_robot.i][current_robot.j] = 0;
-								current_robot.state = 2;
-								current_robot.i++;
-								camera_offset_x += TileSizeX;
-								camera_offset_y -= TileSizeY;
-								trace("moving DOWN");
+								if(obj.matrix[current_robot.i + 1][current_robot.j] == 0)
+								{
+									//animate
+									obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.state = 2;
+									current_robot.i++;
+									camera_offset_x += TileSizeX;
+									camera_offset_y -= TileSizeY;
+								}
+								else if (obj.matrix[current_robot.i + 1][current_robot.j] == 5 && obj.matrix[current_robot.i + 2][current_robot.j] == 0 && map.matrix[current_robot.i + 2][current_robot.j] == 2)
+								{
+									for (k = 0; k < obj.objectsArray[4].length ; k++) 
+										{
+											if (obj.objectsArray[4][k].i == (current_robot.i + 1) && obj.objectsArray[4][k].j == current_robot.j) 
+											{
+												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
+												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
+												obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j];
+												obj.matrix[current_robot.i][current_robot.j] = 0;
+												obj.matrix[current_robot.i + 2][current_robot.j] = 5;
+												current_robot.i++;
+												obj.objectsArray[4][k].i ++;
+												current_robot.state = 2;
+												obj.objectsArray[4][k].state = 1;
+												camera_offset_x += TileSizeX;
+												camera_offset_y -= TileSizeY;
+											}
+											break;
+										}
+								}
 							}
-							else trace("NOPE");
 							break;
 						
 						case Keyboard.A:
 							if (current_robot.aim != 4) current_robot.aim = 4;
-							else if (map.matrix[current_robot.i][current_robot.j - 1] == 2 && obj.matrix[current_robot.i][current_robot.j - 1] == 0)
+							else if (map.matrix[current_robot.i][current_robot.j - 1] == 2)
 							{
-								//animate
-								obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
-								obj.matrix[current_robot.i][current_robot.j] = 0;
-								current_robot.state = 2;
-								current_robot.j--;
-								camera_offset_x += TileSizeX;
-								camera_offset_y += TileSizeY;
-								trace("moving LEFT");
+								if(obj.matrix[current_robot.i][current_robot.j - 1] == 0)
+								{
+									//animate
+									obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.state = 2;
+									current_robot.j--;
+									camera_offset_x += TileSizeX;
+									camera_offset_y += TileSizeY;
+								}
+								else if (obj.matrix[current_robot.i][current_robot.j - 1] == 5 && obj.matrix[current_robot.i][current_robot.j - 2] == 0 && map.matrix[current_robot.i][current_robot.j - 2] == 2)
+								{
+									for (k = 0; k < obj.objectsArray[4].length ; k++) 
+										{
+											if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j - 1)) 
+											{
+												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
+												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
+												obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j];
+												obj.matrix[current_robot.i][current_robot.j] = 0;
+												obj.matrix[current_robot.i][current_robot.j - 2] = 5;
+												current_robot.j--;
+												obj.objectsArray[4][k].j--;
+												current_robot.state = 2;
+												obj.objectsArray[4][k].state = 1;
+												camera_offset_x += TileSizeX;
+												camera_offset_y += TileSizeY;
+											}
+											break;
+										}
+								}
 							}
-							else trace("NOPE");
 							break;
 						
 						case Keyboard.D:
 							if (current_robot.aim != 6) current_robot.aim = 6;
-							else if (map.matrix[current_robot.i][current_robot.j + 1] == 2 && obj.matrix[current_robot.i][current_robot.j + 1] == 0)
+							else if (map.matrix[current_robot.i][current_robot.j + 1] == 2)
 							{
-								//animate
-								obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
-								obj.matrix[current_robot.i][current_robot.j] = 0;
-								current_robot.state = 2;
-								current_robot.j++;
-								camera_offset_x -= TileSizeX;
-								camera_offset_y -= TileSizeY;
-								trace("moving RIGHT");
+								if(obj.matrix[current_robot.i][current_robot.j + 1] == 0)
+								{
+									//animate
+									obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.state = 2;
+									current_robot.j++;
+									camera_offset_x -= TileSizeX;
+									camera_offset_y -= TileSizeY;
+								}
+								else if (obj.matrix[current_robot.i][current_robot.j + 1] == 5 && obj.matrix[current_robot.i][current_robot.j + 2] == 0 && map.matrix[current_robot.i][current_robot.j + 2] == 2)
+								{
+									for (k = 0; k < obj.objectsArray[4].length ; k++) 
+										{
+											if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j + 1)) 
+											{
+												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
+												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
+												obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j];
+												obj.matrix[current_robot.i][current_robot.j] = 0;
+												obj.matrix[current_robot.i][current_robot.j + 2] = 5;
+												current_robot.j++;
+												obj.objectsArray[4][k].j++;
+												current_robot.state = 2;
+												obj.objectsArray[4][k].state = 1;
+												camera_offset_x -= TileSizeX;
+												camera_offset_y -= TileSizeY;
+											}
+											break;
+										}
+								}
 							}
-							else trace("NOPE");
 							break;
 						
 						case Keyboard.SPACE:
 							/* CHECK VIABILITY
 							 * Think about of what of this code should be on the overrided function on son classes
 							 */
+							
+							var k:int;
+							 
 							switch (current_robot.aim)
 							{
 								case 8:
 									switch (obj.matrix[current_robot.i - 1][current_robot.j])
 									{
 										case 4:
-											for (var j:int = 0; j < obj.objectsArray[0].length ; j++) 
+											for (k = 0; k < obj.objectsArray[3].length ; k++) 
 											{
-												if (obj.objectsArray[0][j].i == (current_robot.i - 1) && obj.objectsArray[0][j].j == current_robot.j) 
+												if (obj.objectsArray[3][k].i == (current_robot.i - 1) && obj.objectsArray[3][k].j == current_robot.j) 
 												{
-													obj.objectsArray[0][j].interact();
+													obj.objectsArray[3][k].interact();
 													break;
 												}
 											}
@@ -239,62 +333,62 @@ package screens.stages
 					var buttonClicked:Button = e.target as Button;
 					if ((buttonClicked as Button) == user_int.normalBtn)
 					{
-						diff_x = current_robot.x - obj.robotsArray[0][user_int.normalID].x;
-						diff_y = current_robot.y - obj.robotsArray[0][user_int.normalID].y;
+						diff_x = current_robot.x - obj.objectsArray[0][user_int.normalID].x;
+						diff_y = current_robot.y - obj.objectsArray[0][user_int.normalID].y;
 						current_robot.state = 0;
-						current_robot = obj.robotsArray[0][user_int.normalID];
+						current_robot = obj.objectsArray[0][user_int.normalID];
 						camera_offset_x += diff_x;
 						camera_offset_y += diff_y;
 					}
 					else if ((buttonClicked as Button) == user_int.normalRightBtn)
 					{
 						user_int.normalID++;
-						if (user_int.normalID == obj.robotsArray[0].length) user_int.normalID = 0;
+						if (user_int.normalID == obj.objectsArray[0].length) user_int.normalID = 0;
 					}
 					else if ((buttonClicked as Button) == user_int.normalLeftBtn)
 					{
-						if (user_int.normalID == 0) user_int.normalID = obj.robotsArray[0].length;
+						if (user_int.normalID == 0) user_int.normalID = obj.objectsArray[0].length;
 						user_int.normalID--;
 
 					}
 					
 					else if ((buttonClicked as Button) == user_int.miniBtn)
 					{
-						diff_x = current_robot.x - obj.robotsArray[1][user_int.miniID].x;
-						diff_y = current_robot.y - obj.robotsArray[1][user_int.miniID].y;
+						diff_x = current_robot.x - obj.objectsArray[1][user_int.miniID].x;
+						diff_y = current_robot.y - obj.objectsArray[1][user_int.miniID].y;
 						current_robot.state = 0;
-						current_robot = obj.robotsArray[1][user_int.miniID];
+						current_robot = obj.objectsArray[1][user_int.miniID];
 						camera_offset_x += diff_x;
 						camera_offset_y += diff_y;
 					}
 					else if ((buttonClicked as Button) == user_int.miniRightBtn)
 					{
 						user_int.miniID++;
-						if (user_int.miniID == obj.robotsArray[1].length) user_int.miniID = 0;
+						if (user_int.miniID == obj.objectsArray[1].length) user_int.miniID = 0;
 					}
 					else if ((buttonClicked as Button) == user_int.miniLeftBtn)
 					{
-						if (user_int.miniID == 0) user_int.miniID = obj.robotsArray[1].length;
+						if (user_int.miniID == 0) user_int.miniID = obj.objectsArray[1].length;
 						user_int.miniID--;
 					}
 					
 					else if ((buttonClicked as Button) == user_int.nanoBtn)
 					{
-						diff_x = current_robot.x - obj.robotsArray[2][user_int.nanoID].x;
-						diff_y = current_robot.y - obj.robotsArray[2][user_int.nanoID].y;
+						diff_x = current_robot.x - obj.objectsArray[2][user_int.nanoID].x;
+						diff_y = current_robot.y - obj.objectsArray[2][user_int.nanoID].y;
 						current_robot.state = 0;
-						current_robot = obj.robotsArray[2][user_int.nanoID];
+						current_robot = obj.objectsArray[2][user_int.nanoID];
 						camera_offset_x += diff_x;
 						camera_offset_y += diff_y;
 					}
 					else if ((buttonClicked as Button) == user_int.nanoRightBtn)
 					{
 						user_int.nanoID++;
-						if (user_int.nanoID == obj.robotsArray[2].length) user_int.nanoID = 0;
+						if (user_int.nanoID == obj.objectsArray[2].length) user_int.nanoID = 0;
 					}
 					else if ((buttonClicked as Button) == user_int.nanoLeftBtn)
 					{
-						if (user_int.nanoID == 0) user_int.nanoID = obj.robotsArray[2].length - 1;
+						if (user_int.nanoID == 0) user_int.nanoID = obj.objectsArray[2].length - 1;
 						user_int.nanoID--;
 					}
 				}
@@ -319,7 +413,8 @@ package screens.stages
 						
 						if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1;}
 						
-						map.Draw(camera_offset_x, camera_offset_y);
+						drawScreen();
+						
 						break;
 						
 					case 2:
@@ -334,7 +429,7 @@ package screens.stages
 						
 						if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1;}
 						
-						map.Draw(camera_offset_x, camera_offset_y);
+						drawScreen();
 						
 						obj.sortChildren(entitySort);
 						
@@ -348,6 +443,35 @@ package screens.stages
 						//CURRENT ROBOT TOOLS
 						break;
 						
+				}
+			}
+		}
+		
+		private function drawScreen():void 
+		{
+			for each (var tile:Image in map.drawArray) 
+			{
+				if (tile.visible && (400 + 600 < map.x +  tile.x) || (400 - 600 > map.x + tile.x) || (300 + 600 < map.y +  tile.y) || (300 - 600 > map.y + tile.y))
+				{
+					tile.visible = false;
+				}
+				else if(!tile.visible && (400 - 600 <= map.x + tile.x <= 400 + 600) && (300 - 600 <= map.y + tile.y <= 300 + 600))
+				{
+					tile.visible = true;
+				}
+			}
+			for (k = 0; k < obj.objectsArray.length ; k++) 
+			{
+				for each (var object:Sprite in obj.objectsArray[k]) 
+				{
+					if (object.visible && (400 + 600 < obj.x +  object.x) || (400 - 600 > obj.x + object.x) || (300 + 600 < obj.y +  object.y) || (300 - 600 > obj.y + object.y))
+					{
+						object.visible = false;
+					}
+					else if(!object.visible && (400 - 600 <= obj.x + object.x <= 400 + 600) && (300 - 600 <= obj.y + object.y <= 300 + 600))
+					{
+						object.visible = true;
+					}
 				}
 			}
 		}

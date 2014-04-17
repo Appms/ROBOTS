@@ -1,6 +1,7 @@
 package screens.stages.omaps 
 {
 	import adobe.utils.CustomActions;
+	import objects.Cube;
 	import objects.Hipsbot;
 	import objects.HBot;
 	import objects.HMini;
@@ -18,15 +19,16 @@ package screens.stages.omaps
 	 */
 	public class ObjectsMap extends Sprite 
 	{	
-		private var _matrix:Array = [[0, 0, 0, 0, 0, 0],
-									 [0, 4, 0, 0, 0, 0],
-									 [0, 0, 1, 1, 0, 0],
-									 [0, 3, 0, 2, 0, 0],
-									 [0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0,]];
+		private var _matrix:Array = [[0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 4, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 1, 0, 0, 0, 0, 0],
+									 [0, 0, 2, 0, 5, 0, 0, 0],
+									 [0, 0, 3, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0]];
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
-		private var _robotsArray:Array = [new Array(), new Array(), new Array()];
 		
 		public function ObjectsMap() 
 		{
@@ -51,7 +53,7 @@ package screens.stages.omaps
 							Bot.x = 128 * (j-i);
 							Bot.y = 64 * (j + i);
 							if (j < i) Bot.y * -1;
-							robotsArray[0].push(Bot);
+							_objectsArray[0].push(Bot);
 							this.addChild(Bot);
 							break;
 						case 2:
@@ -59,7 +61,7 @@ package screens.stages.omaps
 							Bot.x = 128 * (j-i);
 							Bot.y = 64 * (j + i);
 							if (j < i) Bot.y * -1;
-							robotsArray[1].push(Bot);
+							_objectsArray[1].push(Bot);
 							this.addChild(Bot);
 							break;
 						case 3:
@@ -67,7 +69,7 @@ package screens.stages.omaps
 							Bot.x = 128 * (j-i);
 							Bot.y = 64 * (j + i);
 							if (j < i) Bot.y * -1;
-							robotsArray[2].push(Bot);
+							_objectsArray[2].push(Bot);
 							this.addChild(Bot);
 							break;
 						case 4:
@@ -75,52 +77,20 @@ package screens.stages.omaps
 							sw.x = 128 * (j-i) - 64;
 							sw.y = 64 * (j + i) - 128;
 							if (j < i) sw.y * -1;
-							_objectsArray[0].push(sw);
+							_objectsArray[3].push(sw);
 							this.addChild(sw);
+							break;
+						case 5:
+							var cube:Cube = new Cube(i, j);
+							cube.x = 128 * (j-i);
+							cube.y = 64 * (j + i);
+							if (j < i) cube.y * -1;
+							_objectsArray[4].push(cube);
+							this.addChild(cube);
 							break;
 						default:
 							break;
 					} 
-				}
-			}
-		}
-		
-		public function Draw(cam_x:int,cam_y:int):void 
-		{
-			for each (var object:Sprite in objectsArray) 
-			{
-				if (cam_x + 800 < object.x + cam_x || cam_x - 300 > object.x + cam_x + 256) 
-				{
-					object.visible = false;
-					
-				}
-				else if (cam_y + 600 < object.y + cam_y || cam_y - 600 > object.y + cam_y + 512)
-				{
-					object.visible = false;
-				}
-				else 
-				{
-					object.visible = true;
-				}
-			}
-			
-			for each (var bot:Hipsbot in robotsArray) 
-			{
-				if (bot.state == 0)
-				{
-					if (cam_x + 800 < bot.x + cam_x || cam_x - 300 > bot.x + cam_x + 256)
-					{
-						bot.visible = false;
-						
-					}
-					else if (cam_y + 600 < object.y + cam_y || cam_y - 600 > object.y + cam_y + 512)
-					{
-						bot.visible = false;
-					}
-					else
-					{
-						bot.visible = true;
-					}
 				}
 			}
 		}
@@ -133,11 +103,6 @@ package screens.stages.omaps
 		public function get objectsArray():Array 
 		{
 			return _objectsArray;
-		}
-		
-		public function get robotsArray():Array 
-		{
-			return _robotsArray;
 		}
 		
 	}
