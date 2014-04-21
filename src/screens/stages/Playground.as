@@ -16,6 +16,9 @@ package screens.stages
 	import flash.ui.Keyboard;
 	import starling.display.Button;
 	import starling.events.KeyboardEvent;
+	import starling.text.TextField;
+	import starling.utils.HAlign;
+	import starling.utils.VAlign;
 	
 	/**
 	 * ...
@@ -40,6 +43,8 @@ package screens.stages
 		private var current_robot:Hipsbot;
 		private var user_int:UI;
 		private var esc_menu:EscMenu;
+		private var hipstom:Hipstom;
+		private var messageText:TextField;
 		
 		private var k:int; //iterator
 		
@@ -85,6 +90,19 @@ package screens.stages
 				i++;
 			}
 			current_robot.state = 1;
+			
+			hipstom = new Hipstom();
+			this.addChild(hipstom);
+			//Maybe messageText should be inside Hipstom class?
+			messageText = new TextField(300, 100, hipstom.text[0][0], "Frau", 24, 0xffffff);
+			messageText.hAlign = HAlign.LEFT;
+			messageText.vAlign = VAlign.TOP;
+			messageText.x = 300;
+			messageText.y = 500;
+			messageText.border = false;
+			messageText.height = messageText.textBounds.height + 5;
+			this.addChild(messageText);
+
 		}
 		
 		private function KeyDown(event:KeyboardEvent):void 
@@ -98,225 +116,254 @@ package screens.stages
 			
 			if (!esc_menu.EscBg.visible) 
 			{
-				if (current_robot.state == 1)
+				if (!hipstom.visible)
 				{
-					switch (event.keyCode) 
+					if (current_robot.state == 1)
 					{
-						case Keyboard.W:
-							if (current_robot.aim != 8) current_robot.aim = 8;
-							else if (map.matrix[current_robot.i - 1][current_robot.j] == 2)
-							{
-								if(obj.matrix[current_robot.i - 1][current_robot.j] == 0)
+						switch (event.keyCode) 
+						{
+							case Keyboard.W:
+								if (current_robot.aim != 8) current_robot.aim = 8;
+								else if (map.matrix[current_robot.i - 1][current_robot.j] == 2)
 								{
-									obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
-									obj.matrix[current_robot.i][current_robot.j] = 0;
-									current_robot.state = 2;
-									current_robot.i--;
-									camera_offset_x -= TileSizeX;
-									camera_offset_y += TileSizeY;
-								}
-								else if (obj.matrix[current_robot.i - 1][current_robot.j] == 5 && obj.matrix[current_robot.i - 2][current_robot.j] == 0 && map.matrix[current_robot.i - 2][current_robot.j] == 2)
-								{
-									for (k = 0; k < obj.objectsArray[4].length ; k++) 
-										{
-											if (obj.objectsArray[4][k].i == (current_robot.i - 1) && obj.objectsArray[4][k].j == current_robot.j) 
-											{
-												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
-												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
-												obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j];
-												obj.matrix[current_robot.i][current_robot.j] = 0;
-												obj.matrix[current_robot.i - 2][current_robot.j] = 5;
-												current_robot.i--;
-												obj.objectsArray[4][k].i --;
-												current_robot.state = 2;
-												obj.objectsArray[4][k].state = 1;
-												camera_offset_x -= TileSizeX;
-												camera_offset_y += TileSizeY;
-											}
-											break;
-										}
-								}
-							}
-							break;
-							
-						case Keyboard.S:
-							if (current_robot.aim != 2) current_robot.aim = 2;
-							else if (map.matrix[current_robot.i + 1][current_robot.j] == 2)
-							{
-								if(obj.matrix[current_robot.i + 1][current_robot.j] == 0)
-								{
-									//animate
-									obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
-									obj.matrix[current_robot.i][current_robot.j] = 0;
-									current_robot.state = 2;
-									current_robot.i++;
-									camera_offset_x += TileSizeX;
-									camera_offset_y -= TileSizeY;
-								}
-								else if (obj.matrix[current_robot.i + 1][current_robot.j] == 5 && obj.matrix[current_robot.i + 2][current_robot.j] == 0 && map.matrix[current_robot.i + 2][current_robot.j] == 2)
-								{
-									for (k = 0; k < obj.objectsArray[4].length ; k++) 
-										{
-											if (obj.objectsArray[4][k].i == (current_robot.i + 1) && obj.objectsArray[4][k].j == current_robot.j) 
-											{
-												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
-												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
-												obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j];
-												obj.matrix[current_robot.i][current_robot.j] = 0;
-												obj.matrix[current_robot.i + 2][current_robot.j] = 5;
-												current_robot.i++;
-												obj.objectsArray[4][k].i ++;
-												current_robot.state = 2;
-												obj.objectsArray[4][k].state = 1;
-												camera_offset_x += TileSizeX;
-												camera_offset_y -= TileSizeY;
-											}
-											break;
-										}
-								}
-							}
-							break;
-						
-						case Keyboard.A:
-							if (current_robot.aim != 4) current_robot.aim = 4;
-							else if (map.matrix[current_robot.i][current_robot.j - 1] == 2)
-							{
-								if(obj.matrix[current_robot.i][current_robot.j - 1] == 0)
-								{
-									//animate
-									obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
-									obj.matrix[current_robot.i][current_robot.j] = 0;
-									current_robot.state = 2;
-									current_robot.j--;
-									camera_offset_x += TileSizeX;
-									camera_offset_y += TileSizeY;
-								}
-								else if (obj.matrix[current_robot.i][current_robot.j - 1] == 5 && obj.matrix[current_robot.i][current_robot.j - 2] == 0 && map.matrix[current_robot.i][current_robot.j - 2] == 2)
-								{
-									for (k = 0; k < obj.objectsArray[4].length ; k++) 
-										{
-											if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j - 1)) 
-											{
-												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
-												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
-												obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j];
-												obj.matrix[current_robot.i][current_robot.j] = 0;
-												obj.matrix[current_robot.i][current_robot.j - 2] = 5;
-												current_robot.j--;
-												obj.objectsArray[4][k].j--;
-												current_robot.state = 2;
-												obj.objectsArray[4][k].state = 1;
-												camera_offset_x += TileSizeX;
-												camera_offset_y += TileSizeY;
-											}
-											break;
-										}
-								}
-							}
-							break;
-						
-						case Keyboard.D:
-							if (current_robot.aim != 6) current_robot.aim = 6;
-							else if (map.matrix[current_robot.i][current_robot.j + 1] == 2)
-							{
-								if(obj.matrix[current_robot.i][current_robot.j + 1] == 0)
-								{
-									//animate
-									obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
-									obj.matrix[current_robot.i][current_robot.j] = 0;
-									current_robot.state = 2;
-									current_robot.j++;
-									camera_offset_x -= TileSizeX;
-									camera_offset_y -= TileSizeY;
-								}
-								else if (obj.matrix[current_robot.i][current_robot.j + 1] == 5 && obj.matrix[current_robot.i][current_robot.j + 2] == 0 && map.matrix[current_robot.i][current_robot.j + 2] == 2)
-								{
-									for (k = 0; k < obj.objectsArray[4].length ; k++) 
-										{
-											if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j + 1)) 
-											{
-												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
-												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
-												obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j];
-												obj.matrix[current_robot.i][current_robot.j] = 0;
-												obj.matrix[current_robot.i][current_robot.j + 2] = 5;
-												current_robot.j++;
-												obj.objectsArray[4][k].j++;
-												current_robot.state = 2;
-												obj.objectsArray[4][k].state = 1;
-												camera_offset_x -= TileSizeX;
-												camera_offset_y -= TileSizeY;
-											}
-											break;
-										}
-								}
-							}
-							break;
-						
-						case Keyboard.SPACE:
-							/* CHECK VIABILITY
-							 * Think about of what of this code should be on the overrided function on son classes
-							 */
-							
-							var k:int;
-							 
-							switch (current_robot.aim)
-							{
-								case 8:
-									switch (obj.matrix[current_robot.i - 1][current_robot.j])
+									if(obj.matrix[current_robot.i - 1][current_robot.j] == 0)
 									{
-										case 4:
-											for (k = 0; k < obj.objectsArray[3].length ; k++) 
+										obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+										obj.matrix[current_robot.i][current_robot.j] = 0;
+										current_robot.state = 2;
+										current_robot.i--;
+										camera_offset_x -= TileSizeX;
+										camera_offset_y += TileSizeY;
+									}
+									else if (obj.matrix[current_robot.i - 1][current_robot.j] == 5 && obj.matrix[current_robot.i - 2][current_robot.j] == 0 && map.matrix[current_robot.i - 2][current_robot.j] == 2)
+									{
+										for (k = 0; k < obj.objectsArray[4].length ; k++) 
 											{
-												if (obj.objectsArray[3][k].i == (current_robot.i - 1) && obj.objectsArray[3][k].j == current_robot.j) 
+												if (obj.objectsArray[4][k].i == (current_robot.i - 1) && obj.objectsArray[4][k].j == current_robot.j) 
 												{
-													obj.objectsArray[3][k].interact();
-													break;
+													obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
+													obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
+													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j];
+													obj.matrix[current_robot.i][current_robot.j] = 0;
+													obj.matrix[current_robot.i - 2][current_robot.j] = 5;
+													current_robot.i--;
+													obj.objectsArray[4][k].i --;
+													current_robot.state = 2;
+													obj.objectsArray[4][k].state = 1;
+													camera_offset_x -= TileSizeX;
+													camera_offset_y += TileSizeY;
 												}
+												break;
 											}
-										default:
-											break;
 									}
-									break;
-								case 2:
-									switch (obj.matrix[current_robot.i + 1][current_robot.j])
+								}
+								break;
+								
+							case Keyboard.S:
+								if (current_robot.aim != 2) current_robot.aim = 2;
+								else if (map.matrix[current_robot.i + 1][current_robot.j] == 2)
+								{
+									if(obj.matrix[current_robot.i + 1][current_robot.j] == 0)
 									{
-										default:
-											break;
+										//animate
+										obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+										obj.matrix[current_robot.i][current_robot.j] = 0;
+										current_robot.state = 2;
+										current_robot.i++;
+										camera_offset_x += TileSizeX;
+										camera_offset_y -= TileSizeY;
 									}
-									break;
-								case 4:
-									switch (obj.matrix[current_robot.i][current_robot.j - 1])
+									else if (obj.matrix[current_robot.i + 1][current_robot.j] == 5 && obj.matrix[current_robot.i + 2][current_robot.j] == 0 && map.matrix[current_robot.i + 2][current_robot.j] == 2)
 									{
-										default:
-											break;
+										for (k = 0; k < obj.objectsArray[4].length ; k++) 
+											{
+												if (obj.objectsArray[4][k].i == (current_robot.i + 1) && obj.objectsArray[4][k].j == current_robot.j) 
+												{
+													obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
+													obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
+													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j];
+													obj.matrix[current_robot.i][current_robot.j] = 0;
+													obj.matrix[current_robot.i + 2][current_robot.j] = 5;
+													current_robot.i++;
+													obj.objectsArray[4][k].i ++;
+													current_robot.state = 2;
+													obj.objectsArray[4][k].state = 1;
+													camera_offset_x += TileSizeX;
+													camera_offset_y -= TileSizeY;
+												}
+												break;
+											}
 									}
-									break;
-								case 6:
-									switch (obj.matrix[current_robot.i][current_robot.j + 1])
-									{
-										default:
-											break;
-									}
-									break;
-								default:
-									break;
-							}
-							//animate
-							//current_robot.state = 3;
-							//current_robot.robotInteraction(); // Destination object should be passed here as argument¿?
-							//current_robot.state = 1;
-							break;
-						
-						case Keyboard.Q:
-							//animated
-							current_robot.state = 4;
-							current_robot.robotTool();
-							break;
+								}
+								break;
 							
-						default:
-							trace("NOPE");
-							break;
+							case Keyboard.A:
+								if (current_robot.aim != 4) current_robot.aim = 4;
+								else if (map.matrix[current_robot.i][current_robot.j - 1] == 2)
+								{
+									if(obj.matrix[current_robot.i][current_robot.j - 1] == 0)
+									{
+										//animate
+										obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
+										obj.matrix[current_robot.i][current_robot.j] = 0;
+										current_robot.state = 2;
+										current_robot.j--;
+										camera_offset_x += TileSizeX;
+										camera_offset_y += TileSizeY;
+									}
+									else if (obj.matrix[current_robot.i][current_robot.j - 1] == 5 && obj.matrix[current_robot.i][current_robot.j - 2] == 0 && map.matrix[current_robot.i][current_robot.j - 2] == 2)
+									{
+										for (k = 0; k < obj.objectsArray[4].length ; k++) 
+											{
+												if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j - 1)) 
+												{
+													obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
+													obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
+													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j];
+													obj.matrix[current_robot.i][current_robot.j] = 0;
+													obj.matrix[current_robot.i][current_robot.j - 2] = 5;
+													current_robot.j--;
+													obj.objectsArray[4][k].j--;
+													current_robot.state = 2;
+													obj.objectsArray[4][k].state = 1;
+													camera_offset_x += TileSizeX;
+													camera_offset_y += TileSizeY;
+												}
+												break;
+											}
+									}
+								}
+								break;
+							
+							case Keyboard.D:
+								if (current_robot.aim != 6) current_robot.aim = 6;
+								else if (map.matrix[current_robot.i][current_robot.j + 1] == 2)
+								{
+									if(obj.matrix[current_robot.i][current_robot.j + 1] == 0)
+									{
+										//animate
+										obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
+										obj.matrix[current_robot.i][current_robot.j] = 0;
+										current_robot.state = 2;
+										current_robot.j++;
+										camera_offset_x -= TileSizeX;
+										camera_offset_y -= TileSizeY;
+									}
+									else if (obj.matrix[current_robot.i][current_robot.j + 1] == 5 && obj.matrix[current_robot.i][current_robot.j + 2] == 0 && map.matrix[current_robot.i][current_robot.j + 2] == 2)
+									{
+										for (k = 0; k < obj.objectsArray[4].length ; k++) 
+											{
+												if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j + 1)) 
+												{
+													obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
+													obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
+													obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j];
+													obj.matrix[current_robot.i][current_robot.j] = 0;
+													obj.matrix[current_robot.i][current_robot.j + 2] = 5;
+													current_robot.j++;
+													obj.objectsArray[4][k].j++;
+													current_robot.state = 2;
+													obj.objectsArray[4][k].state = 1;
+													camera_offset_x -= TileSizeX;
+													camera_offset_y -= TileSizeY;
+												}
+												break;
+											}
+									}
+								}
+								break;
+							
+							case Keyboard.SPACE:
+								/* CHECK VIABILITY
+								 * Think about of what of this code should be on the overrided function on son classes
+								 */
+								
+								var k:int;
+								 
+								switch (current_robot.aim)
+								{
+									case 8:
+										switch (obj.matrix[current_robot.i - 1][current_robot.j])
+										{
+											case 4:
+												for (k = 0; k < obj.objectsArray[3].length ; k++) 
+												{
+													if (obj.objectsArray[3][k].i == (current_robot.i - 1) && obj.objectsArray[3][k].j == current_robot.j) 
+													{
+														obj.objectsArray[3][k].interact();
+														break;
+													}
+												}
+											default:
+												break;
+										}
+										break;
+									case 2:
+										switch (obj.matrix[current_robot.i + 1][current_robot.j])
+										{
+											default:
+												break;
+										}
+										break;
+									case 4:
+										switch (obj.matrix[current_robot.i][current_robot.j - 1])
+										{
+											default:
+												break;
+										}
+										break;
+									case 6:
+										switch (obj.matrix[current_robot.i][current_robot.j + 1])
+										{
+											default:
+												break;
+										}
+										break;
+									default:
+										break;
+								}
+								//animate
+								//current_robot.state = 3;
+								//current_robot.robotInteraction(); // Destination object should be passed here as argument¿?
+								//current_robot.state = 1;
+								break;
+							
+							case Keyboard.Q:
+								//animated
+								current_robot.state = 4;
+								current_robot.robotTool();
+								break;
+								
+							default:
+								trace("NOPE");
+								break;
+						}
+					}
+				}
+				else 
+				{
+					if (event.keyCode == Keyboard.SPACE)
+					{
+						
+						if (hipstom.iteratorI < hipstom.text[hipstom.iteratorJ].length-1)
+						{
+							hipstom.iteratorI++;
+						}
+						else 
+						{
+							hipstom.iteratorI = 0;
+							hipstom.iteratorJ++;
+						}
+						
+						if (hipstom.iteratorJ < hipstom.text.length)
+						{
+							messageText.text = hipstom.text[hipstom.iteratorJ][hipstom.iteratorI];
+						}
+						else
+						{
+							hipstom.visible = false;
+							messageText.visible = false;
+						}
 					}
 				}
 			}
@@ -324,7 +371,7 @@ package screens.stages
 		
 		private function changeCurrentRobot(e:Event):void 
 		{
-			if (!esc_menu.EscBg.visible) 
+			if (!esc_menu.EscBg.visible && !hipstom.visible) 
 			{
 				if (current_robot.state == 1)
 				{

@@ -7,6 +7,7 @@ package
 	
 	import flash.display.Bitmap;
 	import flash.utils.Dictionary;
+	import starling.text.BitmapFont;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 
@@ -48,6 +49,9 @@ package
 		[Embed(source = "../media/graphics/BACK.jpg")]
 		public static const Esc_Btn:Class;
 		
+		[Embed(source = "../media/graphics/Hipstom.png")]
+		public static const HipstomSprite:Class;
+		
 		[Embed(source = "../media/graphics/Switch.png")]
 		public static const Switch:Class;
 		
@@ -55,6 +59,9 @@ package
 		public static const Cube:Class;
 		
 		private static var gameTextures:Dictionary = new Dictionary();
+		
+		[Embed(source = "../media/fonts/frau.ttf", fontFamily = "MyFontName", embedAsCFF = "false", fontName = "Frau")]
+		public static var MyFont:Class;
 		
 		/*private static var gameTextureAtlas:TextureAtlas;
 		
