@@ -1,11 +1,13 @@
 package screens.stages.omaps 
 {
 	import adobe.utils.CustomActions;
+	import objects.Activable;
 	import objects.Cube;
 	import objects.Hipsbot;
 	import objects.HBot;
 	import objects.HMini;
 	import objects.HNano;
+	import objects.Lamp;
 	import objects.Switch;
 	import starling.display.Button;
 	import starling.display.Image;
@@ -20,7 +22,7 @@ package screens.stages.omaps
 	public class ObjectsMap extends Sprite 
 	{	
 		private var _matrix:Array = [[0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 4, 0, 0, 0, 0, 0, 0],
+									 [0, 4, 0, 6, 0, 0, 0, 0],
 									 [0, 0, 1, 0, 0, 0, 0, 0],
 									 [0, 0, 2, 0, 5, 0, 0, 0],
 									 [0, 0, 3, 0, 0, 0, 0, 0],
@@ -29,6 +31,8 @@ package screens.stages.omaps
 									 [0, 0, 0, 0, 0, 0, 0, 0]];
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
+		
+		private var _connections:Array = [[1,1,1,3]] //[originI,originJ,destI,destJ]
 		
 		public function ObjectsMap() 
 		{
@@ -88,9 +92,34 @@ package screens.stages.omaps
 							_objectsArray[4].push(cube);
 							this.addChild(cube);
 							break;
+						case 6:
+							var lamp:Lamp = new Lamp(i, j);
+							lamp.x = 128 * (j-i);
+							lamp.y = 64 * (j + i);
+							if (j < i) lamp.y * -1;
+							_objectsArray[5].push(lamp);
+							this.addChild(lamp);
 						default:
 							break;
 					} 
+				}
+			}
+			for (var a:int = 0; a < _connections.length; a++)
+			{
+				for (var b:int = 0; b < _objectsArray[4].length; b++)
+				{
+					if (_objectsArray[3][b].i == _connections[a][0] && _objectsArray[3][b].j == _connections[a][1])
+					{
+						for (var c:int = 0; c < _objectsArray[5].length; c++)
+						{
+							if (_objectsArray[5][c].i == _connections[a][2] && _objectsArray[5][c].j == _connections[a][3])
+							{
+								_objectsArray[3][b].target = _objectsArray[5][c];
+								break;
+							}
+						}
+						break;
+					}
 				}
 			}
 		}

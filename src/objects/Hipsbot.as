@@ -46,9 +46,7 @@ package objects
 			// Self Sprite Origin Change Representation
 			this.i = setI;
 			this.j = setJ;
-			this.x = 400;
-			this.y = 570;
-			this.aim = 8;
+			this.aim = 6;
 		}
 		
 		private function onAddedToStage(event:Event):void

@@ -55,6 +55,12 @@ package
 		[Embed(source = "../media/graphics/Switch.png")]
 		public static const Switch:Class;
 		
+		[Embed(source = "../media/graphics/LampOff.png")]
+		public static const LampOff:Class;
+		
+		[Embed(source = "../media/graphics/LampOn.png")]
+		public static const LampOn:Class;
+		
 		[Embed(source = "../media/graphics/Cube.png")]
 		public static const Cube:Class;
 		

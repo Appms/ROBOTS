@@ -6,23 +6,22 @@ package objects
 	
 	/**
 	 * ...
-	 * @author EGOD
+	 * @author Eric Oliver Obiol
 	 */
-	public class Switch extends Sprite 
+	public class Activable extends Sprite 
 	{
-		private var img:Image;
+		protected var state:Boolean;
+		protected var img:Image;
 		private var _i:int;
 		private var _j:int;
-		private var _target:Activable;
 		
-		public function Switch(posi:int, posj:int) 
+		public function Activable(posi:int, posj:int) 
 		{
 			super();
-			img = new Image(Assets.getTexture("Switch"));
 			_i = posi;
 			_j = posj;
-			pivotX = 32;
-			pivotY = 64;
+			pivotX = 95; //Los cambios de pivote deberían estar en cada una de las clases hija, pero no van.
+			pivotY = 138; //
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -32,15 +31,9 @@ package objects
 			this.addChild(img);
 		}
 		
-		public function interact():void 
+		public function changeState():void
 		{
-			_target.changeState();
-			trace("Me has pulsado");
-		}
-		
-		public function set target(value:Activable):void
-		{
-			_target = value;
+			trace("WARNING: Override failed");
 		}
 		
 		public function get i():int 
