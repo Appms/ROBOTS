@@ -64,6 +64,15 @@ package
 		[Embed(source = "../media/graphics/Cube.png")]
 		public static const Cube:Class;
 		
+		[Embed(source = "../media/graphics/BBOT.atlas", mimeType = "application/octet-stream")]
+		static public const BBotAtlas:Class;
+
+		[Embed(source = "../media/graphics/BBOT.png")]
+		static public const BBotTexture:Class;
+
+		[Embed(source = "../media/graphics/BBOT.json", mimeType = "application/octet-stream")]
+		static public const BBotJson:Class;
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		
 		[Embed(source = "../media/fonts/frau.ttf", fontFamily = "MyFontName", embedAsCFF = "false", fontName = "Frau")]

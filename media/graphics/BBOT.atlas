@@ -1,0 +1,75 @@
+
+BBOT.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FCBBOT
+  rotate: true
+  xy: 137, 39
+  size: 87, 108
+  orig: 128, 128
+  offset: 17, 12
+  index: -1
+FHBBOT
+  rotate: true
+  xy: 808, 69
+  size: 57, 75
+  orig: 64, 128
+  offset: 3, 29
+  index: -1
+FLAABBOT
+  rotate: true
+  xy: 2, 2
+  size: 44, 82
+  orig: 64, 128
+  offset: 10, 23
+  index: -1
+FLABBOT
+  rotate: true
+  xy: 490, 84
+  size: 42, 115
+  orig: 64, 128
+  offset: 11, 8
+  index: -1
+FLBBOT
+  rotate: true
+  xy: 365, 77
+  size: 49, 123
+  orig: 64, 128
+  offset: 7, 5
+  index: -1
+FLLBBOT
+  rotate: true
+  xy: 247, 65
+  size: 61, 116
+  orig: 64, 128
+  offset: 3, 5
+  index: -1
+FNBBOT
+  rotate: false
+  xy: 885, 86
+  size: 73, 40
+  orig: 128, 64
+  offset: 24, 12
+  index: -1
+FRAABBOT
+  rotate: true
+  xy: 720, 87
+  size: 39, 86
+  orig: 64, 128
+  offset: 15, 23
+  index: -1
+FRABBOT
+  rotate: true
+  xy: 607, 84
+  size: 42, 111
+  orig: 64, 128
+  offset: 13, 11
+  index: -1
+TBBOT
+  rotate: true
+  xy: 2, 48
+  size: 78, 133
+  orig: 256, 256
+  offset: 87, 64
+  index: -1
