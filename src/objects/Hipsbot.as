@@ -6,6 +6,8 @@ package objects
 	import starling.display.MovieClip;
 	import starling.events.Event;
 	
+	import spine.starling.SkeletonAnimation;
+	
 	/**
 	 * ...
 	 * @author EGOD

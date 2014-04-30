@@ -51,9 +51,6 @@ package objects
 			var skeletonData:SkeletonData = json.readSkeletonData(new Assets.BBotJson());
 
 			var stateData:AnimationStateData = new AnimationStateData(skeletonData);
-			stateData.setMixByName("walk", "fap fap", 0.2);
-			stateData.setMixByName("fap fap", "walk", 0.4);
-			stateData.setMixByName("fap fap", "fap fap", 0.2);
 
 			skeleton = new SkeletonAnimation(skeletonData, stateData);
 			skeleton.pivotX = 0;
@@ -69,9 +66,8 @@ package objects
 				trace(trackIndex + " complete: " + skeleton.state.getCurrent(trackIndex) + ", " + count);
 			});
 
-			skeleton.state.setAnimationByName(0, "walk", true);
-			skeleton.state.addAnimationByName(0, "fap fap", false, 3);
-			skeleton.state.addAnimationByName(0, "walk", true, 0);
+			skeleton.state.setAnimationByName(0, "walk", false);
+			skeleton.state.setAnimationByName(0, "idle", true);
 
 			this.addChild(skeleton);
 			Starling.juggler.add(skeleton);
