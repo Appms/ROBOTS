@@ -331,7 +331,7 @@ package screens.stages
 							case Keyboard.Q:
 								//animated
 								current_robot.state = 4;
-								current_robot.robotTool();
+								current_robot.robotSpecial();
 								break;
 								
 							default:
@@ -487,7 +487,7 @@ package screens.stages
 						break;
 						
 					case 4:
-						//CURRENT ROBOT TOOLS
+						//CURRENT ROBOT SPECIAL ACTION
 						break;
 						
 				}

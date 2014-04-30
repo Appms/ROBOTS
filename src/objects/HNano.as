@@ -30,6 +30,12 @@ package objects
 			trace("HNano Contextual Interaction");
 		}
 		
+		override protected function sonSpecial(aimI:uint, aimJ:uint):void
+		{
+			trace("PLASMA RUN!");
+			this.state = 1;
+		}
+		
 		override protected function setSprite():void
 		{
 			robotIMG = new Image(Assets.getTexture("Robot_N"));

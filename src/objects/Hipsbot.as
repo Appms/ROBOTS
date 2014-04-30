@@ -86,9 +86,34 @@ package objects
 			trace("WARNING: override failed");
 		}
 		
-		public function robotTool():void
+		public function robotSpecial():void
 		{
-			trace("WOW SUCH TOOLS");
+			var aimI:uint = i;
+			var aimJ:uint = j;
+			switch(aim)
+			{
+				case 8:
+					aimI--;
+					break;
+				case 2:
+					aimI++;
+					break;
+				case 4:
+					aimJ--;
+					break;
+				case 6:
+					aimJ++;
+					break;
+				default:
+					break;
+			}
+			trace("Special Action");
+			sonSpecial(aimI, aimJ);
+		}
+		
+		protected function sonSpecial(aimI:uint, aimJ:uint):void
+		{
+			trace("WARNING: override failed");
 		}
 		
 		//AnimationFunctions

@@ -64,6 +64,15 @@ package
 		[Embed(source = "../media/graphics/Cube.png")]
 		public static const Cube:Class;
 		
+		[Embed(source = "../media/graphics/Tool1.png")]
+		public static const Tool1:Class;
+		
+		[Embed(source = "../media/graphics/Tool2.png")]
+		public static const Tool2:Class;
+		
+		[Embed(source = "../media/graphics/Tool3.png")]
+		public static const Tool3:Class;
+		
 		[Embed(source = "../media/graphics/BBOT.atlas", mimeType = "application/octet-stream")]
 		static public const BBotAtlas:Class;
 

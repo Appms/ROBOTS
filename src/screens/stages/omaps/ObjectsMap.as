@@ -9,6 +9,7 @@ package screens.stages.omaps
 	import objects.HNano;
 	import objects.Lamp;
 	import objects.Switch;
+	import objects.Tool;
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -99,11 +100,34 @@ package screens.stages.omaps
 							if (j < i) lamp.y * -1;
 							_objectsArray[5].push(lamp);
 							this.addChild(lamp);
+						//TOOLS
+						case 7:
+							var tool1:Tool = new Tool(i, j, 1);
+							tool1.x = 128 * (j-i);
+							tool1.y = 64 * (j + i);
+							if (j < i) tool1.y * -1;
+							_objectsArray[6].push(tool1);
+							this.addChild(tool1);
+						case 8:
+							var tool2:Tool = new Tool(i, j, 2);
+							tool2.x = 128 * (j-i);
+							tool2.y = 64 * (j + i);
+							if (j < i) tool2.y * -1;
+							_objectsArray[6].push(tool2);
+							this.addChild(tool2);
+						case 9:
+							var tool3:Tool = new Tool(i, j, 3);
+							tool3.x = 128 * (j-i);
+							tool3.y = 64 * (j + i);
+							if (j < i) tool3.y * -1;
+							_objectsArray[6].push(tool3);
+							this.addChild(tool3);
 						default:
 							break;
 					} 
 				}
 			}
+			// SET CONNECTIONS
 			for (var a:int = 0; a < _connections.length; a++)
 			{
 				for (var b:int = 0; b < _objectsArray[4].length; b++)
