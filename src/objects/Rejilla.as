@@ -6,25 +6,32 @@ package objects
 	
 	/**
 	 * ...
-	 * @author EGOD
+	 * @author Eric Oliver Obiol
 	 */
-	public class Switch extends Sprite 
+	public class Rejilla extends Sprite 
 	{
 		private var img:Image;
 		private var _i:int;
 		private var _j:int;
-		private var _target:Activable;
-		private var _state:Boolean;
+		private var _target:Rejilla;
 		
-		public function Switch(posi:int, posj:int) 
+		public function Rejilla(posi:int, posj:int, orientation:Boolean)
 		{
 			super();
-			img = new Image(Assets.getTexture("Switch"));
+			if (orientation)
+			{
+				img = new Image(Assets.getTexture("RejillaL"));
+				pivotX = -128;
+				pivotY = 192;
+			}
+			else
+			{
+				img = new Image(Assets.getTexture("RejillaR"));
+				pivotX = 128;
+				pivotY = 128;
+			}
 			_i = posi;
 			_j = posj;
-			pivotX = 32;
-			pivotY = 64;
-			_state = false;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -36,16 +43,10 @@ package objects
 		
 		public function interact():void 
 		{
-			if (_state == true) _state = false;
-			else _state = true;
-			_target.checkState();
-			trace("Me has pulsado");
+			
+			trace("Me has penetrado");
 		}
 		
-		public function set target(value:Activable):void
-		{
-			_target = value;
-		}
 		
 		public function get i():int 
 		{
@@ -65,16 +66,6 @@ package objects
 		public function set j(value:int):void 
 		{
 			_j = value;
-		}
-		
-		public function get state():Boolean 
-		{
-			return _state;
-		}
-		
-		public function set state(value:Boolean):void 
-		{
-			_state = value;
 		}
 		
 	}

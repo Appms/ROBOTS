@@ -8,6 +8,7 @@ package screens.stages.omaps
 	import objects.HMini;
 	import objects.HNano;
 	import objects.Lamp;
+	import objects.Rejilla;
 	import objects.Switch;
 	import objects.Tool;
 	import starling.display.Button;
@@ -22,18 +23,19 @@ package screens.stages.omaps
 	 */
 	public class ObjectsMap extends Sprite 
 	{	
-		private var _matrix:Array = [[0, 0, 0, 0, 0, 0, 0, 0],
+		private var _matrix:Array = [[0, 0, 0, 0, 0, 0, 0, 10],
 									 [0, 4, 0, 6, 0, 0, 0, 0],
 									 [0, 0, 1, 0, 0, 0, 0, 0],
 									 [0, 0, 2, 0, 5, 0, 0, 0],
 									 [0, 0, 3, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0]];
+									 [11, 0, 0, 0, 0, 0, 0, 0]];
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
 		private var _connections:Array = [[1,1,1,3]] //[originI,originJ,destI,destJ]
+		private var _rejillas:Array = [[7,0,0,7]] //[originI,originJ,destI,destJ]
 		
 		public function ObjectsMap() 
 		{
@@ -100,6 +102,7 @@ package screens.stages.omaps
 							if (j < i) lamp.y * -1;
 							_objectsArray[5].push(lamp);
 							this.addChild(lamp);
+							break;
 						//TOOLS
 						case 7:
 							var tool1:Tool = new Tool(i, j, 1);
@@ -108,6 +111,7 @@ package screens.stages.omaps
 							if (j < i) tool1.y * -1;
 							_objectsArray[6].push(tool1);
 							this.addChild(tool1);
+							break;
 						case 8:
 							var tool2:Tool = new Tool(i, j, 2);
 							tool2.x = 128 * (j-i);
@@ -115,6 +119,7 @@ package screens.stages.omaps
 							if (j < i) tool2.y * -1;
 							_objectsArray[6].push(tool2);
 							this.addChild(tool2);
+							break;
 						case 9:
 							var tool3:Tool = new Tool(i, j, 3);
 							tool3.x = 128 * (j-i);
@@ -122,6 +127,24 @@ package screens.stages.omaps
 							if (j < i) tool3.y * -1;
 							_objectsArray[6].push(tool3);
 							this.addChild(tool3);
+							break;
+						//REJILLAS
+						case 10:
+							var rejillaR:Rejilla = new Rejilla(i, j, false);
+							rejillaR.x = 128 * (j-i);
+							rejillaR.y = 64 * (j + i);
+							if (j < i) rejillaR.y * -1;
+							_objectsArray[7].push(rejillaR);
+							this.addChild(rejillaR);
+							break;
+						case 11:
+							var rejillaL:Rejilla = new Rejilla(i, j, true);
+							rejillaL.x = 128 * (j-i);
+							rejillaL.y = 64 * (j + i);
+							if (j < i) rejillaL.y * -1;
+							_objectsArray[7].push(rejillaL);
+							this.addChild(rejillaL);
+							break;
 						default:
 							break;
 					} 
@@ -139,6 +162,27 @@ package screens.stages.omaps
 							if (_objectsArray[5][c].i == _connections[a][2] && _objectsArray[5][c].j == _connections[a][3])
 							{
 								_objectsArray[3][b].target = _objectsArray[5][c];
+								_objectsArray[5][c].switchers.push(_objectsArray[3][b]);
+								break;
+							}
+						}
+						break;
+					}
+				}
+			}
+			// SET REJILLAS
+			for (var a:int = 0; a < _rejillas.length; a++)
+			{
+				for (var b:int = 0; b < _objectsArray[4].length; b++)
+				{
+					if (_objectsArray[7][b].i == _connections[a][0] && _objectsArray[7][b].j == _connections[a][1])
+					{
+						for (var c:int = 0; c < _objectsArray[5].length; c++)
+						{
+							if (_objectsArray[7][c].i == _connections[a][2] && _objectsArray[7][c].j == _connections[a][3])
+							{
+								_objectsArray[7][b].target = _objectsArray[7][c];
+								_objectsArray[7][c].target = _objectsArray[7][b];
 								break;
 							}
 						}

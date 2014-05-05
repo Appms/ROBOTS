@@ -10,10 +10,11 @@ package objects
 	 */
 	public class Activable extends Sprite 
 	{
-		protected var state:Boolean;
+		protected var _state:Boolean = false;
 		protected var img:Image;
 		private var _i:int;
 		private var _j:int;
+		protected var _switchers:Array = [];
 		
 		public function Activable(posi:int, posj:int) 
 		{
@@ -31,7 +32,22 @@ package objects
 			this.addChild(img);
 		}
 		
-		public function changeState():void
+		public function checkState():void
+		{
+			_state = true;
+			for (var i:int = 0; i < _switchers.length; i++)
+			{
+				if (_switchers[i].state == false)
+				{
+					_state = false;
+					break;
+				}
+			}
+			trace("Checked");
+			changeState();
+		}
+		
+		protected function changeState():void
 		{
 			trace("WARNING: Override failed");
 		}
@@ -54,6 +70,16 @@ package objects
 		public function set j(value:int):void 
 		{
 			_j = value;
+		}
+		
+		public function get switchers():Array 
+		{
+			return _switchers;
+		}
+		
+		public function set switchers(value:Array):void 
+		{
+			_switchers = value;
 		}
 		
 	}

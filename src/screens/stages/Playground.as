@@ -294,6 +294,7 @@ package screens.stages
 														break;
 													}
 												}
+												break;
 											default:
 												break;
 										}
@@ -301,6 +302,7 @@ package screens.stages
 									case 2:
 										switch (obj.matrix[current_robot.i + 1][current_robot.j])
 										{
+											
 											default:
 												break;
 										}
@@ -308,6 +310,25 @@ package screens.stages
 									case 4:
 										switch (obj.matrix[current_robot.i][current_robot.j - 1])
 										{
+											case 11:
+												for (k = 0; k < obj.objectsArray[7].length ; k++) 
+												{
+													if (obj.objectsArray[7][k].i == (current_robot.i + 1) && obj.objectsArray[7][k].j == current_robot.j) 
+													{
+														if (obj.matrix[obj.objectsArray[7][k].target.i + 1][obj.objectsArray[7][k].target.j] == 0)
+														{
+															obj.matrix[obj.objectsArray[7][k].target.i + 1][obj.objectsArray[7][k].target.j] = obj.matrix[current_robot.i][current_robot.j]
+															obj.matrix[current_robot.i][current_robot.j] = 0;
+															camera_offset_x = (-(obj.objectsArray[7][k].target.i - current_robot.i) + obj.objectsArray[7][k].target.j - current_robot.j) * TileSizeX;
+															camera_offset_y = (obj.objectsArray[7][k].target.i - current_robot.i + obj.objectsArray[7][k].target.j - current_robot.j) * TileSizeY;
+															current_robot.i = obj.objectsArray[7][k].target.i+1;
+															current_robot.j = obj.objectsArray[7][k].target.j;
+															current_robot.state = 0;
+														}
+														break;
+													}
+												}
+												break;
 											default:
 												break;
 										}
@@ -315,6 +336,17 @@ package screens.stages
 									case 6:
 										switch (obj.matrix[current_robot.i][current_robot.j + 1])
 										{
+											case 11:
+												for (k = 0; k < obj.objectsArray[7].length ; k++) 
+												{
+													if (obj.objectsArray[7][k].i == (current_robot.i - 1) && obj.objectsArray[7][k].j == current_robot.j) 
+													{
+														current_robot.i = obj.objectsArray[7][k].target.i;
+														current_robot.j = obj.objectsArray[7][k].target.j+1;
+														break;
+													}
+												}
+												break;
 											default:
 												break;
 										}

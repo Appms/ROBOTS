@@ -64,6 +64,18 @@ package
 		[Embed(source = "../media/graphics/Cube.png")]
 		public static const Cube:Class;
 		
+		[Embed(source = "../media/graphics/PressurePlateUP.png")]
+		public static const PressurePlateUP:Class;
+		
+		[Embed(source = "../media/graphics/PressurePlateDOWN.png")]
+		public static const PressurePlateDOWN:Class;
+		
+		[Embed(source = "../media/graphics/RejillaL.png")]
+		public static const RejillaL:Class;
+		
+		[Embed(source = "../media/graphics/RejillaR.png")]
+		public static const RejillaR:Class;
+		
 		[Embed(source = "../media/graphics/Tool1.png")]
 		public static const Tool1:Class;
 		

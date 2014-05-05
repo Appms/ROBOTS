@@ -13,22 +13,23 @@ package objects
 			super(posi, posj);
 		}
 		
-		override public function changeState():void
+		override protected function changeState():void
 		{
-			if (state == false)
+			if (_state == false)
 			{
 				this.dispose();
-				state = true;
-				img = new Image(Assets.getTexture("LampOn"));
+				//state = true;
+				img = new Image(Assets.getTexture("LampOff"));//REVERSED due to ANDSwitchers
 				this.addChild(img);
 			}
 			else
 			{
 				this.dispose();
-				state = false;
-				img = new Image(Assets.getTexture("LampOff"));
+				//state = false;
+				img = new Image(Assets.getTexture("LampOn")); //REVERSED due to ANDSwitchers
 				this.addChild(img); //BUG: image overrided by LampOn on empty pixels filled in LampOn
 			}
+			
 			trace("Override Success");
 		}
 	}
