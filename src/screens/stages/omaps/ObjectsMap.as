@@ -29,13 +29,13 @@ package screens.stages.omaps
 									 [0, 0, 2, 0, 5, 0, 0, 0],
 									 [0, 0, 3, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0],
-									 [11, 0, 0, 0, 0, 0, 0, 0]];
+									 [11, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0]];
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
 		private var _connections:Array = [[1,1,1,3]] //[originI,originJ,destI,destJ]
-		private var _rejillas:Array = [[7,0,0,7]] //[originI,originJ,destI,destJ]
+		private var _rejillas:Array = [[6,0,0,7]] //[originI,originJ,destI,destJ]
 		
 		public function ObjectsMap() 
 		{
@@ -173,13 +173,13 @@ package screens.stages.omaps
 			// SET REJILLAS
 			for (var a:int = 0; a < _rejillas.length; a++)
 			{
-				for (var b:int = 0; b < _objectsArray[4].length; b++)
+				for (var b:int = 0; b < _objectsArray[7].length; b++)
 				{
-					if (_objectsArray[7][b].i == _connections[a][0] && _objectsArray[7][b].j == _connections[a][1])
+					if (_objectsArray[7][b].i == _rejillas[a][0] && _objectsArray[7][b].j == _rejillas[a][1])
 					{
-						for (var c:int = 0; c < _objectsArray[5].length; c++)
+						for (var c:int = 0; c < _objectsArray[7].length; c++)
 						{
-							if (_objectsArray[7][c].i == _connections[a][2] && _objectsArray[7][c].j == _connections[a][3])
+							if (_objectsArray[7][c].i == _rejillas[a][2] && _objectsArray[7][c].j == _rejillas[a][3])
 							{
 								_objectsArray[7][b].target = _objectsArray[7][c];
 								_objectsArray[7][c].target = _objectsArray[7][b];

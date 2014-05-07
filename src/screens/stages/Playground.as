@@ -120,6 +120,8 @@ package screens.stages
 				{
 					if (current_robot.state == 1)
 					{
+						trace("i: " + current_robot.i);
+						trace("j: " + current_robot.j);
 						switch (event.keyCode) 
 						{
 							case Keyboard.W:
@@ -313,7 +315,7 @@ package screens.stages
 											case 11:
 												for (k = 0; k < obj.objectsArray[7].length ; k++) 
 												{
-													if (obj.objectsArray[7][k].i == (current_robot.i + 1) && obj.objectsArray[7][k].j == current_robot.j) 
+													if (obj.objectsArray[7][k].i == (current_robot.i) && obj.objectsArray[7][k].j == current_robot.j - 1) 
 													{
 														if (obj.matrix[obj.objectsArray[7][k].target.i + 1][obj.objectsArray[7][k].target.j] == 0)
 														{

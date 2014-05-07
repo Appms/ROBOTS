@@ -21,8 +21,8 @@ package objects
 			if (orientation)
 			{
 				img = new Image(Assets.getTexture("RejillaL"));
-				pivotX = -128;
-				pivotY = 192;
+				pivotX = -32;
+				pivotY = 128;
 			}
 			else
 			{
@@ -66,6 +66,16 @@ package objects
 		public function set j(value:int):void 
 		{
 			_j = value;
+		}
+		
+		public function get target():Rejilla 
+		{
+			return _target;
+		}
+		
+		public function set target(value:Rejilla):void 
+		{
+			_target = value;
 		}
 		
 	}
