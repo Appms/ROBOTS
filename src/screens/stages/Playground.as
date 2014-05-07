@@ -121,8 +121,6 @@ package screens.stages
 				{
 					if (current_robot.state == 1)
 					{
-						trace("i: " + current_robot.i);
-						trace("j: " + current_robot.j);
 						switch (event.keyCode) 
 						{
 							case Keyboard.W:
@@ -286,10 +284,11 @@ package screens.stages
 								 
 								switch (current_robot.aim)
 								{
+									//UP
 									case 8:
 										switch (obj.matrix[current_robot.i - 1][current_robot.j])
 										{
-											case 4:
+											case 4: //BOTÓN
 												for (k = 0; k < obj.objectsArray[3].length ; k++) 
 												{
 													if (obj.objectsArray[3][k].i == (current_robot.i - 1) && obj.objectsArray[3][k].j == current_robot.j) 
@@ -299,10 +298,41 @@ package screens.stages
 													}
 												}
 												break;
+											case 10: //REJILLA
+												if (obj.matrix[current_robot.i][current_robot.j] == 3)
+												{
+													for (k = 0; k < obj.objectsArray[7].length ; k++) 
+													{
+														if (obj.objectsArray[7][k].i == (current_robot.i - 1) && obj.objectsArray[7][k].j == current_robot.j) 
+														{
+															if (obj.matrix[obj.objectsArray[7][k].target.i][obj.objectsArray[7][k].target.j + 1] == 0)
+															{
+																var destx:int = TileSizeX * (obj.objectsArray[7][k].target.j + 1 - (obj.objectsArray[7][k].target.i));
+																camera_offset_x += current_robot.x - destx;
+																var desty:int = -TileSizeY * (obj.objectsArray[7][k].target.j + 1 + (obj.objectsArray[7][k].target.i));
+																if (obj.objectsArray[7][k].target.j < 1) desty *= -1;
+																camera_offset_y += current_robot.y - desty;
+																current_robot.x = destx;
+																current_robot.y = desty;
+																obj.matrix[obj.objectsArray[7][k].target.i][obj.objectsArray[7][k].target.j + 1] = obj.matrix[current_robot.i][current_robot.j]
+																obj.matrix[current_robot.i][current_robot.j] = 0;
+																current_robot.i = obj.objectsArray[7][k].target.i;
+																current_robot.j = obj.objectsArray[7][k].target.j + 1;
+																current_robot.state = 0;
+																//Que se gire
+																current_robot.aim = 6; current_robot.skeleton.scaleX = 1; current_robot.skeleton.skeleton.skinName = "FRONT"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
+															}
+															break;
+														}
+													}
+												}
+												break;
 											default:
 												break;
 										}
 										break;
+									
+									//DOWN
 									case 2:
 										switch (obj.matrix[current_robot.i + 1][current_robot.j])
 										{
@@ -311,25 +341,36 @@ package screens.stages
 												break;
 										}
 										break;
+									
+									//LEFT
 									case 4:
 										switch (obj.matrix[current_robot.i][current_robot.j - 1])
 										{
 											case 11:
-												for (k = 0; k < obj.objectsArray[7].length ; k++) 
+												if (obj.matrix[current_robot.i][current_robot.j] == 3)
 												{
-													if (obj.objectsArray[7][k].i == (current_robot.i) && obj.objectsArray[7][k].j == current_robot.j - 1) 
+													for (k = 0; k < obj.objectsArray[7].length ; k++) 
 													{
-														if (obj.matrix[obj.objectsArray[7][k].target.i + 1][obj.objectsArray[7][k].target.j] == 0)
+														if (obj.objectsArray[7][k].i == (current_robot.i) && obj.objectsArray[7][k].j == current_robot.j - 1) 
 														{
-															obj.matrix[obj.objectsArray[7][k].target.i + 1][obj.objectsArray[7][k].target.j] = obj.matrix[current_robot.i][current_robot.j]
-															obj.matrix[current_robot.i][current_robot.j] = 0;
-															camera_offset_x = (-(obj.objectsArray[7][k].target.i - current_robot.i) + obj.objectsArray[7][k].target.j - current_robot.j) * TileSizeX;
-															camera_offset_y = (obj.objectsArray[7][k].target.i - current_robot.i + obj.objectsArray[7][k].target.j - current_robot.j) * TileSizeY;
-															current_robot.i = obj.objectsArray[7][k].target.i+1;
-															current_robot.j = obj.objectsArray[7][k].target.j;
-															current_robot.state = 0;
+															if (obj.matrix[obj.objectsArray[7][k].target.i + 1][obj.objectsArray[7][k].target.j] == 0)
+															{
+																var destx:int = TileSizeX * (obj.objectsArray[7][k].target.j - (obj.objectsArray[7][k].target.i + 1));
+																camera_offset_x += current_robot.x - destx;
+																var desty:int = TileSizeY * (obj.objectsArray[7][k].target.j + (obj.objectsArray[7][k].target.i + 1));
+																if (obj.objectsArray[7][k].target.j < 1) desty *= -1;
+																camera_offset_y += current_robot.y - desty;
+																current_robot.x = destx;
+																current_robot.y = desty;
+																obj.matrix[obj.objectsArray[7][k].target.i + 1][obj.objectsArray[7][k].target.j] = obj.matrix[current_robot.i][current_robot.j]
+																obj.matrix[current_robot.i][current_robot.j] = 0;
+																current_robot.i = obj.objectsArray[7][k].target.i+1;
+																current_robot.j = obj.objectsArray[7][k].target.j;
+																current_robot.state = 0;
+																current_robot.aim = 2; current_robot.skeleton.scaleX = -1; current_robot.skeleton.skeleton.skinName = "FRONT"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
+															}
+															break;
 														}
-														break;
 													}
 												}
 												break;
@@ -337,6 +378,8 @@ package screens.stages
 												break;
 										}
 										break;
+									
+									//RIGHT
 									case 6:
 										switch (obj.matrix[current_robot.i][current_robot.j + 1])
 										{
@@ -482,6 +525,7 @@ package screens.stages
 		{
 			if (!esc_menu.EscBg.visible) 
 			{
+				obj.sortChildren(entitySort);
 				switch (current_robot.state)
 				{
 					case 0:
@@ -517,8 +561,6 @@ package screens.stages
 						}
 						
 						drawScreen();
-						
-						obj.sortChildren(entitySort);
 						
 						break;
 						
