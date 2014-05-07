@@ -10,8 +10,8 @@ package objects
 	 */
 	public class Cube extends Sprite 
 	{	
-		private const SpeedX:Number = 8;
-		private const SpeedY:Number = 4;
+		private const SpeedX:Number = 4;
+		private const SpeedY:Number = 2;
 		
 		private var img:Image;
 		private var _i:int;

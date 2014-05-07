@@ -1,74 +1,138 @@
 
 BBOT.png
+size: 1017,126
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-FCBBOT
+BCBBOT
+  rotate: false
+  xy: 2, 18
+  size: 98, 108
+  orig: 128, 128
+  offset: 13, 8
+  index: -1
+BHBBOT
+  rotate: false
+  xy: 680, 6
+  size: 61, 74
+  orig: 64, 128
+  offset: 0, 28
+  index: -1
+BLAABBOT
+  rotate: false
+  xy: 802, 2
+  size: 40, 83
+  orig: 64, 128
+  offset: 11, 23
+  index: -1
+BLABBOT
   rotate: true
-  xy: 137, 39
+  xy: 567, 38
+  size: 41, 111
+  orig: 64, 128
+  offset: 13, 9
+  index: -1
+BLBBOT
+  rotate: true
+  xy: 332, 13
+  size: 50, 124
+  orig: 64, 128
+  offset: 6, 4
+  index: -1
+BLLBBOT
+  rotate: true
+  xy: 458, 19
+  size: 56, 107
+  orig: 64, 128
+  offset: 3, 7
+  index: -1
+BNBBOT
+  rotate: false
+  xy: 944, 85
+  size: 72, 41
+  orig: 128, 64
+  offset: 29, 8
+  index: -1
+BRAABBOT
+  rotate: true
+  xy: 682, 85
+  size: 41, 83
+  orig: 64, 128
+  offset: 10, 22
+  index: -1
+BRABBOT
+  rotate: true
+  xy: 480, 81
+  size: 45, 116
+  orig: 64, 128
+  offset: 11, 6
+  index: -1
+FCBBOT
+  rotate: false
+  xy: 855, 18
   size: 87, 108
   orig: 128, 128
   offset: 17, 12
   index: -1
 FHBBOT
-  rotate: true
-  xy: 808, 69
+  rotate: false
+  xy: 743, 8
   size: 57, 75
   orig: 64, 128
   offset: 3, 29
   index: -1
 FLAABBOT
   rotate: true
-  xy: 2, 2
+  xy: 598, 82
   size: 44, 82
   orig: 64, 128
   offset: 10, 23
   index: -1
 FLABBOT
   rotate: true
-  xy: 490, 84
+  xy: 102, 4
   size: 42, 115
   orig: 64, 128
   offset: 11, 8
   index: -1
 FLBBOT
   rotate: true
-  xy: 365, 77
+  xy: 355, 77
   size: 49, 123
   orig: 64, 128
   offset: 7, 5
   index: -1
 FLLBBOT
   rotate: true
-  xy: 247, 65
+  xy: 237, 65
   size: 61, 116
   orig: 64, 128
   offset: 3, 5
   index: -1
 FNBBOT
   rotate: false
-  xy: 885, 86
+  xy: 944, 43
   size: 73, 40
   orig: 128, 64
   offset: 24, 12
   index: -1
 FRAABBOT
   rotate: true
-  xy: 720, 87
+  xy: 767, 87
   size: 39, 86
   orig: 64, 128
   offset: 15, 23
   index: -1
 FRABBOT
   rotate: true
-  xy: 607, 84
+  xy: 219, 4
   size: 42, 111
   orig: 64, 128
   offset: 13, 11
   index: -1
 TBBOT
   rotate: true
-  xy: 2, 48
+  xy: 102, 48
   size: 78, 133
   orig: 256, 256
   offset: 87, 64

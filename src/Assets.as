@@ -94,6 +94,24 @@ package
 		[Embed(source = "../media/graphics/BBOT.json", mimeType = "application/octet-stream")]
 		static public const BBotJson:Class;
 		
+		[Embed(source = "../media/graphics/MBOT.atlas", mimeType = "application/octet-stream")]
+		static public const MBotAtlas:Class;
+
+		[Embed(source = "../media/graphics/MBOT.png")]
+		static public const MBotTexture:Class;
+
+		[Embed(source = "../media/graphics/MBOT.json", mimeType = "application/octet-stream")]
+		static public const MBotJson:Class;
+		
+		[Embed(source = "../media/graphics/NBOT.atlas", mimeType = "application/octet-stream")]
+		static public const NBotAtlas:Class;
+
+		[Embed(source = "../media/graphics/NBOT.png")]
+		static public const NBotTexture:Class;
+
+		[Embed(source = "../media/graphics/NBOT.json", mimeType = "application/octet-stream")]
+		static public const NBotJson:Class;
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		
 		[Embed(source = "../media/fonts/frau.ttf", fontFamily = "MyFontName", embedAsCFF = "false", fontName = "Frau")]

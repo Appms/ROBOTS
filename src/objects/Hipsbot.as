@@ -40,6 +40,8 @@ package objects
 		
 		public var ui:Button;
 		
+		public var skeleton:SkeletonAnimation;
+		
 		public function Hipsbot(setI:uint, setJ:uint) 
 		{
 			super();

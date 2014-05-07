@@ -1,0 +1,125 @@
+
+NBOT.png
+size: 987,126
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BCNBOT
+  rotate: true
+  xy: 137, 29
+  size: 97, 103
+  orig: 128, 128
+  offset: 14, 10
+  index: -1
+BHNBOT
+  rotate: false
+  xy: 361, 2
+  size: 58, 69
+  orig: 64, 128
+  offset: 4, 27
+  index: -1
+BLAAMBOT
+  rotate: true
+  xy: 549, 33
+  size: 41, 83
+  orig: 64, 128
+  offset: 12, 23
+  index: -1
+BLLNBOT
+  rotate: true
+  xy: 717, 70
+  size: 56, 107
+  orig: 64, 128
+  offset: 0, 11
+  index: -1
+BLNBOT
+  rotate: true
+  xy: 469, 76
+  size: 50, 124
+  orig: 64, 128
+  offset: 12, 2
+  index: -1
+BNMBOT
+  rotate: true
+  xy: 421, 8
+  size: 63, 46
+  orig: 128, 64
+  offset: 29, 8
+  index: -1
+BRAANBOT
+  rotate: true
+  xy: 904, 82
+  size: 44, 82
+  orig: 64, 128
+  offset: 12, 24
+  index: -1
+BRAANHBOT
+  rotate: true
+  xy: 904, 39
+  size: 41, 83
+  orig: 64, 128
+  offset: 12, 23
+  index: -1
+BRANBOT
+  rotate: true
+  xy: 2, 2
+  size: 44, 114
+  orig: 64, 128
+  offset: 12, 8
+  index: -1
+FCNBOT
+  rotate: true
+  xy: 242, 45
+  size: 81, 100
+  orig: 128, 128
+  offset: 22, 11
+  index: -1
+FHNBOT
+  rotate: true
+  xy: 826, 69
+  size: 57, 76
+  orig: 64, 128
+  offset: 4, 24
+  index: -1
+FLLNBOT
+  rotate: true
+  xy: 595, 76
+  size: 50, 120
+  orig: 64, 128
+  offset: 8, 5
+  index: -1
+FLNBOT
+  rotate: true
+  xy: 344, 73
+  size: 53, 123
+  orig: 64, 128
+  offset: 8, 5
+  index: -1
+FNMBOT
+  rotate: false
+  xy: 469, 27
+  size: 78, 47
+  orig: 128, 64
+  offset: 24, 12
+  index: -1
+FRAANBOT
+  rotate: true
+  xy: 634, 30
+  size: 38, 86
+  orig: 64, 128
+  offset: 15, 22
+  index: -1
+FRANBOT
+  rotate: true
+  xy: 242, 2
+  size: 41, 117
+  orig: 64, 128
+  offset: 15, 7
+  index: -1
+TBBOT
+  rotate: true
+  xy: 2, 48
+  size: 78, 133
+  orig: 256, 256
+  offset: 87, 64
+  index: -1

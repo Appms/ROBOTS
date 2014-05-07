@@ -10,6 +10,7 @@ package screens.stages
 	import screens.stages.omaps.ObjectsMap;
 	import screens.stages.lmaps.LevelMap;
 	import screens.stages.UI;
+	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.display.Image;
 	import starling.events.Event;
@@ -32,8 +33,8 @@ package screens.stages
 	{
 		private const TileSizeX:Number = 128;
 		private const TileSizeY:Number = 64;
-		private const SpeedX:Number = 8;
-		private const SpeedY:Number = 4;
+		private const SpeedX:Number = 4;
+		private const SpeedY:Number = 2;
 		
 		private var camera_offset_x:int = 400;
 		private var camera_offset_y:int = 300;
@@ -125,11 +126,12 @@ package screens.stages
 						switch (event.keyCode) 
 						{
 							case Keyboard.W:
-								if (current_robot.aim != 8) current_robot.aim = 8;
+								if (current_robot.aim != 8) { current_robot.aim = 8; current_robot.skeleton.scaleX = -1; current_robot.skeleton.skeleton.skinName = "BACK"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "back_idle", true); }
 								else if (map.matrix[current_robot.i - 1][current_robot.j] == 2)
 								{
 									if(obj.matrix[current_robot.i - 1][current_robot.j] == 0)
 									{
+										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
 										obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
 										obj.matrix[current_robot.i][current_robot.j] = 0;
 										current_robot.state = 2;
@@ -162,12 +164,12 @@ package screens.stages
 								break;
 								
 							case Keyboard.S:
-								if (current_robot.aim != 2) current_robot.aim = 2;
+								if (current_robot.aim != 2) { current_robot.aim = 2; current_robot.skeleton.scaleX = -1; current_robot.skeleton.skeleton.skinName = "FRONT"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "front_idle", true); }
 								else if (map.matrix[current_robot.i + 1][current_robot.j] == 2)
 								{
 									if(obj.matrix[current_robot.i + 1][current_robot.j] == 0)
 									{
-										//animate
+										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
 										obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
 										obj.matrix[current_robot.i][current_robot.j] = 0;
 										current_robot.state = 2;
@@ -200,12 +202,12 @@ package screens.stages
 								break;
 							
 							case Keyboard.A:
-								if (current_robot.aim != 4) current_robot.aim = 4;
+								if (current_robot.aim != 4) { current_robot.aim = 4; current_robot.skeleton.scaleX = 1; current_robot.skeleton.skeleton.skinName = "BACK"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "back_idle", true); }
 								else if (map.matrix[current_robot.i][current_robot.j - 1] == 2)
 								{
 									if(obj.matrix[current_robot.i][current_robot.j - 1] == 0)
 									{
-										//animate
+										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
 										obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
 										obj.matrix[current_robot.i][current_robot.j] = 0;
 										current_robot.state = 2;
@@ -238,12 +240,12 @@ package screens.stages
 								break;
 							
 							case Keyboard.D:
-								if (current_robot.aim != 6) current_robot.aim = 6;
+								if (current_robot.aim != 6) { current_robot.aim = 6; current_robot.skeleton.scaleX = 1; current_robot.skeleton.skeleton.skinName = "FRONT"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "front_idle", true); }
 								else if (map.matrix[current_robot.i][current_robot.j + 1] == 2)
 								{
 									if(obj.matrix[current_robot.i][current_robot.j + 1] == 0)
 									{
-										//animate
+										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
 										obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
 										obj.matrix[current_robot.i][current_robot.j] = 0;
 										current_robot.state = 2;
@@ -484,15 +486,15 @@ package screens.stages
 				{
 					case 0:
 						//CURRENT ROBOT IDLE ANIMATION
-						if (map.x < camera_offset_x) { map.x += SpeedX; obj.x += SpeedX; }
+						if (map.x < camera_offset_x) { map.x += 2*SpeedX; obj.x += 2*SpeedX; }
 
-						else if (map.x > camera_offset_x) {map.x -= SpeedX; obj.x -= SpeedX; }
+						else if (map.x > camera_offset_x) {map.x -= 2*SpeedX; obj.x -= 2*SpeedX; }
 						
-						if (map.y < camera_offset_y) {map.y += SpeedY; obj.y += SpeedY; }
+						if (map.y < camera_offset_y) {map.y += 2*SpeedY; obj.y += 2*SpeedY; }
 						
-						else if (map.y > camera_offset_y) { map.y -= SpeedY; obj.y -= SpeedY; }
+						else if (map.y > camera_offset_y) { map.y -= 2*SpeedY; obj.y -= 2*SpeedY; }
 						
-						if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1;}
+						if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1; }
 						
 						drawScreen();
 						
@@ -508,7 +510,11 @@ package screens.stages
 						
 						else if (map.y > camera_offset_y) {map.y -= SpeedY; obj.y -= SpeedY; current_robot.y += SpeedY;}
 						
-						if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1;}
+						if (map.x == camera_offset_x && map.y == camera_offset_y) { 
+							current_robot.state = 1; 
+							if (current_robot.aim == 2 || current_robot.aim == 6) current_robot.skeleton.state.addAnimationByName(0, "front_idle", true, 0); 
+							else current_robot.skeleton.state.addAnimationByName(0, "back_idle", true, 0)
+						}
 						
 						drawScreen();
 						

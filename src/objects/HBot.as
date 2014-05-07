@@ -22,7 +22,6 @@ package objects
 	 */
 	public class HBot extends Hipsbot 
 	{
-		private var skeleton:SkeletonAnimation;
 		
 		public function HBot(setI:uint, setJ:uint) 
 		{
@@ -62,18 +61,22 @@ package objects
 			skeleton.pivotX = 0;
 			skeleton.pivotY = 200;
 			
+			stateData.setMixByName("front_step", "front_idle", 0.2);
+			stateData.setMixByName("front_idle", "front_step", 0.2);
+			
 			skeleton.state.onStart.add(function (trackIndex:int) : void {
-				//trace(trackIndex + " start: " + skeleton.state.getCurrent(trackIndex));
+				trace(trackIndex + " start: " + skeleton.state.getCurrent(trackIndex));
 			});
 			skeleton.state.onEnd.add(function (trackIndex:int) : void {
-				//trace(trackIndex + " end: " + skeleton.state.getCurrent(trackIndex));
+				trace(trackIndex + " end: " + skeleton.state.getCurrent(trackIndex));
 			});
 			skeleton.state.onComplete.add(function (trackIndex:int, count:int) : void {
-				//trace(trackIndex + " complete: " + skeleton.state.getCurrent(trackIndex) + ", " + count);
+				trace(trackIndex + " complete: " + skeleton.state.getCurrent(trackIndex) + ", " + count);
 			});
 
-			skeleton.state.setAnimationByName(0, "walk", false);
-			skeleton.state.setAnimationByName(0, "idle", true);
+			skeleton.skeleton.skinName = "FRONT";
+			skeleton.skeleton.setSlotsToSetupPose();
+			skeleton.state.setAnimationByName(0, "front_idle", true);
 
 			this.addChild(skeleton);
 			Starling.juggler.add(skeleton);
