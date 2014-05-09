@@ -15,17 +15,12 @@ package objects
 	 * This is the father class for all the three robots.
 	 * It will include all basic functions common in the three types.
 	 */
+	
 	public class Hipsbot extends Sprite 
 	{	
 		
-		// Provisional code (until son classes made)
-		protected var robotIMG:Image;
-		// ID Number to identify each robot on screen.
-		protected var idRobot:uint;
-		
 		// 0: Bypass, 1: StandBY, 2: Moving, 3: Interaction, 4: Tool 
 		protected var _state:uint;
-		
 		
 		private const TileSizeX:Number = 128;
 		private const TileSizeY:Number = 64;
@@ -47,7 +42,6 @@ package objects
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			this.state = 0;
-			// Self Sprite Origin Change Representation
 			this.i = setI;
 			this.j = setJ;
 			this.aim = 6;
@@ -55,7 +49,7 @@ package objects
 		
 		private function onAddedToStage(event:Event):void
 		{
-			setSprite();
+			setSkeleton();
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -121,7 +115,7 @@ package objects
 		//AnimationFunctions
 		
 		// PROVISIONAL VISUALIZATION FUNCTION
-		protected function setSprite():void
+		protected function setSkeleton():void
 		{
 			trace("WARNING: override failed");
 		}

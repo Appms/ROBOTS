@@ -6,8 +6,9 @@ package objects
 	
 	/**
 	 * ...
-	 * @author Eric Oliver Obiol
+	 * @author EGOD
 	 */
+	
 	public class Activable extends Sprite 
 	{
 		protected var _state:Boolean = false;

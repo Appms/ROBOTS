@@ -4,9 +4,9 @@ package screens.stages.omaps
 	import objects.Activable;
 	import objects.Cube;
 	import objects.Hipsbot;
-	import objects.HBot;
-	import objects.HMini;
-	import objects.HNano;
+	import objects.BBot;
+	import objects.MBot;
+	import objects.NBot;
 	import objects.Lamp;
 	import objects.Rejilla;
 	import objects.Switch;
@@ -21,13 +21,14 @@ package screens.stages.omaps
 	 * ...
 	 * @author EGOD
 	 */
+	
 	public class ObjectsMap extends Sprite 
 	{	
 		private var _matrix:Array = [[0, 0, 0, 0, 0, 0, 0, 10],
 									 [0, 4, 0, 6, 0, 0, 0, 0],
-									 [0, 0, 1, 0, 0, 0, 0, 0],
-									 [0, 0, 2, 0, 5, 0, 0, 0],
-									 [0, 0, 3, 0, 0, 0, 0, 0],
+									 [0, 0, 1, 0, 0, 0, 7, 0],
+									 [0, 0, 2, 0, 5, 0, 8, 0],
+									 [0, 0, 3, 0, 0, 0, 9, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0],
 									 [11, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0]];
@@ -56,29 +57,32 @@ package screens.stages.omaps
 					switch (_matrix[i][j]) 
 					{
 						case 1:
-							Bot = new HBot(i,j);
+							Bot = new BBot(i,j);
 							Bot.x = 128 * (j-i);
 							Bot.y = 64 * (j + i);
 							if (j < i) Bot.y * -1;
 							_objectsArray[0].push(Bot);
 							this.addChild(Bot);
 							break;
+							
 						case 2:
-							Bot = new HMini(i,j);
+							Bot = new MBot(i,j);
 							Bot.x = 128 * (j-i);
 							Bot.y = 64 * (j + i);
 							if (j < i) Bot.y * -1;
 							_objectsArray[1].push(Bot);
 							this.addChild(Bot);
 							break;
+							
 						case 3:
-							Bot = new HNano(i,j);
+							Bot = new NBot(i,j);
 							Bot.x = 128 * (j-i);
 							Bot.y = 64 * (j + i);
 							if (j < i) Bot.y * -1;
 							_objectsArray[2].push(Bot);
 							this.addChild(Bot);
 							break;
+							
 						case 4:
 							var sw:Switch = new Switch(i, j);
 							sw.x = 128 * (j-i) - 64;
@@ -87,6 +91,7 @@ package screens.stages.omaps
 							_objectsArray[3].push(sw);
 							this.addChild(sw);
 							break;
+							
 						case 5:
 							var cube:Cube = new Cube(i, j);
 							cube.x = 128 * (j-i);
@@ -95,6 +100,7 @@ package screens.stages.omaps
 							_objectsArray[4].push(cube);
 							this.addChild(cube);
 							break;
+							
 						case 6:
 							var lamp:Lamp = new Lamp(i, j);
 							lamp.x = 128 * (j-i);
@@ -103,6 +109,7 @@ package screens.stages.omaps
 							_objectsArray[5].push(lamp);
 							this.addChild(lamp);
 							break;
+							
 						//TOOLS
 						case 7:
 							var tool1:Tool = new Tool(i, j, 1);
@@ -112,6 +119,7 @@ package screens.stages.omaps
 							_objectsArray[6].push(tool1);
 							this.addChild(tool1);
 							break;
+							
 						case 8:
 							var tool2:Tool = new Tool(i, j, 2);
 							tool2.x = 128 * (j-i);
@@ -120,6 +128,7 @@ package screens.stages.omaps
 							_objectsArray[6].push(tool2);
 							this.addChild(tool2);
 							break;
+							
 						case 9:
 							var tool3:Tool = new Tool(i, j, 3);
 							tool3.x = 128 * (j-i);
@@ -128,6 +137,7 @@ package screens.stages.omaps
 							_objectsArray[6].push(tool3);
 							this.addChild(tool3);
 							break;
+							
 						//REJILLAS
 						case 10:
 							var rejillaR:Rejilla = new Rejilla(i, j, false);
@@ -137,6 +147,7 @@ package screens.stages.omaps
 							_objectsArray[7].push(rejillaR);
 							this.addChild(rejillaR);
 							break;
+							
 						case 11:
 							var rejillaL:Rejilla = new Rejilla(i, j, true);
 							rejillaL.x = 128 * (j-i);
@@ -145,6 +156,7 @@ package screens.stages.omaps
 							_objectsArray[7].push(rejillaL);
 							this.addChild(rejillaL);
 							break;
+							
 						default:
 							break;
 					} 
@@ -171,13 +183,13 @@ package screens.stages.omaps
 				}
 			}
 			// SET REJILLAS
-			for (var a:int = 0; a < _rejillas.length; a++)
+			for (a = 0; a < _rejillas.length; a++)
 			{
-				for (var b:int = 0; b < _objectsArray[7].length; b++)
+				for (b = 0; b < _objectsArray[7].length; b++)
 				{
 					if (_objectsArray[7][b].i == _rejillas[a][0] && _objectsArray[7][b].j == _rejillas[a][1])
 					{
-						for (var c:int = 0; c < _objectsArray[7].length; c++)
+						for (c = 0; c < _objectsArray[7].length; c++)
 						{
 							if (_objectsArray[7][c].i == _rejillas[a][2] && _objectsArray[7][c].j == _rejillas[a][3])
 							{

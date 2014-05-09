@@ -8,6 +8,7 @@ package objects
 	 * ...
 	 * @author EGOD
 	 */
+	
 	public class Cube extends Sprite 
 	{	
 		private const SpeedX:Number = 4;

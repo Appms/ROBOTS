@@ -25,24 +25,6 @@ package objects
 			pivotY = 46;
 			_type = tooltype;
 			img = new Image(Assets.getTexture("Tool" + _type));
-			/*switch(_type)
-			{
-				case 1:
-					img = new Image(Assets.getTexture("Tool1"));
-					break;
-					
-				case 2:
-					img = new Image(Assets.getTexture("Tool2"));
-					break;
-					
-				case 3:
-					img = new Image(Assets.getTexture("Tool3"));
-					break;
-					
-				default:
-					trace("WARNING: wrong tool type");
-					break;
-			}*/
 			
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}

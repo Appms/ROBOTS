@@ -7,9 +7,9 @@ package
 	import starling.events.Event;
 	
 	/**
-	 * ...
 	 * @author EGOD
 	 */
+	
 	public class Game extends Sprite 
 	{
 		private var screenPlayground:screens.stages.Playground;
@@ -21,13 +21,10 @@ package
 		
 		private function onAddedToStage(event:Event):void 
 		{
-			trace("Starling inicializado");
-			
 			this.addEventListener(NavigationEvent.CHANGE_SCREEN, onChangeScreen);
 			
 			screenPlayground = new Playground();
-			this.addChild(screenPlayground);
-			
+			this.addChild(screenPlayground);	
 		}
 		
 		private function onChangeScreen(event:NavigationEvent):void 

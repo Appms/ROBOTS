@@ -18,64 +18,53 @@ package objects
 	
 	/**
 	 * ...
-	 * @author Eric Oliver Obiol, EGOD
+	 * @author EGOD
 	 */
-	public class HBot extends Hipsbot 
+	
+	public class NBot extends Hipsbot 
 	{
 		
-		public function HBot(setI:uint, setJ:uint) 
+		public function NBot(setI:uint, setJ:uint) 
 		{
 			super(setI, setJ);
+			
 		}
-		
 		
 		override protected function sonInteraction(aimI:uint, aimJ:uint):void 
 		{
 			switch(0)
 			{
 				case 0:
-					trace("Let's GO!");
+					trace("I can drain dat NanoBitch");
 					break;
 				default:
 					trace("I can't do that.");
 					break;
 			}
-			trace("HBot Contextual Interaction");
+			trace("HNano Contextual Interaction");
 		}
 		
 		override protected function sonSpecial(aimI:uint, aimJ:uint):void
 		{
-			trace("PLASMA PUNCH!");
+			trace("PLASMA RUN!");
 			this.state = 1;
 		}
 		
-		override protected function setSprite():void
+		override protected function setSkeleton():void
 		{
-			var atlas:Atlas = new Atlas(new Assets.BBotAtlas(), new StarlingTextureLoader(new Assets.BBotTexture()));
+			var atlas:Atlas = new Atlas(new Assets.NBotAtlas(), new StarlingTextureLoader(new Assets.NBotTexture()));
 			var json:SkeletonJson = new SkeletonJson(new AtlasAttachmentLoader(atlas));
-			var skeletonData:SkeletonData = json.readSkeletonData(new Assets.BBotJson());
+			var skeletonData:SkeletonData = json.readSkeletonData(new Assets.NBotJson());
 
 			var stateData:AnimationStateData = new AnimationStateData(skeletonData);
 
 			skeleton = new SkeletonAnimation(skeletonData, stateData);
 			skeleton.pivotX = 0;
-			skeleton.pivotY = 200;
+			skeleton.pivotY = 100;
 			
-			stateData.setMixByName("front_step", "front_idle", 0.2);
-			stateData.setMixByName("front_idle", "front_step", 0.2);
-			
-			skeleton.state.onStart.add(function (trackIndex:int) : void {
-				trace(trackIndex + " start: " + skeleton.state.getCurrent(trackIndex));
-			});
-			skeleton.state.onEnd.add(function (trackIndex:int) : void {
-				trace(trackIndex + " end: " + skeleton.state.getCurrent(trackIndex));
-			});
-			skeleton.state.onComplete.add(function (trackIndex:int, count:int) : void {
-				trace(trackIndex + " complete: " + skeleton.state.getCurrent(trackIndex) + ", " + count);
-			});
-
 			skeleton.skeleton.skinName = "FRONT";
 			skeleton.skeleton.setSlotsToSetupPose();
+			skeleton.state.setAnimationByName(1, "front_walk", false);
 			skeleton.state.setAnimationByName(0, "front_idle", true);
 
 			this.addChild(skeleton);

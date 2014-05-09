@@ -9,6 +9,7 @@ package screens.stages
 	 * ...
 	 * @author EGOD
 	 */
+	
 	public class EscMenu extends Sprite 
 	{
 		public var EscBg:Image;

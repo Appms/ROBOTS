@@ -17,7 +17,7 @@ package objects
 		{
 			if (_state == false)
 			{
-				this.dispose();
+				this.dispose(); //????
 				//state = true;
 				img = new Image(Assets.getTexture("LampOff"));//REVERSED due to ANDSwitchers
 				this.addChild(img);

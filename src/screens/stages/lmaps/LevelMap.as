@@ -15,6 +15,7 @@ package screens.stages.lmaps
 	 * This is a basic version that will be used to design all the levels.
 	 * Notes: 0=void, 1=wall, 2=floor
 	 */
+	
 	public class LevelMap extends Sprite 
 	{
 		//This matrix MUST be NxN
