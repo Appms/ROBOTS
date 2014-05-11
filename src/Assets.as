@@ -18,6 +18,12 @@ package
 		[Embed(source = "../media/graphics/Wall.png")]
 		public static const Wall:Class;
 		
+		[Embed(source = "../media/graphics/ExtWall.png")]
+		public static const ExtWall:Class;
+		
+		[Embed(source = "../media/graphics/IntWall.png")]
+		public static const IntWall:Class;
+		
 		[Embed(source = "../media/graphics/BBOTIcon.png")]
 		public static const Icon_1:Class;
 		
@@ -98,6 +104,15 @@ package
 
 		[Embed(source = "../media/graphics/NBOT.png")]
 		static public const NBotTexture:Class;
+		
+		[Embed(source = "../media/graphics/SPAWNER.json", mimeType = "application/octet-stream")]
+		static public const SpawnerJson:Class;
+		
+		[Embed(source = "../media/graphics/SPAWNER.atlas", mimeType = "application/octet-stream")]
+		static public const SpawnerAtlas:Class;
+
+		[Embed(source = "../media/graphics/SPAWNER.png")]
+		static public const SpawnerTexture:Class;
 
 		[Embed(source = "../media/graphics/NBOT.json", mimeType = "application/octet-stream")]
 		static public const NBotJson:Class;

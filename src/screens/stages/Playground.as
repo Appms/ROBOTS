@@ -2,6 +2,7 @@ package screens.stages
 {
 
 	import objects.Cube;
+	import objects.MapTile;
 	import screens.stages.EscMenu;
 	import objects.BBot;
 	import objects.Hipsbot;
@@ -45,6 +46,8 @@ package screens.stages
 		private var esc_menu:EscMenu;
 		
 		private var k:int; //iterator
+		
+		public var scripts:Array = [1,0,0,0,0,0,0];
 		
 		public function Playground()
 		{
@@ -124,7 +127,7 @@ package screens.stages
 										camera_offset_x -= TileSizeX;
 										camera_offset_y += TileSizeY;
 									}
-									else if (obj.matrix[current_robot.i - 1][current_robot.j] == 5 && obj.matrix[current_robot.i - 2][current_robot.j] == 0 && map.matrix[current_robot.i - 2][current_robot.j] == 2)
+									else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i - 1][current_robot.j] == 5 && obj.matrix[current_robot.i - 2][current_robot.j] == 0 && map.matrix[current_robot.i - 2][current_robot.j] == 2)
 									{
 										for (k = 0; k < obj.objectsArray[4].length ; k++) 
 											{
@@ -163,7 +166,7 @@ package screens.stages
 										camera_offset_x += TileSizeX;
 										camera_offset_y -= TileSizeY;
 									}
-									else if (obj.matrix[current_robot.i + 1][current_robot.j] == 5 && obj.matrix[current_robot.i + 2][current_robot.j] == 0 && map.matrix[current_robot.i + 2][current_robot.j] == 2)
+									else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i + 1][current_robot.j] == 5 && obj.matrix[current_robot.i + 2][current_robot.j] == 0 && map.matrix[current_robot.i + 2][current_robot.j] == 2)
 									{
 										for (k = 0; k < obj.objectsArray[4].length ; k++) 
 											{
@@ -202,7 +205,7 @@ package screens.stages
 										camera_offset_x += TileSizeX;
 										camera_offset_y += TileSizeY;
 									}
-									else if (obj.matrix[current_robot.i][current_robot.j - 1] == 5 && obj.matrix[current_robot.i][current_robot.j - 2] == 0 && map.matrix[current_robot.i][current_robot.j - 2] == 2)
+									else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i][current_robot.j - 1] == 5 && obj.matrix[current_robot.i][current_robot.j - 2] == 0 && map.matrix[current_robot.i][current_robot.j - 2] == 2)
 									{
 										for (k = 0; k < obj.objectsArray[4].length ; k++) 
 											{
@@ -241,7 +244,7 @@ package screens.stages
 										camera_offset_x -= TileSizeX;
 										camera_offset_y -= TileSizeY;
 									}
-									else if (obj.matrix[current_robot.i][current_robot.j + 1] == 5 && obj.matrix[current_robot.i][current_robot.j + 2] == 0 && map.matrix[current_robot.i][current_robot.j + 2] == 2)
+									else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i][current_robot.j + 1] == 5 && obj.matrix[current_robot.i][current_robot.j + 2] == 0 && map.matrix[current_robot.i][current_robot.j + 2] == 2)
 									{
 										for (k = 0; k < obj.objectsArray[4].length ; k++) 
 											{
@@ -515,6 +518,9 @@ package screens.stages
 			if (!esc_menu.EscBg.visible) 
 			{
 				obj.sortChildren(entitySort);
+				
+				checkScripts(); 
+				
 				switch (current_robot.state)
 				{
 					case 0:
@@ -527,7 +533,14 @@ package screens.stages
 						
 						else if (map.y > camera_offset_y) { map.y -= 2*SpeedY; obj.y -= 2*SpeedY; }
 						
-						if (map.x == camera_offset_x && map.y == camera_offset_y) { current_robot.state = 1; }
+						if (map.x == camera_offset_x && map.y == camera_offset_y) 
+						{ 
+							if (camera_offset_x == 144 && camera_offset_y == -212) 
+							{
+								scripts[1] = 1;
+							}
+							current_robot.state = 1; 
+						}
 						
 						drawScreen();
 						
@@ -560,14 +573,43 @@ package screens.stages
 					case 4:
 						//CURRENT ROBOT SPECIAL ACTION
 						break;
-						
+							
+				}
+			}
+		}
+		
+		private function checkScripts():void 
+		{
+			for (k = 0; k < scripts.length ; k++) 
+			{
+				if (scripts[k] == 1) 
+				{
+					switch (k) 
+					{
+						case 0:
+							camera_offset_x -= TileSizeX * 2;
+							camera_offset_y -= TileSizeY * 8;
+							current_robot.state = 0;
+							scripts[k] = 0;
+							break;
+							
+						case 1:
+							camera_offset_x += TileSizeX * 2;
+							camera_offset_y += TileSizeY * 8;
+							current_robot.state = 0;
+							scripts[k] = 0;
+							break;
+							
+						default:
+					}
+					break;
 				}
 			}
 		}
 		
 		private function drawScreen():void 
 		{
-			for each (var tile:Image in map.drawArray) 
+			for each (var tile:MapTile in map.drawArray) 
 			{
 				if (tile.visible && (400 + 600 < map.x +  tile.x) || (400 - 600 > map.x + tile.x) || (300 + 600 < map.y +  tile.y) || (300 - 600 > map.y + tile.y))
 				{

@@ -1,0 +1,32 @@
+{
+"bones": [
+	{ "name": "root" },
+	{ "name": "RING", "parent": "root" }
+],
+"slots": [
+	{ "name": "BASE", "bone": "root", "attachment": "SPBase" },
+	{ "name": "RING", "bone": "RING", "attachment": "SPRing" }
+],
+"skins": {
+	"default": {
+		"BASE": {
+			"SPBase": { "y": -8, "width": 129, "height": 65 }
+		},
+		"RING": {
+			"SPRing": { "width": 76, "height": 38 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"bones": {
+			"RING": {
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 0.6666, "x": 0, "y": 0 }
+				]
+			}
+		}
+	}
+}
+}

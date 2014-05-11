@@ -9,6 +9,7 @@ package screens.stages.omaps
 	import objects.NBot;
 	import objects.Lamp;
 	import objects.Rejilla;
+	import objects.Spawner;
 	import objects.Switch;
 	import objects.Tool;
 	import starling.display.Button;
@@ -29,11 +30,11 @@ package screens.stages.omaps
 									 [0, 0, 1, 0, 0, 0, 7, 0],
 									 [0, 0, 2, 0, 5, 0, 8, 0],
 									 [0, 0, 3, 0, 0, 0, 9, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 12, 0, 0],
 									 [11, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0]];
 
-		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
+		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
 		private var _connections:Array = [[1,1,1,3]] //[originI,originJ,destI,destJ]
 		private var _rejillas:Array = [[6,0,0,7]] //[originI,originJ,destI,destJ]
@@ -155,6 +156,15 @@ package screens.stages.omaps
 							if (j < i) rejillaL.y * -1;
 							_objectsArray[7].push(rejillaL);
 							this.addChild(rejillaL);
+							break;
+							
+						case 12:
+							var spawner:Spawner = new Spawner();
+							spawner.x = 128 * (j-i);
+							spawner.y = 64 * (j + i);
+							if (j < i) spawner.y * -1;
+							_objectsArray[8].push(spawner);
+							this.addChild(spawner);
 							break;
 							
 						default:
