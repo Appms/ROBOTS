@@ -5,15 +5,11 @@ package screens.stages.omaps
 	import objects.Activator;
 	import objects.Cube;
 	import objects.Hipsbot;
-	import objects.BBot;
-	import objects.MaquinaCafe;
-	import objects.MBot;
-	import objects.NBot;
+	import objects.HBot;
+	import objects.HMini;
+	import objects.HNano;
 	import objects.Lamp;
-	import objects.Platform;
-	import objects.PressurePlate;
 	import objects.Rejilla;
-	import objects.Spawner;
 	import objects.Switch;
 	import objects.Tool;
 	import starling.display.Button;
@@ -26,24 +22,28 @@ package screens.stages.omaps
 	 * ...
 	 * @author EGOD
 	 */
-	
-	public class ObjectsMap extends Sprite 
+	public class ObjMapLevel2 extends Sprite
 	{	
-		private var _matrix:Array = [[0, 0, 0, 0, 0, 0, 0, 10],
-									 [0, 4, 0, 6, 0, 0, 0, 0],
-									 [0, 0, 1, 0, 0, 0, 7, 0],
-									 [0, 0, 2, 0, 5, 0, 0, 0],
-									 [0, 0, 3, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 12, 0, 0],
-									 [11, 0, 14, 0, 0, 0, 0, 0],
-									 [0, 0, 13, 13, 13, 0, 0, 0]];
+		private var _matrix:Array = [[0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 6, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [11, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]];
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
-		private var _connections:Array = [[1,1,1,3],[6,2,7,2],[6,2,7,3],[6,2,7,4]] //[originI,originJ,destI,destJ]
-		private var _rejillas:Array = [[6,0,0,7]] //[originI,originJ,destI,destJ]
+		private var _connections:Array = [[]] //[originI,originJ,destI,destJ]
+		private var _rejillas:Array = [[2,0,10,0]] //[originI,originJ,destI,destJ]
 		
-		public function ObjectsMap()
+		public function ObjMapLevel2() 
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);

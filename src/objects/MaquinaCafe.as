@@ -5,9 +5,10 @@ package objects
 	 * ...
 	 * @author Eric Oliver Obiol
 	 */
-	public class Lamp extends Activable 
+	public class MaquinaCafe extends Activable 
 	{
-		public function Lamp(posi:int, posj:int) 
+		
+		public function MaquinaCafe(posi:int, posj:int) 
 		{
 			img = new Image(Assets.getTexture("LampOff"));
 			super(posi, posj);
@@ -18,18 +19,19 @@ package objects
 			if (_state == false)
 			{
 				this.removeChild(img);
-				img = new Image(Assets.getTexture("LampOff"));
+				//state = true;
+				img = new Image(Assets.getTexture("LampOff"));//REVERSED due to ANDSwitchers
 				this.addChild(img);
 			}
 			else
 			{
 				this.removeChild(img);
-				img = new Image(Assets.getTexture("LampOn"));
-				this.addChild(img);
+				//state = false;
+				img = new Image(Assets.getTexture("LampOn")); //REVERSED due to ANDSwitchers
+				this.addChild(img); //BUG: image overrided by LampOn on empty pixels filled in LampOn
 			}
 			
 			trace("Override Success");
 		}
 	}
-
 }

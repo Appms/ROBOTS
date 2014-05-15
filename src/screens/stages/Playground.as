@@ -58,7 +58,7 @@ package screens.stages
 			this.addEventListener(Event.TRIGGERED, changeCurrentRobot);
 		}
 		
-		private function onAddedToStage(event:Event):void 
+		private function onAddedToStage(event:Event):void
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			drawGame();
@@ -113,157 +113,639 @@ package screens.stages
 						switch (event.keyCode) 
 						{
 							case Keyboard.W:
-								if (current_robot.aim != 8) { current_robot.aim = 8; current_robot.skeleton.scaleX = -1; current_robot.skeleton.skeleton.skinName = "BACK"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "back_idle", true); }
+								if (current_robot.aim != 8)
+								{
+									current_robot.aim = 8; 
+									current_robot.skeleton.scaleX = -1;
+									current_robot.skeleton.skeleton.skinName = "BACK";
+									current_robot.skeleton.skeleton.setSlotsToSetupPose();
+									current_robot.skeleton.state.setAnimationByName(0, "back_idle", true);
+								}
 								
 								else if (map.matrix[current_robot.i - 1][current_robot.j] == 2)
 								{
 									if(obj.matrix[current_robot.i - 1][current_robot.j] == 0)
 									{
 										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
-										obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
-										obj.matrix[current_robot.i][current_robot.j] = 0;
+										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										{
+											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+											obj.matrix[current_robot.i][current_robot.j] = 0;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										{
+											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+											obj.matrix[current_robot.i][current_robot.j] = 14;
+											for (var s:int; s < obj.objectsArray[3].length; s++)
+											{
+												if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+												{
+													obj.objectsArray[3][s].interact();
+													break;
+												}
+											}
+										}
+										else
+										{
+											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 30; 
+											obj.matrix[current_robot.i][current_robot.j] = 13;
+										}
 										current_robot.state = 2;
 										current_robot.i--;
 										camera_offset_x -= TileSizeX;
 										camera_offset_y += TileSizeY;
 									}
-									else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i - 1][current_robot.j] == 5 && obj.matrix[current_robot.i - 2][current_robot.j] == 0 && map.matrix[current_robot.i - 2][current_robot.j] == 2)
+									else if ((obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 31 || obj.matrix[current_robot.i][current_robot.j] == 41) && obj.matrix[current_robot.i - 1][current_robot.j] == 5 && obj.matrix[current_robot.i - 2][current_robot.j] == 0 && map.matrix[current_robot.i - 2][current_robot.j] == 2)
 									{
 										for (k = 0; k < obj.objectsArray[4].length ; k++) 
+										{
+											if (obj.objectsArray[4][k].i == (current_robot.i - 1) && obj.objectsArray[4][k].j == current_robot.j) 
 											{
-												if (obj.objectsArray[4][k].i == (current_robot.i - 1) && obj.objectsArray[4][k].j == current_robot.j) 
+												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
+												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
+												if (obj.matrix[current_robot.i][current_robot.j] < 30)
 												{
-													obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
-													obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
-													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j];
+													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
 													obj.matrix[current_robot.i][current_robot.j] = 0;
-													obj.matrix[current_robot.i - 2][current_robot.j] = 5;
-													current_robot.i--;
-													obj.objectsArray[4][k].i --;
-													current_robot.state = 2;
-													obj.objectsArray[4][k].state = 1;
-													camera_offset_x -= TileSizeX;
-													camera_offset_y += TileSizeY;
 												}
-												break;
+												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+												{
+													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (var s:int; s < obj.objectsArray[3].length; s++)
+													{
+														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+														{
+															obj.objectsArray[3][s].interact();
+															break;
+														}
+													}
+												}
+												else
+												{
+													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 30; 
+													obj.matrix[current_robot.i][current_robot.j] = 13;
+												}
+												current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+												obj.matrix[current_robot.i - 2][current_robot.j] = 5;
+												current_robot.i--;
+												obj.objectsArray[4][k].i --;
+												current_robot.state = 2;
+												obj.objectsArray[4][k].state = 1;
+												camera_offset_x -= TileSizeX;
+												camera_offset_y += TileSizeY;
 											}
+											break;
+										}
 									}
+									else if (obj.matrix[current_robot.i - 1][current_robot.j] == 14)
+									{
+										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										{
+											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 40; 
+											obj.matrix[current_robot.i][current_robot.j] = 0;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										{
+											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+											obj.matrix[current_robot.i][current_robot.j] = 14;
+										}
+										else
+										{
+											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 10; 
+											obj.matrix[current_robot.i][current_robot.j] = 13;
+										}
+										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+										current_robot.state = 2;
+										current_robot.i--;
+										camera_offset_x -= TileSizeX;
+										camera_offset_y += TileSizeY;
+										for (var s:int; s < obj.objectsArray[3].length; s++)
+										{
+											if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+											{
+												obj.objectsArray[3][s].interact();
+											}
+										}
+									}
+									
+								}
+								else if(obj.matrix[current_robot.i - 1][current_robot.j] == 13)
+								{
+									for (var s:int; s < obj.objectsArray[5].length; s++)
+									{
+										if (obj.objectsArray[5][s].i == current_robot.i - 1 && obj.objectsArray[5][s].j == current_robot.j)
+										{
+											if (obj.objectsArray[5][s].state)
+											{
+												current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+												if (obj.matrix[current_robot.i][current_robot.j] < 30)
+												{
+													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 30; 
+													obj.matrix[current_robot.i][current_robot.j] = 0;
+												}
+												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+												{
+													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 10; 
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (var s:int; s < obj.objectsArray[3].length; s++)
+													{
+														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+														{
+															obj.objectsArray[3][s].interact();
+															break;
+														}
+													}
+												}
+												else
+												{
+													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+													obj.matrix[current_robot.i][current_robot.j] = 13;
+												}
+												current_robot.state = 2;
+												current_robot.i--;
+												camera_offset_x -= TileSizeX;
+												camera_offset_y += TileSizeY;
+											}
+											break;
+										}
+									}
+									
 								}
 								break;
 								
 							case Keyboard.S:
-								if (current_robot.aim != 2) { current_robot.aim = 2; current_robot.skeleton.scaleX = -1; current_robot.skeleton.skeleton.skinName = "FRONT"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "front_idle", true); }
+								if (current_robot.aim != 2)
+								{
+									current_robot.aim = 2;
+									current_robot.skeleton.scaleX = -1;
+									current_robot.skeleton.skeleton.skinName = "FRONT";
+									current_robot.skeleton.skeleton.setSlotsToSetupPose();
+									current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
+								}
 								
 								else if (map.matrix[current_robot.i + 1][current_robot.j] == 2)
 								{
 									if(obj.matrix[current_robot.i + 1][current_robot.j] == 0)
 									{
 										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
-										obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
-										obj.matrix[current_robot.i][current_robot.j] = 0;
+										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										{
+											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+											obj.matrix[current_robot.i][current_robot.j] = 0;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										{
+											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+											obj.matrix[current_robot.i][current_robot.j] = 14;
+											for (var s:int; s < obj.objectsArray[3].length; s++)
+											{
+												if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+												{
+													obj.objectsArray[3][s].interact();
+													break;
+												}
+											}
+										}
+										else
+										{
+											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 30; 
+											obj.matrix[current_robot.i][current_robot.j] = 13;
+										}
 										current_robot.state = 2;
 										current_robot.i++;
 										camera_offset_x += TileSizeX;
 										camera_offset_y -= TileSizeY;
 									}
-									else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i + 1][current_robot.j] == 5 && obj.matrix[current_robot.i + 2][current_robot.j] == 0 && map.matrix[current_robot.i + 2][current_robot.j] == 2)
+									else if ((obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 31 || obj.matrix[current_robot.i][current_robot.j] == 41) && obj.matrix[current_robot.i + 1][current_robot.j] == 5 && obj.matrix[current_robot.i + 2][current_robot.j] == 0 && map.matrix[current_robot.i + 2][current_robot.j] == 2)
 									{
 										for (k = 0; k < obj.objectsArray[4].length ; k++) 
+										{
+											if (obj.objectsArray[4][k].i == (current_robot.i + 1) && obj.objectsArray[4][k].j == current_robot.j) 
 											{
-												if (obj.objectsArray[4][k].i == (current_robot.i + 1) && obj.objectsArray[4][k].j == current_robot.j) 
+												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
+												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
+												if (obj.matrix[current_robot.i][current_robot.j] < 30)
 												{
-													obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
-													obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
-													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j];
+													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
 													obj.matrix[current_robot.i][current_robot.j] = 0;
-													obj.matrix[current_robot.i + 2][current_robot.j] = 5;
-													current_robot.i++;
-													obj.objectsArray[4][k].i ++;
-													current_robot.state = 2;
-													obj.objectsArray[4][k].state = 1;
-													camera_offset_x += TileSizeX;
-													camera_offset_y -= TileSizeY;
 												}
-												break;
+												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+												{
+													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (var s:int; s < obj.objectsArray[3].length; s++)
+													{
+														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+														{
+															obj.objectsArray[3][s].interact();
+															break;
+														}
+													}
+												}
+												else
+												{
+													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 30; 
+												obj.matrix[current_robot.i][current_robot.j] = 13;
+												}
+												current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+												obj.matrix[current_robot.i + 2][current_robot.j] = 5;
+												current_robot.i++;
+												obj.objectsArray[4][k].i++;
+												current_robot.state = 2;
+												obj.objectsArray[4][k].state = 1;
+												camera_offset_x += TileSizeX;
+												camera_offset_y -= TileSizeY;
 											}
+											break;
+										}
 									}
+									
+									else if (obj.matrix[current_robot.i + 1][current_robot.j] == 14)
+									{
+										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										{
+											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 40; 
+											obj.matrix[current_robot.i][current_robot.j] = 0;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										{
+											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+											obj.matrix[current_robot.i][current_robot.j] = 14;
+										}
+										else
+										{
+											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 10; 
+											obj.matrix[current_robot.i][current_robot.j] = 13;
+										}
+										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+										current_robot.state = 2;
+										current_robot.i++;
+										camera_offset_x += TileSizeX;
+										camera_offset_y -= TileSizeY;
+										for (var s:int; s < obj.objectsArray[3].length; s++)
+										{
+											if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+											{
+												obj.objectsArray[3][s].interact();
+											}
+										}
+									}
+								}
+								else if(obj.matrix[current_robot.i + 1][current_robot.j] == 13)
+								{
+									for (var s:int; s < obj.objectsArray[5].length; s++)
+									{
+										if (obj.objectsArray[5][s].i == current_robot.i + 1 && obj.objectsArray[5][s].j == current_robot.j)
+										{
+											if (obj.objectsArray[5][s].state)
+											{
+												current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+												if (obj.matrix[current_robot.i][current_robot.j] < 30)
+												{
+													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 30; 
+													obj.matrix[current_robot.i][current_robot.j] = 0;
+												}
+												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+												{
+													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 10; 
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (var s:int; s < obj.objectsArray[3].length; s++)
+													{
+														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+														{
+															obj.objectsArray[3][s].interact();
+															break;
+														}
+													}
+												}
+												else
+												{
+													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
+													obj.matrix[current_robot.i][current_robot.j] = 13;
+												}
+												current_robot.state = 2;
+												current_robot.i++;
+												camera_offset_x += TileSizeX;
+												camera_offset_y -= TileSizeY;
+											}
+											break;
+										}
+									}
+									
 								}
 								break;
 							
 							case Keyboard.A:
-								if (current_robot.aim != 4) { current_robot.aim = 4; current_robot.skeleton.scaleX = 1; current_robot.skeleton.skeleton.skinName = "BACK"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "back_idle", true); }
+								if (current_robot.aim != 4)
+								{
+									current_robot.aim = 4;
+									current_robot.skeleton.scaleX = 1;
+									current_robot.skeleton.skeleton.skinName = "BACK";
+									current_robot.skeleton.skeleton.setSlotsToSetupPose();
+									current_robot.skeleton.state.setAnimationByName(0, "back_idle", true);
+								}
 								
 								else if (map.matrix[current_robot.i][current_robot.j - 1] == 2)
 								{
 									if(obj.matrix[current_robot.i][current_robot.j - 1] == 0)
 									{
 										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
-										obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
-										obj.matrix[current_robot.i][current_robot.j] = 0;
+										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										{
+											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
+											obj.matrix[current_robot.i][current_robot.j] = 0;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										{
+											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+											obj.matrix[current_robot.i][current_robot.j] = 14;
+											for (var s:int; s < obj.objectsArray[3].length; s++)
+											{
+												if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+												{
+													obj.objectsArray[3][s].interact();
+													break;
+												}
+											}
+										}
+										else
+										{
+											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 30; 
+											obj.matrix[current_robot.i][current_robot.j] = 13;
+										}
 										current_robot.state = 2;
 										current_robot.j--;
 										camera_offset_x += TileSizeX;
 										camera_offset_y += TileSizeY;
 									}
-									else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i][current_robot.j - 1] == 5 && obj.matrix[current_robot.i][current_robot.j - 2] == 0 && map.matrix[current_robot.i][current_robot.j - 2] == 2)
+									else if ((obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 31 || obj.matrix[current_robot.i][current_robot.j] == 41) && obj.matrix[current_robot.i][current_robot.j - 1] == 5 && obj.matrix[current_robot.i][current_robot.j - 2] == 0 && map.matrix[current_robot.i][current_robot.j - 2] == 2)
 									{
 										for (k = 0; k < obj.objectsArray[4].length ; k++) 
+										{
+											if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j - 1)) 
 											{
-												if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j - 1)) 
+												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
+												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
+												if (obj.matrix[current_robot.i][current_robot.j] < 30)
 												{
-													obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
-													obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
-													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j];
+													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
 													obj.matrix[current_robot.i][current_robot.j] = 0;
-													obj.matrix[current_robot.i][current_robot.j - 2] = 5;
-													current_robot.j--;
-													obj.objectsArray[4][k].j--;
-													current_robot.state = 2;
-													obj.objectsArray[4][k].state = 1;
-													camera_offset_x += TileSizeX;
-													camera_offset_y += TileSizeY;
 												}
-												break;
+												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+												{
+													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (var s:int; s < obj.objectsArray[3].length; s++)
+													{
+														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+														{
+															obj.objectsArray[3][s].interact();
+															break;
+														}
+													}
+												}
+												else
+												{
+													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 30; 
+													obj.matrix[current_robot.i][current_robot.j] = 13;
+												}
+												current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+												obj.matrix[current_robot.i][current_robot.j - 2] = 5;
+												current_robot.j--;
+												obj.objectsArray[4][k].j--;
+												current_robot.state = 2;
+												obj.objectsArray[4][k].state = 1;
+												camera_offset_x += TileSizeX;
+												camera_offset_y += TileSizeY;
 											}
+											break;
+										}
+									}
+									
+									else if (obj.matrix[current_robot.i][current_robot.j - 1] == 14)
+									{
+										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										{
+											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] + 40; 
+											obj.matrix[current_robot.i][current_robot.j] = 0;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										{
+											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
+											obj.matrix[current_robot.i][current_robot.j] = 14;
+										}
+										else
+										{
+											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] + 10; 
+											obj.matrix[current_robot.i][current_robot.j] = 13;
+										}
+										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+										current_robot.state = 2;
+										current_robot.j--;
+										camera_offset_x += TileSizeX;
+										camera_offset_y += TileSizeY;
+										for (var s:int; s < obj.objectsArray[3].length; s++)
+										{
+											if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+											{
+												obj.objectsArray[3][s].interact();
+											}
+										}
+									}
+									
+								}
+								
+								else if(obj.matrix[current_robot.i][current_robot.j - 1] == 13)
+								{
+									for (var s:int; s < obj.objectsArray[5].length; s++)
+									{
+										if (obj.objectsArray[5][s].i == current_robot.i && obj.objectsArray[5][s].j == current_robot.j - 1)
+										{
+											if (obj.objectsArray[5][s].state)
+											{
+												current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+												if (obj.matrix[current_robot.i][current_robot.j] < 30)
+												{
+													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] + 30; 
+													obj.matrix[current_robot.i][current_robot.j] = 0;
+												}
+												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+												{
+													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 10; 
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (var s:int; s < obj.objectsArray[3].length; s++)
+													{
+														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+														{
+															obj.objectsArray[3][s].interact();
+															break;
+														}
+													}
+												}
+												else
+												{
+													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
+													obj.matrix[current_robot.i][current_robot.j] = 13;
+												}
+												current_robot.state = 2;
+												current_robot.j--;
+												camera_offset_x += TileSizeX;
+												camera_offset_y += TileSizeY;
+											}
+											break;
+										}
 									}
 								}
-								break;
+							break;
 							
 							case Keyboard.D:
-								if (current_robot.aim != 6) { current_robot.aim = 6; current_robot.skeleton.scaleX = 1; current_robot.skeleton.skeleton.skinName = "FRONT"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "front_idle", true); }
+								if (current_robot.aim != 6)
+								{
+									current_robot.aim = 6;
+									current_robot.skeleton.scaleX = 1;
+									current_robot.skeleton.skeleton.skinName = "FRONT";
+									current_robot.skeleton.skeleton.setSlotsToSetupPose();
+									current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
+								}
 								
 								else if (map.matrix[current_robot.i][current_robot.j + 1] == 2)
 								{
 									if(obj.matrix[current_robot.i][current_robot.j + 1] == 0)
 									{
 										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
-										obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
-										obj.matrix[current_robot.i][current_robot.j] = 0;
+										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										{
+											obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
+											obj.matrix[current_robot.i][current_robot.j] = 0;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										{
+											obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+											obj.matrix[current_robot.i][current_robot.j] = 14;
+											for (var s:int; s < obj.objectsArray[3].length; s++)
+											{
+												if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+												{
+													obj.objectsArray[3][s].interact();
+												}
+											}
+										}
+										else
+										{
+											obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j] - 30; 
+											obj.matrix[current_robot.i][current_robot.j] = 13;
+										}
+										
 										current_robot.state = 2;
 										current_robot.j++;
 										camera_offset_x -= TileSizeX;
 										camera_offset_y -= TileSizeY;
 									}
-									else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i][current_robot.j + 1] == 5 && obj.matrix[current_robot.i][current_robot.j + 2] == 0 && map.matrix[current_robot.i][current_robot.j + 2] == 2)
+									else if ((obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 31 || obj.matrix[current_robot.i][current_robot.j] == 41) && obj.matrix[current_robot.i][current_robot.j + 1] == 5 && obj.matrix[current_robot.i][current_robot.j + 2] == 0 && map.matrix[current_robot.i][current_robot.j + 2] == 2)
 									{
 										for (k = 0; k < obj.objectsArray[4].length ; k++) 
+										{
+											if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j + 1)) 
 											{
-												if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j + 1)) 
+												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
+												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
+												if (obj.matrix[current_robot.i][current_robot.j] < 30)
 												{
-													obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
-													obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
-													obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j];
+													obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
 													obj.matrix[current_robot.i][current_robot.j] = 0;
-													obj.matrix[current_robot.i][current_robot.j + 2] = 5;
-													current_robot.j++;
-													obj.objectsArray[4][k].j++;
-													current_robot.state = 2;
-													obj.objectsArray[4][k].state = 1;
-													camera_offset_x -= TileSizeX;
-													camera_offset_y -= TileSizeY;
 												}
-												break;
+												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+												{
+													obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (var s:int; s < obj.objectsArray[3].length; s++)
+													{
+														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+														{
+															obj.objectsArray[3][s].interact();
+														}
+													}
+												}
+												else
+												{
+													obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j] - 30; 
+													obj.matrix[current_robot.i][current_robot.j] = 13;
+												}
+												current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+												obj.matrix[current_robot.i][current_robot.j + 2] = 5;
+												current_robot.j++;
+												obj.objectsArray[4][k].j++;
+												current_robot.state = 2;
+												obj.objectsArray[4][k].state = 1;
+												camera_offset_x -= TileSizeX;
+												camera_offset_y -= TileSizeY;
 											}
+											break;
+										}
+									}
+									else if (obj.matrix[current_robot.i][current_robot.j + 1] == 14)
+									{
+										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										{
+											obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j] + 40; 
+											obj.matrix[current_robot.i][current_robot.j] = 0;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										{
+											obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
+											obj.matrix[current_robot.i][current_robot.j] = 14;
+										}
+										else
+										{
+											obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j] + 10; 
+											obj.matrix[current_robot.i][current_robot.j] = 13;
+										}
+										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+										current_robot.state = 2;
+										current_robot.j++;
+										camera_offset_x -= TileSizeX;
+										camera_offset_y -= TileSizeY;
+										for (var s:int; s < obj.objectsArray[3].length; s++)
+										{
+											if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+											{
+												obj.objectsArray[3][s].interact();
+											}
+										}
+									}
+								}
+								else if(obj.matrix[current_robot.i][current_robot.j + 1] == 13)
+								{
+									for (var s:int; s < obj.objectsArray[5].length; s++)
+									{
+										if (obj.objectsArray[5][s].i == current_robot.i && obj.objectsArray[5][s].j == current_robot.j + 1)
+										{
+											if (obj.objectsArray[5][s].state)
+											{
+												current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+												if (obj.matrix[current_robot.i][current_robot.j] < 30)
+												{
+													obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j] + 30; 
+													obj.matrix[current_robot.i][current_robot.j] = 0;
+												}
+												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+												{
+													obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j] - 10; 
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+												}
+												else
+												{
+													obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
+													obj.matrix[current_robot.i][current_robot.j] = 13;
+												}
+												current_robot.state = 2;
+												current_robot.j++;
+												camera_offset_x -= TileSizeX;
+												camera_offset_y -= TileSizeY;
+											}
+											break;
+										}
 									}
 								}
 								break;
@@ -463,7 +945,6 @@ package screens.stages
 					{
 						if (user_int.normalID == 0) user_int.normalID = obj.objectsArray[0].length;
 						user_int.normalID--;
-
 					}
 					
 					else if ((buttonClicked as Button) == user_int.miniBtn)

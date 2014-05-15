@@ -1,42 +1,37 @@
 package objects 
 {
 	import starling.display.Image;
-	import starling.display.Sprite;
 	import starling.events.Event;
-	
 	/**
 	 * ...
 	 * @author Eric Oliver Obiol
 	 */
-	public class PressurePlate extends Activator 
-	{	
-		public function PressurePlate(posi:int, posj:int) 
+	public class Platform extends Activable 
+	{
+		
+		public function Platform(posi:int, posj:int) 
 		{
+			img = new Image(Assets.getTexture("Floor"));
 			super(posi, posj);
-			img = new Image(Assets.getTexture("PressurePlateUP"));
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
 		private function onAddedToStage(e:Event):void 
 		{
 			pivotX = 128;
-			pivotY = 84;
+			pivotY = 64;
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			this.removeChild(img);
 		}
 		
-		
-		override protected function sonInteract():void
+		override protected function changeState():void
 		{
 			if (_state == false)
 			{
 				this.removeChild(img);
-				img = new Image(Assets.getTexture("PressurePlateUP"));
-				this.addChild(img);
 			}
 			else
 			{
-				this.removeChild(img);
-				img = new Image(Assets.getTexture("PressurePlateDOWN"));
 				this.addChild(img);
 			}
 			
