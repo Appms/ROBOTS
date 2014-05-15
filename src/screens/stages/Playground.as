@@ -999,7 +999,9 @@ package screens.stages
 			if (!esc_menu.EscBg.visible) 
 			{
 				obj.sortChildren(entitySort);
+				drawScreen();
 				
+				if (obj.objectsArray[3][1].state) scripts[2] = 1;
 				checkScripts(); 
 				
 				switch (current_robot.state)
@@ -1023,8 +1025,6 @@ package screens.stages
 							current_robot.state = 1; 
 						}
 						
-						drawScreen();
-						
 						break;
 						
 					case 2:
@@ -1042,8 +1042,6 @@ package screens.stages
 							if (current_robot.aim == 2 || current_robot.aim == 6) current_robot.skeleton.state.addAnimationByName(0, "front_idle", true, 0); 
 							else current_robot.skeleton.state.addAnimationByName(0, "back_idle", true, 0)
 						}
-						
-						drawScreen();
 						
 						break;
 						
@@ -1080,6 +1078,20 @@ package screens.stages
 							current_robot.state = 0;
 							scripts[k] = 0;
 							break;
+							
+						case 2:
+							map.drawArray[54].activated = true;
+							map.drawArray[55].activated = true;
+							map.drawArray[56].activated = true;
+							map.drawArray[57].activated = true;
+							if (map.drawArray[54].y == map.drawArray[54].desty) map.matrix[7][2] = 2;
+							 if (map.drawArray[55].y == map.drawArray[55].desty) map.matrix[7][3] = 2;
+							if (map.drawArray[56].y == map.drawArray[56].desty) map.matrix[7][4] = 2;
+							if (map.drawArray[57].y == map.drawArray[57].desty) map.matrix[7][5] = 2;
+							if ((map.drawArray[54].y == map.drawArray[54].desty) && (map.drawArray[55].y == map.drawArray[55].desty) && (map.drawArray[56].y == map.drawArray[56].desty) && (map.drawArray[57].y == map.drawArray[57].desty)) 
+							{
+								scripts[2] = 0;
+							}
 							
 						default:
 					}

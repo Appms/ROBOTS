@@ -5,6 +5,7 @@ package objects
 	 * ...
 	 * @author Eric Oliver Obiol
 	 */
+	
 	public class Lamp extends Activable 
 	{
 		public function Lamp(posi:int, posj:int) 

@@ -20,7 +20,7 @@ package objects
 		private function onAddedToStage(e:Event):void 
 		{
 			pivotX = 128;
-			pivotY = 84;
+			pivotY = 10;
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		

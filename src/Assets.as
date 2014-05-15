@@ -48,7 +48,7 @@ package
 		[Embed(source = "../media/graphics/Hipstom.png")]
 		public static const HipstomSprite:Class;
 		
-		[Embed(source = "../media/graphics/Switch.png")]
+		[Embed(source = "../media/graphics/SwitchOFF.png")]
 		public static const Switch:Class;
 		
 		[Embed(source = "../media/graphics/LampOff.png")]
@@ -66,8 +66,11 @@ package
 		[Embed(source = "../media/graphics/PressurePlateDOWN.png")]
 		public static const PressurePlateDOWN:Class;
 		
-		[Embed(source = "../media/graphics/RejillaL.png")]
-		public static const RejillaL:Class;
+		[Embed(source = "../media/graphics/VentShaft.png")]
+		public static const VentShaftL:Class;
+		
+		[Embed(source = "../media/graphics/VentDoor.png")]
+		public static const VentDoorL:Class;
 		
 		[Embed(source = "../media/graphics/RejillaR.png")]
 		public static const RejillaR:Class;
@@ -80,6 +83,9 @@ package
 		
 		[Embed(source = "../media/graphics/Tool3.png")]
 		public static const Tool3:Class;
+		
+		[Embed(source = "../media/graphics/Pilar.png")]
+		public static const Pilar:Class;
 		
 		[Embed(source = "../media/graphics/BBOT.atlas", mimeType = "application/octet-stream")]
 		static public const BBotAtlas:Class;
@@ -104,6 +110,9 @@ package
 
 		[Embed(source = "../media/graphics/NBOT.png")]
 		static public const NBotTexture:Class;
+
+		[Embed(source = "../media/graphics/NBOT.json", mimeType = "application/octet-stream")]
+		static public const NBotJson:Class;
 		
 		[Embed(source = "../media/graphics/SPAWNER.json", mimeType = "application/octet-stream")]
 		static public const SpawnerJson:Class;
@@ -113,9 +122,15 @@ package
 
 		[Embed(source = "../media/graphics/SPAWNER.png")]
 		static public const SpawnerTexture:Class;
+		
+		[Embed(source = "../media/graphics/GENERATOR.json", mimeType = "application/octet-stream")]
+		static public const GeneratorJson:Class;
+		
+		[Embed(source = "../media/graphics/GENERATOR.atlas", mimeType = "application/octet-stream")]
+		static public const GeneratorAtlas:Class;
 
-		[Embed(source = "../media/graphics/NBOT.json", mimeType = "application/octet-stream")]
-		static public const NBotJson:Class;
+		[Embed(source = "../media/graphics/GENERATOR.png")]
+		static public const GeneratorTexture:Class;
 		
 		private static var gameTextures:Dictionary = new Dictionary();
 		

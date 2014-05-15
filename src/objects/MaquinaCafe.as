@@ -5,12 +5,13 @@ package objects
 	 * ...
 	 * @author Eric Oliver Obiol
 	 */
+	
 	public class MaquinaCafe extends Activable 
 	{
 		
 		public function MaquinaCafe(posi:int, posj:int) 
 		{
-			img = new Image(Assets.getTexture("LampOff"));
+			img = new Image(Assets.getTexture("Pilar"));
 			super(posi, posj);
 		}
 		
@@ -20,7 +21,7 @@ package objects
 			{
 				this.removeChild(img);
 				//state = true;
-				img = new Image(Assets.getTexture("LampOff"));//REVERSED due to ANDSwitchers
+				img = new Image(Assets.getTexture("Pilar"));//REVERSED due to ANDSwitchers
 				this.addChild(img);
 			}
 			else

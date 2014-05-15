@@ -27,7 +27,7 @@ package screens.stages.lmaps
 									 [1, 2, 2, 2, 2, 2, 2, 2],
 									 [1, 2, 2, 2, 2, 2, 2, 2],
 									 [1, 2, 2, 2, 2, 2, 2, 2],
-									 [0, 0, 0, 0, 0, 0, 0, 0]];
+									 [0, 0, 5, 5, 5, 5, 0, 0]];
 
 		public var drawArray:Array = new Array();
 		
@@ -52,7 +52,7 @@ package screens.stages.lmaps
 						{
 							k = 64 * (j + i);
 							if (j < i) k * -1;
-							var Tile1Object:MapTile =  new MapTile(new Image(Assets.getTexture("Wall")), k);
+							var Tile1Object:MapTile =  new MapTile(new Image(Assets.getTexture("Wall")), k, false);
 							if (j >= i) Tile1Object.scaleX = -1;
 							Tile1Object.pivotX = 64;
 							Tile1Object.pivotY = 414;
@@ -63,7 +63,7 @@ package screens.stages.lmaps
 						{	
 							k = 64 * (j + i);
 							if (j < i) k * -1;
-							var Tile2Object:MapTile = new MapTile(new Image(Assets.getTexture("Floor")),k);
+							var Tile2Object:MapTile = new MapTile(new Image(Assets.getTexture("Floor")),k, false);
 							Tile2Object.pivotX = 128;
 							Tile2Object.pivotY = 64;
 							Tile2Object.x = 128 * (j-i);
@@ -73,23 +73,33 @@ package screens.stages.lmaps
 						{
 							k = 64 * (j + i);
 							if (j < i) k * -1;
-							var Tile3Object:MapTile =  new MapTile(new Image(Assets.getTexture("ExtWall")), k);
+							var Tile3Object:MapTile =  new MapTile(new Image(Assets.getTexture("ExtWall")), k, false);
 							if (j >= i) Tile3Object.scaleX = -1;
 							Tile3Object.pivotX = 128;
 							Tile3Object.pivotY = 414;
 							Tile3Object.x = 128 * (j-i);
 							drawArray.push(Tile3Object);
 						}
-						else
+						else if(matrix[i][j]==4)
 						{
 							k = 64 * (j + i);
 							if (j < i) k * -1;
-							var Tile4Object:MapTile =  new MapTile(new Image(Assets.getTexture("IntWall")), k);
+							var Tile4Object:MapTile =  new MapTile(new Image(Assets.getTexture("IntWall")), k, false);
 							if (j >= i) Tile4Object.scaleX = -1;
 							Tile4Object.pivotX = 64;
 							Tile4Object.pivotY = 382;
 							Tile4Object.x = 128 * (j-i);
 							drawArray.push(Tile4Object);
+						}
+						else 
+						{
+							k = 64 * (j + i);
+							if (j < i) k * -1;
+							var Tile5Object:MapTile = new MapTile(new Image(Assets.getTexture("Floor")),k, true);
+							Tile5Object.pivotX = 128;
+							Tile5Object.pivotY = 64;
+							Tile5Object.x = 128 * (j-i);
+							drawArray.push(Tile5Object);
 						}
 					}
 				}

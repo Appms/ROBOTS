@@ -8,9 +8,11 @@ package objects
 	 * ...
 	 * @author Eric Oliver Obiol
 	 */
+	
 	public class Rejilla extends Sprite 
 	{
 		private var img:Image;
+		private var img2:Image;
 		private var _i:int;
 		private var _j:int;
 		private var _target:Rejilla;
@@ -20,12 +22,14 @@ package objects
 			super();
 			if (orientation)
 			{
-				img = new Image(Assets.getTexture("RejillaL"));
-				pivotX = -32;
+				img2 = new Image(Assets.getTexture("VentShaftL"));
+				img = new Image(Assets.getTexture("VentDoorL"));
+				pivotX = -10;
 				pivotY = 128;
 			}
 			else
 			{
+				img2 = new Image(Assets.getTexture("RejillaR"));
 				img = new Image(Assets.getTexture("RejillaR"));
 				pivotX = 128;
 				pivotY = 128;
@@ -38,6 +42,7 @@ package objects
 		private function onAddedToStage(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			this.addChild(img2);
 			this.addChild(img);
 		}
 		

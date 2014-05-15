@@ -4,13 +4,14 @@ package screens.stages.omaps
 	import objects.Activable;
 	import objects.Activator;
 	import objects.Cube;
+	import objects.Generator;
 	import objects.Hipsbot;
 	import objects.BBot;
 	import objects.MaquinaCafe;
 	import objects.MBot;
 	import objects.NBot;
 	import objects.Lamp;
-	import objects.Platform;
+	import objects.Pilar;
 	import objects.PressurePlate;
 	import objects.Rejilla;
 	import objects.Spawner;
@@ -30,13 +31,13 @@ package screens.stages.omaps
 	public class ObjectsMap extends Sprite 
 	{	
 		private var _matrix:Array = [[0, 0, 0, 0, 0, 0, 0, 10],
-									 [0, 4, 0, 6, 0, 0, 0, 0],
+									 [0, 4, 0, 6, 15, 16, 0, 0],
 									 [0, 0, 1, 0, 0, 0, 7, 0],
-									 [0, 0, 2, 0, 5, 0, 0, 0],
+									 [0, 0, 2, 13, 0, 0, 0, 0],
 									 [0, 0, 3, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 12, 0, 0],
 									 [11, 0, 14, 0, 0, 0, 0, 0],
-									 [0, 0, 13, 13, 13, 0, 0, 0]];
+									 [0, 0, 0, 0, 0, 0, 0, 0]];
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
@@ -89,7 +90,7 @@ package screens.stages.omaps
 							break;
 							
 						case 4:
-							var sw:objects.Activator = new Switch(i, j);
+							var sw:Activator = new Switch(i, j);
 							sw.x = 128 * (j-i) - 64;
 							sw.y = 64 * (j + i) - 128;
 							if (j < i) sw.y * -1;
@@ -170,32 +171,36 @@ package screens.stages.omaps
 							_objectsArray[8].push(spawner);
 							this.addChild(spawner);
 							break;
-							
+						
 						case 13:
-							var platform:Platform = new Platform(i, j);
-							platform.x = 128 * (j - i);
-							platform.y = 64 * (j + i);
-							if (j < i) platform.y * -1;
-							_objectsArray[5].push(platform);
-							this.addChild(platform);
+							var pilar:Pilar = new Pilar();
+							pilar.x = 128 * (j - i);
+							pilar.y = 64 * (j + i);
+							if (j < i) pilar.y * -1;
+							_objectsArray[9].push(pilar);
+							this.addChild(pilar);
 							break;
 							
 						case 14:
 							var placa:PressurePlate = new PressurePlate(i, j);
 							placa.x = 128 * (j - i);
 							placa.y = 64 * (j + i);
+							placa.y -= 74;
 							if (j < i) placa.y * -1;
 							_objectsArray[3].push(placa);
 							this.addChild(placa);
 							break;
 							
 						case 15:
-							var maquina:MaquinaCafe = new MaquinaCafe(i, j);
-							maquina.x = 128 * (j - i);
-							maquina.y = 64 * (j + i);
-							if (j < i) maquina.y * -1;
-							_objectsArray[5].push(maquina);
-							this.addChild(maquina);
+							var generator:Generator = new Generator();
+							generator.x = 128 * (j - i);
+							generator.y = 64 * (j + i);
+							if (j < i) generator.y * -1;
+							_objectsArray[9].push(generator);
+							this.addChild(generator);
+							break;
+							
+						case 16:
 							break;
 							
 						default:

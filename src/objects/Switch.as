@@ -6,6 +6,7 @@ package objects
 	 * ...
 	 * @author EGOD
 	 */
+	
 	public class Switch extends Activator 
 	{
 		public function Switch(posi:int, posj:int) 

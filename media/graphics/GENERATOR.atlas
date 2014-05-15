@@ -1,0 +1,41 @@
+
+GENERATOR.png
+size: 635,478
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+GBody
+  rotate: false
+  xy: 2, 77
+  size: 383, 401
+  orig: 383, 401
+  offset: 0, 0
+  index: -1
+GDoor
+  rotate: true
+  xy: 2, 2
+  size: 73, 117
+  orig: 73, 117
+  offset: 0, 0
+  index: -1
+GHole
+  rotate: false
+  xy: 387, 127
+  size: 137, 155
+  orig: 137, 155
+  offset: 0, 0
+  index: -1
+GStripes
+  rotate: false
+  xy: 538, 411
+  size: 97, 67
+  orig: 97, 67
+  offset: 0, 0
+  index: -1
+GWheel
+  rotate: false
+  xy: 387, 284
+  size: 149, 194
+  orig: 149, 194
+  offset: 0, 0
+  index: -1

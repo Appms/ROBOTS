@@ -28,8 +28,8 @@ package objects
 			_i = posi;
 			_j = posj;
 			_state = 0;
-			pivotX = 128;
-			pivotY = 192;
+			pivotX = 136;
+			pivotY = 322;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			this.addEventListener(Event.ENTER_FRAME, onGameTick);
 		}
