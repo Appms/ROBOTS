@@ -22,9 +22,17 @@ package objects
 		
 		public var skeleton:SkeletonAnimation;
 		
-		public function Spawner() 
+		private var _i:int;
+		private var _j:int;
+		
+		public var type:int = 3;
+		public var ready:Boolean = true;
+		
+		public function Spawner(posi:int, posj:int) 
 		{
 			super();
+			this.i = posi;
+			this.j = posj;
 			setSkeleton();
 		}
 		
@@ -44,6 +52,26 @@ package objects
 
 			this.addChild(skeleton);
 			Starling.juggler.add(skeleton);
+		}
+		
+		public function get i():int 
+		{
+			return _i;
+		}
+		
+		public function set i(value:int):void 
+		{
+			_i = value;
+		}
+		
+		public function get j():int 
+		{
+			return _j;
+		}
+		
+		public function set j(value:int):void 
+		{
+			_j = value;
 		}
 		
 	}

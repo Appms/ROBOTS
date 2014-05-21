@@ -70,7 +70,6 @@ package objects
 
 			skeleton.skeleton.skinName = "FRONT";
 			skeleton.skeleton.setSlotsToSetupPose();
-			skeleton.state.setAnimationByName(0, "front_walk", false);
 			skeleton.state.setAnimationByName(0, "front_idle", true);
 
 			this.addChild(skeleton);

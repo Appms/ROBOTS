@@ -30,19 +30,28 @@ package screens.stages.omaps
 	
 	public class ObjectsMap extends Sprite 
 	{	
-		private var _matrix:Array = [[0, 0, 0, 0, 0, 0, 0, 10],
-									 [0, 4, 0, 6, 15, 16, 0, 0],
-									 [0, 0, 1, 0, 0, 0, 7, 0],
-									 [0, 0, 2, 13, 0, 0, 0, 0],
-									 [0, 0, 3, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 12, 0, 0],
-									 [11, 0, 14, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0]];
+		private var _matrix:Array = [[0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 15, 16, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [11, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 13, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [11, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
 		private var _connections:Array = [[1,1,1,3],[6,2,7,2],[6,2,7,3],[6,2,7,4]] //[originI,originJ,destI,destJ]
-		private var _rejillas:Array = [[6,0,0,7]] //[originI,originJ,destI,destJ]
+		private var _rejillas:Array = [[2,0,11,0]] //[originI,originJ,destI,destJ]
 		
 		public function ObjectsMap()
 		{
@@ -164,7 +173,7 @@ package screens.stages.omaps
 							break;
 							
 						case 12:
-							var spawner:Spawner = new Spawner();
+							var spawner:Spawner = new Spawner(i,j);
 							spawner.x = 128 * (j-i);
 							spawner.y = 64 * (j + i);
 							if (j < i) spawner.y * -1;
@@ -208,6 +217,8 @@ package screens.stages.omaps
 					} 
 				}
 			}
+			
+			
 			// SET CONNECTIONS
 			for (var a:int = 0; a < _connections.length; a++)
 			{
@@ -228,6 +239,8 @@ package screens.stages.omaps
 					}
 				}
 			}
+			
+			
 			// SET REJILLAS
 			for (a = 0; a < _rejillas.length; a++)
 			{
