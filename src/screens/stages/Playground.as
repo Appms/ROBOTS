@@ -1,6 +1,8 @@
 package screens.stages 
 {
 
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
 	import objects.Cube;
 	import objects.MapTile;
 	import screens.stages.EscMenu;
@@ -44,6 +46,8 @@ package screens.stages
 		private var user_int:UI;
 		private var hipstom:Hipstom;
 		private var esc_menu:EscMenu;
+		
+		private var musica:Sound;
 		
 		private var k:int; //iterator
 		
@@ -89,6 +93,11 @@ package screens.stages
 			this.addChild(esc_menu);
 			
 			hipstom.visible = false;
+			
+			musica = Assets.getMusic("Theme1");
+			musica.play(0,-1);
+			//var sc:SoundChannel = musica;
+			//sc.stop();
 			
 			/*var i:uint;
 			while (current_robot == null)

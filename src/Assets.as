@@ -5,6 +5,7 @@ package
 	 */
 	
 	import flash.display.Bitmap;
+	import flash.media.Sound;
 	import flash.utils.Dictionary;
 	import starling.text.BitmapFont;
 	import starling.textures.Texture;
@@ -133,9 +134,13 @@ package
 		static public const GeneratorTexture:Class;
 		
 		private static var gameTextures:Dictionary = new Dictionary();
+		private static var gameMusic:Dictionary = new Dictionary();
 		
 		[Embed(source = "../media/fonts/frau.ttf", fontFamily = "MyFontName", embedAsCFF = "false", fontName = "Frau")]
 		public static var MyFont:Class;
+		
+		[Embed(source = "../media/music/Robots-electrified.mp3")]
+		static public const Theme1:Class;
 		
 		public static function getTexture(name:String):Texture
 		{
@@ -146,6 +151,17 @@ package
 			}
 			
 			return gameTextures[name];
+		}
+		
+		public static function getMusic(name:String):Sound
+		{
+			if (gameMusic[name] == undefined)
+			{
+					var music:Sound = new Assets[name]();
+					gameMusic[name] = music;
+			}
+			
+			return gameMusic[name];
 		}
 	}
 
