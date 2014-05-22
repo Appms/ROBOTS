@@ -95,8 +95,8 @@ package screens.stages
 			hipstom.visible = false;
 			
 			musica = Assets.getMusic("Theme1");
-			musica.play(0,-1);
-			//var sc:SoundChannel = musica;
+			musica.play(0,0);
+			//var sc:SoundChannel = new SoundChannel();
 			//sc.stop();
 			
 			/*var i:uint;
