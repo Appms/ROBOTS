@@ -12,7 +12,7 @@ package objects
 		public function Switch(posi:int, posj:int) 
 		{
 			super(posi,posj);
-			img = new Image(Assets.getTexture("Switch"));
+			img = new Image(Assets.getTexture("SwitchOFF"));
 		}
 		
 	}

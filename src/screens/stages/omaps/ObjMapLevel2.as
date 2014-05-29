@@ -32,15 +32,15 @@ package screens.stages.omaps
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 6, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [11, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 5, 5, 5, 13, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [11, 0, 6, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]];
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
-		private var _connections:Array = [[]] //[originI,originJ,destI,destJ]
+		private var _connections:Array = [[11,0,11,4],[11,0,10,4],[11,0,9,4]] //[originI,originJ,destI,destJ]
 		private var _rejillas:Array = [[2,0,10,0]] //[originI,originJ,destI,destJ]
 		
 		public function ObjMapLevel2() 

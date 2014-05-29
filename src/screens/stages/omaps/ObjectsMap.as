@@ -31,12 +31,12 @@ package screens.stages.omaps
 	public class ObjectsMap extends Sprite 
 	{	
 		private var _matrix:Array = [[0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 15, 16, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [11, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 6, 6, 6, 0, 15, 16, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 5, 14, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 13, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -50,7 +50,7 @@ package screens.stages.omaps
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
-		private var _connections:Array = [[1,1,1,3],[6,2,7,2],[6,2,7,3],[6,2,7,4]] //[originI,originJ,destI,destJ]
+		private var _connections:Array = [[3,4,1,3],[3,4,1,4],[6,9,1,4],[6,9,4,9/*1,5*/]] //[originI,originJ,destI,destJ]
 		private var _rejillas:Array = [[2,0,11,0]] //[originI,originJ,destI,destJ]
 		
 		public function ObjectsMap()

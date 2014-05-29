@@ -50,7 +50,9 @@ package
 		public static const HipstomSprite:Class;
 		
 		[Embed(source = "../media/graphics/SwitchOFF.png")]
-		public static const Switch:Class;
+		public static const SwitchOFF:Class;
+		[Embed(source = "../media/graphics/SwitchON.png")]
+		public static const SwitchON:Class;
 		
 		[Embed(source = "../media/graphics/LampOff.png")]
 		public static const LampOff:Class;
