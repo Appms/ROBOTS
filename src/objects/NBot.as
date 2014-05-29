@@ -62,9 +62,10 @@ package objects
 			skeleton.pivotX = 0;
 			skeleton.pivotY = 100;
 			
-			skeleton.skeleton.skinName = "FRONT";
+			skeleton.skeleton.skinName = "BACK";
 			skeleton.skeleton.setSlotsToSetupPose();
-			skeleton.state.setAnimationByName(0, "front_idle", true);
+			skeleton.state.setAnimationByName(0, "spawn", false);
+			skeleton.state.addAnimationByName(0, "back_idle", true, 0);
 
 			this.addChild(skeleton);
 			Starling.juggler.add(skeleton);

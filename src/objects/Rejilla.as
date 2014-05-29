@@ -1,18 +1,28 @@
 package objects 
 {
-	import starling.display.Image;
+	import spine.SkeletonData;
+	import spine.SkeletonJson;
+	import spine.animation.AnimationStateData;
+	import spine.atlas.Atlas;
+	import spine.attachments.AtlasAttachmentLoader;
+	import spine.starling.StarlingTextureLoader;
+	import spine.starling.SkeletonAnimation;
+	import spine.starling.StarlingAtlasAttachmentLoader;
+	import starling.events.EnterFrameEvent;
+	
 	import starling.display.Sprite;
-	import starling.events.Event;
+	import starling.core.Starling;
 	
 	/**
 	 * ...
-	 * @author Eric Oliver Obiol
+	 * @author 	EGOD
 	 */
 	
 	public class Rejilla extends Sprite 
 	{
-		private var img:Image;
-		private var img2:Image;
+		
+		public var skeleton:SkeletonAnimation;
+		
 		private var _i:int;
 		private var _j:int;
 		private var _target:Rejilla;
@@ -20,30 +30,29 @@ package objects
 		public function Rejilla(posi:int, posj:int, orientation:Boolean)
 		{
 			super();
-			if (orientation)
-			{
-				img2 = new Image(Assets.getTexture("VentShaftL"));
-				img = new Image(Assets.getTexture("VentDoorL"));
-				pivotX = -10;
-				pivotY = 128;
-			}
-			else
-			{
-				img2 = new Image(Assets.getTexture("RejillaR"));
-				img = new Image(Assets.getTexture("RejillaR"));
-				pivotX = 128;
-				pivotY = 128;
-			}
 			_i = posi;
 			_j = posj;
-			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			setSkeleton();
 		}
 		
-		private function onAddedToStage(e:Event):void 
+		private function setSkeleton():void 
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			this.addChild(img2);
-			this.addChild(img);
+			var atlas:Atlas = new Atlas(new Assets.VentshaftAtlas(), new StarlingTextureLoader(new Assets.VentshaftTexture()));
+			var json:SkeletonJson = new SkeletonJson(new AtlasAttachmentLoader(atlas));
+			var skeletonData:SkeletonData = json.readSkeletonData(new Assets.VentshaftJson());
+
+			var stateData:AnimationStateData = new AnimationStateData(skeletonData);
+
+			skeleton = new SkeletonAnimation(skeletonData, stateData);
+			skeleton.pivotX = -128;
+			skeleton.pivotY = 40;
+			
+			skeleton.skeleton.skinName = "BACK";
+			skeleton.skeleton.setSlotsToSetupPose();
+			skeleton.state.setAnimationByName(0, "idle", false);
+
+			this.addChild(skeleton);
+			Starling.juggler.add(skeleton);
 		}
 		
 		public function interact():void 

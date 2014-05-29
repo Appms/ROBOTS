@@ -69,12 +69,6 @@ package
 		[Embed(source = "../media/graphics/PressurePlateDOWN.png")]
 		public static const PressurePlateDOWN:Class;
 		
-		[Embed(source = "../media/graphics/VentShaft.png")]
-		public static const VentShaftL:Class;
-		
-		[Embed(source = "../media/graphics/VentDoor.png")]
-		public static const VentDoorL:Class;
-		
 		[Embed(source = "../media/graphics/RejillaR.png")]
 		public static const RejillaR:Class;
 		
@@ -134,6 +128,15 @@ package
 
 		[Embed(source = "../media/graphics/GENERATOR.png")]
 		static public const GeneratorTexture:Class;
+		
+		[Embed(source = "../media/graphics/VENTSHAFT.atlas", mimeType = "application/octet-stream")]
+		static public const VentshaftAtlas:Class;
+
+		[Embed(source = "../media/graphics/VENTSHAFT.png")]
+		static public const VentshaftTexture:Class;
+
+		[Embed(source = "../media/graphics/VENTSHAFT.json", mimeType = "application/octet-stream")]
+		static public const VentshaftJson:Class;
 		
 		private static var gameTextures:Dictionary = new Dictionary();
 		private static var gameMusic:Dictionary = new Dictionary();

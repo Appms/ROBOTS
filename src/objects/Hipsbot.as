@@ -37,6 +37,8 @@ package objects
 		
 		public var skeleton:SkeletonAnimation;
 		
+		public var rightstep:Boolean;
+		
 		public function Hipsbot(setI:uint, setJ:uint) 
 		{
 			super();
@@ -44,7 +46,7 @@ package objects
 			this.state = 0;
 			this.i = setI;
 			this.j = setJ;
-			this.aim = 6;
+			this.aim = 4;
 		}
 		
 		private function onAddedToStage(event:Event):void

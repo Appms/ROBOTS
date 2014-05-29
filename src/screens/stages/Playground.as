@@ -141,7 +141,9 @@ package screens.stages
 								{
 									if(obj.matrix[current_robot.i - 1][current_robot.j] == 0)
 									{
-										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
+										else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
+										
 										if (obj.matrix[current_robot.i][current_robot.j] < 30)
 										{
 											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
@@ -233,7 +235,10 @@ package screens.stages
 											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 10; 
 											obj.matrix[current_robot.i][current_robot.j] = 13;
 										}
-										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+										
+										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
+										else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
+										
 										current_robot.state = 2;
 										current_robot.i--;
 										camera_offset_x -= TileSizeX;
@@ -264,7 +269,9 @@ package screens.stages
 								{
 									if(obj.matrix[current_robot.i + 1][current_robot.j] == 0)
 									{
-										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
+										else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
+										
 										if (obj.matrix[current_robot.i][current_robot.j] < 30)
 										{
 											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
@@ -358,7 +365,10 @@ package screens.stages
 											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 10; 
 											obj.matrix[current_robot.i][current_robot.j] = 13;
 										}
-										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+										
+										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
+										else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
+										
 										current_robot.state = 2;
 										current_robot.i++;
 										camera_offset_x += TileSizeX;
@@ -389,7 +399,9 @@ package screens.stages
 								{
 									if(obj.matrix[current_robot.i][current_robot.j - 1] == 0)
 									{
-										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
+										else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
+										
 										if (obj.matrix[current_robot.i][current_robot.j] < 30)
 										{
 											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
@@ -487,7 +499,10 @@ package screens.stages
 											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] + 10; 
 											obj.matrix[current_robot.i][current_robot.j] = 13;
 										}
-										current_robot.skeleton.state.setAnimationByName(0, "back_step", false);
+										
+										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
+										else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
+										
 										current_robot.state = 2;
 										current_robot.j--;
 										camera_offset_x += TileSizeX;
@@ -518,7 +533,9 @@ package screens.stages
 								{
 									if(obj.matrix[current_robot.i][current_robot.j + 1] == 0)
 									{
-										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
+										else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
+										
 										if (obj.matrix[current_robot.i][current_robot.j] < 30)
 										{
 											obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
@@ -635,7 +652,10 @@ package screens.stages
 											obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j] + 10; 
 											obj.matrix[current_robot.i][current_robot.j] = 13;
 										}
-										current_robot.skeleton.state.setAnimationByName(0, "front_step", false);
+										
+										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
+										else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
+										
 										current_robot.state = 2;
 										current_robot.j++;
 										camera_offset_x -= TileSizeX;
@@ -784,6 +804,9 @@ package screens.stages
 																current_robot.skeleton.skeleton.skinName = "FRONT"; 
 																current_robot.skeleton.skeleton.setSlotsToSetupPose(); 
 																current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
+																
+																obj.objectsArray[7][k].skeleton.state.setAnimationByName(0, "back_interaction", false);
+																obj.objectsArray[7][k].skeleton.state.addAnimationByName(0, "idle", false, 0);
 															}
 															break;
 														}
