@@ -1,0 +1,139 @@
+
+VENTSHAFT2.png
+size: 990,249
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BCNBOT
+  rotate: true
+  xy: 2, 2
+  size: 97, 103
+  orig: 128, 128
+  offset: 14, 10
+  index: -1
+BHNBOT
+  rotate: false
+  xy: 166, 35
+  size: 58, 69
+  orig: 64, 128
+  offset: 4, 27
+  index: -1
+BLAAMBOT
+  rotate: true
+  xy: 308, 106
+  size: 41, 83
+  orig: 64, 128
+  offset: 12, 23
+  index: -1
+BLLNBOT
+  rotate: true
+  xy: 883, 193
+  size: 56, 107
+  orig: 64, 128
+  offset: 0, 11
+  index: -1
+BLNBOT
+  rotate: true
+  xy: 516, 199
+  size: 50, 124
+  orig: 64, 128
+  offset: 12, 2
+  index: -1
+BNMBOT
+  rotate: false
+  xy: 226, 19
+  size: 63, 46
+  orig: 128, 64
+  offset: 29, 8
+  index: -1
+BRAANBOT
+  rotate: true
+  xy: 393, 104
+  size: 44, 82
+  orig: 64, 128
+  offset: 12, 24
+  index: -1
+BRAANHBOT
+  rotate: true
+  xy: 308, 63
+  size: 41, 83
+  orig: 64, 128
+  offset: 12, 23
+  index: -1
+BRANBOT
+  rotate: true
+  xy: 391, 150
+  size: 44, 114
+  orig: 64, 128
+  offset: 12, 8
+  index: -1
+FCNBOT
+  rotate: false
+  xy: 308, 149
+  size: 81, 100
+  orig: 128, 128
+  offset: 22, 11
+  index: -1
+FHNBOT
+  rotate: false
+  xy: 107, 23
+  size: 57, 76
+  orig: 64, 128
+  offset: 4, 24
+  index: -1
+FLLNBOT
+  rotate: true
+  xy: 642, 199
+  size: 50, 120
+  orig: 64, 128
+  offset: 8, 5
+  index: -1
+FLNBOT
+  rotate: true
+  xy: 391, 196
+  size: 53, 123
+  orig: 64, 128
+  offset: 8, 5
+  index: -1
+FNMBOT
+  rotate: false
+  xy: 228, 67
+  size: 78, 47
+  orig: 128, 64
+  offset: 24, 12
+  index: -1
+FRAANBOT
+  rotate: true
+  xy: 393, 64
+  size: 38, 86
+  orig: 64, 128
+  offset: 15, 22
+  index: -1
+FRANBOT
+  rotate: true
+  xy: 764, 208
+  size: 41, 117
+  orig: 64, 128
+  offset: 15, 7
+  index: -1
+TBBOT
+  rotate: false
+  xy: 228, 116
+  size: 78, 133
+  orig: 256, 256
+  offset: 87, 64
+  index: -1
+VentDoor
+  rotate: false
+  xy: 2, 101
+  size: 114, 148
+  orig: 114, 148
+  offset: 0, 0
+  index: -1
+VentShaft
+  rotate: false
+  xy: 118, 106
+  size: 108, 143
+  orig: 108, 143
+  offset: 0, 0
+  index: -1
