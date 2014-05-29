@@ -8,6 +8,7 @@ package objects
 	import spine.starling.StarlingTextureLoader;
 	import spine.starling.SkeletonAnimation;
 	import spine.starling.StarlingAtlasAttachmentLoader;
+	import starling.events.EnterFrameEvent;
 	
 	import starling.display.Sprite;
 	import starling.core.Starling;
@@ -17,13 +18,20 @@ package objects
 	 * @author EGOD
 	 */
 	
-	public class Generator extends Sprite 
+	public class Generator extends Sprite
 	{
 		public var skeleton:SkeletonAnimation;
 		
-		public function Generator() 
+		public var activated:Boolean = false;
+		
+		private var _i:int;
+		private var _j:int;
+		
+		public function Generator(posi:int, posj:int) 
 		{
 			super();
+			_i = posi;
+			_j = posj;
 			setSkeleton();
 		}
 		
@@ -39,10 +47,43 @@ package objects
 			skeleton.pivotX = -80;
 			skeleton.pivotY = 73;
 
-			skeleton.state.setAnimationByName(0, "spin", true);
-
 			this.addChild(skeleton);
 			Starling.juggler.add(skeleton);
+		}
+		
+		public function update()
+		{
+			if (activated) 
+			{
+				activated = false;
+				skeleton.state.setAnimationByName(0, "start", false);
+			}
+			else 
+			{
+				activated = true;
+				skeleton.state.setAnimationByName(0, "start", false);
+				skeleton.state.addAnimationByName(0, "spin", true, 0);
+			}
+		}
+		
+		public function get i():int 
+		{
+			return _i;
+		}
+		
+		public function set i(value:int):void 
+		{
+			_i = value;
+		}
+		
+		public function get j():int 
+		{
+			return _j;
+		}
+		
+		public function set j(value:int):void 
+		{
+			_j = value;
 		}
 		
 	}

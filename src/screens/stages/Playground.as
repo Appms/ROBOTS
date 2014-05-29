@@ -655,7 +655,6 @@ package screens.stages
 																var dx:int = TileSizeX * ((obj.objectsArray[7][k].target.j + 1) - obj.objectsArray[7][k].target.i);
 																camera_offset_x += current_robot.x - dx;
 																var dy:int = TileSizeY * ((obj.objectsArray[7][k].target.j + 1) + obj.objectsArray[7][k].target.i);
-																if (obj.objectsArray[7][k].target.j + 1 < obj.objectsArray[7][k].target.i) dy *= -1;
 																camera_offset_y += current_robot.y - dy;
 																current_robot.x = dx;
 																current_robot.y = dy;
@@ -664,13 +663,43 @@ package screens.stages
 																current_robot.i = obj.objectsArray[7][k].target.i;
 																current_robot.j = obj.objectsArray[7][k].target.j+1;
 																controlable = false;
-																current_robot.aim = 6; current_robot.skeleton.scaleX = -1; current_robot.skeleton.skeleton.skinName = "FRONT"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
+																current_robot.aim = 6; 
+																current_robot.skeleton.scaleX = 1; 
+																current_robot.skeleton.skeleton.skinName = "FRONT"; 
+																current_robot.skeleton.skeleton.setSlotsToSetupPose(); 
+																current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
 															}
 															break;
 														}
 													}
 												}
 												break;
+												
+											case 16://generator
+												
+												if (current_robot.scaleX == 0 && current_robot.scaleY == 0) 
+												{
+													current_robot.scaleX = 1;
+													current_robot.scaleY = 1;
+												}
+												
+												else 
+												{
+													current_robot.scaleX = 0;
+													current_robot.scaleY = 0;
+												}
+												
+												for (k = 0; k < obj.objectsArray[9].length ; k++) 
+												{
+													if (obj.objectsArray[9][k].i == (current_robot.i - 1) && obj.objectsArray[9][k].j == (current_robot.j - 1)) 
+													{
+														obj.objectsArray[9][k].update();
+														break;
+													}
+												}
+												
+												break;
+												
 											default:
 												break;
 										}
@@ -701,9 +730,8 @@ package screens.stages
 															{
 																controlable = false;
 																var dx:int = TileSizeX * ((obj.objectsArray[7][k].target.j + 1) - obj.objectsArray[7][k].target.i);
-																camera_offset_x += (current_robot.x - dx);
 																var dy:int = TileSizeY * ((obj.objectsArray[7][k].target.j + 1) + obj.objectsArray[7][k].target.i);
-																if (obj.objectsArray[7][k].target.j + 1 < obj.objectsArray[7][k].target.i) dy *= -1;
+																camera_offset_x += (current_robot.x - dx);
 																camera_offset_y += (current_robot.y - dy);
 																current_robot.x = dx;
 																current_robot.y = dy;
@@ -711,7 +739,11 @@ package screens.stages
 																obj.matrix[current_robot.i][current_robot.j] = 0;
 																current_robot.i = obj.objectsArray[7][k].target.i;
 																current_robot.j = obj.objectsArray[7][k].target.j+1;
-																current_robot.aim = 6; current_robot.skeleton.scaleX = -1; current_robot.skeleton.skeleton.skinName = "FRONT"; current_robot.skeleton.skeleton.setSlotsToSetupPose(); current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
+																current_robot.aim = 6; 
+																current_robot.skeleton.scaleX = 1; 
+																current_robot.skeleton.skeleton.skinName = "FRONT"; 
+																current_robot.skeleton.skeleton.setSlotsToSetupPose(); 
+																current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
 															}
 															break;
 														}
@@ -910,7 +942,7 @@ package screens.stages
 						
 						break;
 						
-					case true:
+  					case true:
 						//MAP MOVEMENT UPDATE
 						if (map.x < camera_offset_x) { map.x += SpeedX; obj.x += SpeedX; current_robot.x -= SpeedX; }
 

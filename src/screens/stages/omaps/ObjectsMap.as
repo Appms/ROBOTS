@@ -201,7 +201,7 @@ package screens.stages.omaps
 							break;
 							
 						case 15:
-							var generator:Generator = new Generator();
+							var generator:Generator = new Generator(i,j);
 							generator.x = 128 * (j - i);
 							generator.y = 64 * (j + i);
 							if (j < i) generator.y * -1;
