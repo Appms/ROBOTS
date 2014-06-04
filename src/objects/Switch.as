@@ -15,6 +15,13 @@ package objects
 			img = new Image(Assets.getTexture("SwitchOFF"));
 		}
 		
+		override protected function sonInteract():void
+		{
+			this.removeChild(img);
+			if (_state) img = new Image(Assets.getTexture("SwitchON"));
+			else img = new Image(Assets.getTexture("SwitchOFF"));
+			this.addChild(img);
+		}
 	}
 
 }

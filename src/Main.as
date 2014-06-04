@@ -4,6 +4,7 @@ package
 	import flash.events.Event;
 	import net.hires.debug.Stats;
 	import starling.core.Starling;
+	import screens.MainMenu;
 	
 	/**
 	 * @author EGOD
@@ -28,7 +29,7 @@ package
 			stats = new Stats();
 			addChild(stats);
 			
-			starling = new Starling( Game, stage);
+			starling = new Starling( MainMenu, stage);
 			starling.antiAliasing = 1;
 			starling.start();
 		}

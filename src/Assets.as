@@ -147,6 +147,18 @@ package
 		[Embed(source = "../media/music/Robots-electrified.mp3")]
 		static public const Theme1:Class;
 		
+		[Embed(source = "../media/sounds/beep5.mp3")]
+		static public const Beep:Class;
+		
+		[Embed(source = "../media/graphics/LevelSelect.png")]
+		static public const LevelSelect:Class;
+		
+		[Embed(source = "../media/graphics/LevelSelect/Back.png")]
+		static public const Back:Class;
+		
+		[Embed(source = "../media/graphics/LevelSelect/1.png")]
+		static public const Btn1:Class;
+		
 		public static function getTexture(name:String):Texture
 		{
 			if (gameTextures[name] == undefined)

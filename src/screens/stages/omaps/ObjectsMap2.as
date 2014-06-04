@@ -4,12 +4,17 @@ package screens.stages.omaps
 	import objects.Activable;
 	import objects.Activator;
 	import objects.Cube;
+	import objects.Generator;
 	import objects.Hipsbot;
-	import objects.HBot;
-	import objects.HMini;
-	import objects.HNano;
+	import objects.BBot;
+	import objects.MaquinaCafe;
+	import objects.MBot;
+	import objects.NBot;
 	import objects.Lamp;
+	import objects.Pilar;
+	import objects.PressurePlate;
 	import objects.Rejilla;
+	import objects.Spawner;
 	import objects.Switch;
 	import objects.Tool;
 	import starling.display.Button;
@@ -22,28 +27,33 @@ package screens.stages.omaps
 	 * ...
 	 * @author EGOD
 	 */
-	public class ObjMapLevel2 extends Sprite
+	
+	public class ObjectsMap extends Sprite 
 	{	
-		private var _matrix:Array = [[0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 6, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 5, 5, 5, 13, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [11, 0, 6, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]];
+		private var _matrix:Array = [[0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 6, 6, 6, 0, 15, 16, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 5, 14, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 13, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [11, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
-		private var _connections:Array = [[11,0,11,4],[11,0,10,4],[11,0,9,4]] //[originI,originJ,destI,destJ]
-		private var _rejillas:Array = [[2,0,10,0]] //[originI,originJ,destI,destJ]
+		private var _connections:Array = [[3,4,1,3],[3,4,1,4],[6,9,1,4],[6,9,1,5]] //[originI,originJ,destI,destJ]
+		private var _rejillas:Array = [[2,0,11,0]] //[originI,originJ,destI,destJ]
 		
-		public function ObjMapLevel2() 
+		public function ObjectsMap()
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -89,12 +99,23 @@ package screens.stages.omaps
 							break;
 							
 						case 4:
-							var sw:objects.Activator = new Switch(i, j);
+							var sw:Activator = new Switch(i, j);
 							sw.x = 128 * (j-i) - 64;
-							sw.y = 64 * (j + i) - 128;
+							sw.y = 64 * (j + i) - 160;
 							if (j < i) sw.y * -1;
 							_objectsArray[3].push(sw);
 							this.addChild(sw);
+							break;
+							
+						case 104:
+							var sw:Activator = new Switch(i, j);
+							sw.x = 128 * (j-i) + 64;
+							sw.y = 64 * (j + i) - 160;
+							sw.scaleX *= -1;
+							if (j < i) sw.y * -1;
+							_objectsArray[3].push(sw);
+							this.addChild(sw);
+							matrix[i][j] = 4;
 							break;
 							
 						case 5:
@@ -163,39 +184,43 @@ package screens.stages.omaps
 							break;
 							
 						case 12:
-							var spawner:Spawner = new Spawner();
+							var spawner:Spawner = new Spawner(i,j);
 							spawner.x = 128 * (j-i);
 							spawner.y = 64 * (j + i);
 							if (j < i) spawner.y * -1;
 							_objectsArray[8].push(spawner);
 							this.addChild(spawner);
 							break;
-							
+						
 						case 13:
-							var platform:Platform = new Platform(i, j);
-							platform.x = 128 * (j - i);
-							platform.y = 64 * (j + i);
-							if (j < i) platform.y * -1;
-							_objectsArray[5].push(platform);
-							this.addChild(platform);
+							var pilar:Pilar = new Pilar();
+							pilar.x = 128 * (j - i);
+							pilar.y = 64 * (j + i);
+							if (j < i) pilar.y * -1;
+							_objectsArray[9].push(pilar);
+							this.addChild(pilar);
 							break;
 							
 						case 14:
 							var placa:PressurePlate = new PressurePlate(i, j);
 							placa.x = 128 * (j - i);
 							placa.y = 64 * (j + i);
+							placa.y -= 74;
 							if (j < i) placa.y * -1;
 							_objectsArray[3].push(placa);
 							this.addChild(placa);
 							break;
 							
 						case 15:
-							var maquina:MaquinaCafe = new MaquinaCafe(i, j);
-							maquina.x = 128 * (j - i);
-							maquina.y = 64 * (j + i);
-							if (j < i) maquina.y * -1;
-							_objectsArray[5].push(maquina);
-							this.addChild(maquina);
+							var generator:Generator = new Generator(i,j);
+							generator.x = 128 * (j - i);
+							generator.y = 64 * (j + i);
+							if (j < i) generator.y * -1;
+							_objectsArray[9].push(generator);
+							this.addChild(generator);
+							break;
+							
+						case 16:
 							break;
 							
 						default:
@@ -203,6 +228,8 @@ package screens.stages.omaps
 					} 
 				}
 			}
+			
+			
 			// SET CONNECTIONS
 			for (var a:int = 0; a < _connections.length; a++)
 			{
@@ -223,6 +250,8 @@ package screens.stages.omaps
 					}
 				}
 			}
+			
+			
 			// SET REJILLAS
 			for (a = 0; a < _rejillas.length; a++)
 			{

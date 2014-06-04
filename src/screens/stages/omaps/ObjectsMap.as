@@ -34,7 +34,7 @@ package screens.stages.omaps
 									 [0, 0, 0, 6, 6, 6, 0, 15, 16, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 5, 14, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -42,7 +42,7 @@ package screens.stages.omaps
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [11, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0],
@@ -50,7 +50,7 @@ package screens.stages.omaps
 
 		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
-		private var _connections:Array = [[3,4,1,3],[3,4,1,4],[6,9,1,4],[6,9,4,9/*1,5*/]] //[originI,originJ,destI,destJ]
+		private var _connections:Array = [[3,4,1,3],[3,4,1,4],[6,9,1,4],[6,9,1,5]] //[originI,originJ,destI,destJ]
 		private var _rejillas:Array = [[2,0,11,0]] //[originI,originJ,destI,destJ]
 		
 		public function ObjectsMap()
@@ -101,10 +101,21 @@ package screens.stages.omaps
 						case 4:
 							var sw:Activator = new Switch(i, j);
 							sw.x = 128 * (j-i) - 64;
-							sw.y = 64 * (j + i) - 128;
+							sw.y = 64 * (j + i) - 160;
 							if (j < i) sw.y * -1;
 							_objectsArray[3].push(sw);
 							this.addChild(sw);
+							break;
+							
+						case 104:
+							var sw:Activator = new Switch(i, j);
+							sw.x = 128 * (j-i) + 64;
+							sw.y = 64 * (j + i) - 160;
+							sw.scaleX *= -1;
+							if (j < i) sw.y * -1;
+							_objectsArray[3].push(sw);
+							this.addChild(sw);
+							matrix[i][j] = 4;
 							break;
 							
 						case 5:

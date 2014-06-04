@@ -4,6 +4,9 @@ package objects
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	
 	/**
 	 * ...
 	 * @author Eric Oliver Obiol
@@ -15,6 +18,7 @@ package objects
 		private var _i:int;
 		private var _j:int;
 		protected var _targets:Array = [];
+		private var beep:Sound;
 		
 		public function Activator(posi:int, posj:int) 
 		{
@@ -23,6 +27,7 @@ package objects
 			_j = posj;
 			pivotX = 32;
 			pivotY = 64;
+			beep = Assets.getMusic("Beep");
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -40,6 +45,7 @@ package objects
 			{
 				_targets[i].checkState();
 			}
+			beep.play(0, 0);
 			sonInteract();
 			trace("Me has pulsado");
 		}
