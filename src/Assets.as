@@ -138,6 +138,9 @@ package
 		[Embed(source = "../media/graphics/VENTSHAFT.json", mimeType = "application/octet-stream")]
 		static public const VentshaftJson:Class;
 		
+		[Embed(source = "../media/graphics/Torreta.png")]
+		static public const Torreta:Class;
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		private static var gameMusic:Dictionary = new Dictionary();
 		
@@ -158,6 +161,9 @@ package
 		
 		[Embed(source = "../media/graphics/LevelSelect/1.png")]
 		static public const Btn1:Class;
+		
+		[Embed(source = "../media/graphics/LevelSelect/2.png")]
+		static public const Btn2:Class;
 		
 		public static function getTexture(name:String):Texture
 		{

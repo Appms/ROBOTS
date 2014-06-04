@@ -1,4 +1,4 @@
-package screens.stages 
+package screens.stages.Playgrounds 
 {
 
 	import flash.media.Sound;
@@ -10,8 +10,9 @@ package screens.stages
 	import objects.Hipsbot;
 	import objects.MBot;
 	import objects.NBot;
-	import screens.stages.omaps.ObjectsMap;
-	import screens.stages.lmaps.LevelMap;
+	import screens.stages.Hipstom;
+	import screens.stages.omaps.ObjectsMap2;
+	import screens.stages.lmaps.LevelMap2;
 	import screens.stages.UI;
 	import starling.core.Starling;
 	import starling.display.Sprite;
@@ -30,18 +31,18 @@ package screens.stages
 	 * 
 	 */
 	
-	public class Playground extends Sprite 
+	public class Playground2 extends Sprite 
 	{
 		private const TileSizeX:Number = 128;
 		private const TileSizeY:Number = 64;
 		private const SpeedX:Number = 4;
 		private const SpeedY:Number = 2;
 		
-		private var camera_offset_x:int = -12 * TileSizeX;
-		private var camera_offset_y:int = -12 * TileSizeY;
+		private var camera_offset_x:int = -20 * TileSizeX;
+		private var camera_offset_y:int = -28 * TileSizeY;
 		
-		private var map:LevelMap;
-		private var obj:ObjectsMap;
+		private var map:LevelMap2;
+		private var obj:ObjectsMap2;
 		private var current_robot:Hipsbot;
 		private var user_int:UI;
 		private var hipstom:Hipstom;
@@ -51,11 +52,11 @@ package screens.stages
 		
 		private var k:int; //iterator
 		
-		private var scripts:Array = [1, 0, 0, 0, 0, 0, 0];
+		private var scripts:Array = [1, 0, 0, 0, 0, 0, 0, 0, 0];
 		
 		private var controlable:Boolean = false;
 		
-		public function Playground()
+		public function Playground2()
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
@@ -64,7 +65,6 @@ package screens.stages
 		private function onAddedToStage(event:Event):void
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			drawGame();
 		}
 		public function disposeTemporarily():void
 		{
@@ -74,6 +74,8 @@ package screens.stages
 		public function initialize():void
 		{
 			this.visible = true;
+			
+			drawGame();
 			
 			musica = Assets.getMusic("Theme1");
 			musica.play(0, 0);
@@ -96,11 +98,11 @@ package screens.stages
 		
 		private function drawGame():void 
 		{
-			map = new LevelMap();
+			map = new LevelMap2();
 			map.x += camera_offset_x;
 			map.y += camera_offset_y;
 			
-			obj = new ObjectsMap();
+			obj = new ObjectsMap2();
 			obj.x += camera_offset_x;
 			obj.y += camera_offset_y;
 			
@@ -1566,14 +1568,14 @@ package screens.stages
 				obj.sortChildren(entitySort);
 				drawScreen();
 				
-				if (obj.objectsArray[3][3].state == true && map.drawArray[82].y != map.drawArray[82].desty) scripts[4] = 1;
+				/*if (obj.objectsArray[3][3].state == true && map.drawArray[82].y != map.drawArray[82].desty) scripts[4] = 1;
 				
 				if (obj.objectsArray[3][0].state == true)
 				{
 					obj.objectsArray[8][0].ready = true;
 					obj.objectsArray[3][0].state = false;
 					scripts[5] = 1;
-				}
+				}*/
 				
 				checkScripts();
 				
@@ -1594,17 +1596,33 @@ package screens.stages
 						{ 
 							controlable = true;
 							
-							if (camera_offset_x == 3 * TileSizeX && camera_offset_y == 3 * TileSizeY) 
+							if (camera_offset_x == 3 * TileSizeX && camera_offset_y == -5 * TileSizeY) 
 							{
 								scripts[1] = 1;
 							}
-							else if (camera_offset_x == 15 * TileSizeX && camera_offset_y == -9 * TileSizeY) 
+							else if (camera_offset_x == 10 * TileSizeX && camera_offset_y == -12 * TileSizeY) 
 							{
 								scripts[2] = 1;
 							}
-							else if (camera_offset_x == 8 * TileSizeX && camera_offset_y == -17 * TileSizeY && obj.objectsArray[8][0].ready) 
+							else if (camera_offset_x == 0 * TileSizeX && camera_offset_y == -22 * TileSizeY && obj.objectsArray[8][0].ready) 
 							{
 								scripts[3] = 1;
+							}
+							else if (camera_offset_x == 7 * TileSizeX && camera_offset_y == -29 * TileSizeY && obj.objectsArray[8][0].ready) 
+							{
+								scripts[4] = 1;
+							}
+							else if (camera_offset_x == 16 * TileSizeX && camera_offset_y == -20 * TileSizeY && obj.objectsArray[8][0].ready) 
+							{
+								scripts[5] = 1;
+							}
+							else if (camera_offset_x == 22 * TileSizeX && camera_offset_y == -26 * TileSizeY && obj.objectsArray[8][0].ready) 
+							{
+								scripts[6] = 1;
+							}
+							else if (camera_offset_x == 13 * TileSizeX && camera_offset_y == -35 * TileSizeY && obj.objectsArray[8][0].ready) 
+							{
+								scripts[7] = 1;
 							}
 						}
 						
@@ -1650,27 +1668,55 @@ package screens.stages
 					{
 						case 0:
 							camera_offset_x = 3 * TileSizeX;
-							camera_offset_y = 3 * TileSizeY;
+							camera_offset_y = -5 * TileSizeY;
 							controlable = false;
 							scripts[k] = 0;
 							break;
 							
 						case 1:
-							camera_offset_x = 15 * TileSizeX;
-							camera_offset_y = -9 * TileSizeY;
+							camera_offset_x = 10 * TileSizeX;
+							camera_offset_y = -12 * TileSizeY;
 							controlable = false;
 							scripts[k] = 0;
 							break;
 							
 						case 2:
-							camera_offset_x = 8 * TileSizeX;
-							camera_offset_y = -17 * TileSizeY;
+							camera_offset_x = 0 * TileSizeX;
+							camera_offset_y = -22 * TileSizeY;
 							controlable = false;
 							scripts[k] = 0;
 							break;
 							
 						case 3:
-							obj.matrix[15][10] = 50 + obj.objectsArray[8][0].type;
+							camera_offset_x = 7 * TileSizeX;
+							camera_offset_y = -29 * TileSizeY;
+							controlable = false;
+							scripts[k] = 0;
+							break;
+							
+						case 4:
+							camera_offset_x = 16 * TileSizeX;
+							camera_offset_y = -20 * TileSizeY;
+							controlable = false;
+							scripts[k] = 0;
+							break;
+							
+						case 5:
+							camera_offset_x = 22 * TileSizeX;
+							camera_offset_y = -26 * TileSizeY;
+							controlable = false;
+							scripts[k] = 0;
+							break;
+							
+						case 6:
+							camera_offset_x = 13 * TileSizeX;
+							camera_offset_y = -35 * TileSizeY;
+							controlable = false;
+							scripts[k] = 0;
+							break;
+							
+						case 7:
+							obj.matrix[26][16] = 50 + obj.objectsArray[8][0].type;
 							obj.objectsArray[8][0].ready = false;
 							var Bot:Hipsbot;
 							switch (obj.objectsArray[8][0].type) 

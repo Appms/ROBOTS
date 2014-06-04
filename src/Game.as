@@ -2,7 +2,8 @@ package
 {
 	import events.NavigationEvent;
 	import screens.LevelSelect;
-	import screens.stages.Playground;
+	import screens.stages.Playgrounds.Playground;
+	import screens.stages.Playgrounds.Playground2;
 	import starling.animation.DelayedCall;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -16,7 +17,8 @@ package
 	{
 		private var screenMainMenu:screens.MainMenu;
 		private var screenLevelSelect:LevelSelect;
-		private var screenPlayground:screens.stages.Playground;
+		private var screenPlayground:Playground;
+		private var screenPlayground2:Playground2;
 		
 		public function Game() 
 		{
@@ -30,7 +32,11 @@ package
 			
 			screenPlayground = new Playground();
 			screenPlayground.disposeTemporarily();
-			this.addChild(screenPlayground);	
+			this.addChild(screenPlayground);
+			
+			screenPlayground2 = new Playground2();
+			screenPlayground2.disposeTemporarily();
+			this.addChild(screenPlayground2);
 			
 			screenLevelSelect = new LevelSelect();
 			screenLevelSelect.disposeTemporarily();
@@ -56,6 +62,10 @@ package
 				case "level_1":
 					screenLevelSelect.disposeTemporarily();
 					screenPlayground.initialize();
+					break;
+				case "level_2":
+					screenLevelSelect.disposeTemporarily();
+					screenPlayground2.initialize();
 					break;
 			}
 			//THE ACTIONS WE NEED TO EXECUTE WHEN CHANGING BETWEEN SCREENS

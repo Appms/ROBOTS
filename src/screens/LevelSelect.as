@@ -75,7 +75,7 @@ package screens
 			Btn1.y = 128;
 			this.addChild(Btn1);
 			
-			Btn2 = new Button(Assets.getTexture("Btn1"));
+			Btn2 = new Button(Assets.getTexture("Btn2"));
 			Btn2.x = 264;
 			Btn2.y = 128;
 			this.addChild(Btn2);
