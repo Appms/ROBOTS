@@ -29,7 +29,7 @@ package
 			stats = new Stats();
 			addChild(stats);
 			
-			starling = new Starling( MainMenu, stage);
+			starling = new Starling( Game, stage);
 			starling.antiAliasing = 1;
 			starling.start();
 		}

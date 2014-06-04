@@ -29,7 +29,7 @@ package
 			this.addEventListener(NavigationEvent.CHANGE_SCREEN, onChangeScreen);
 			
 			screenPlayground = new Playground();
-			screenPlayground.disposeTemporarly();
+			screenPlayground.disposeTemporarily();
 			this.addChild(screenPlayground);	
 			
 			screenLevelSelect = new LevelSelect();
@@ -50,9 +50,10 @@ package
 					screenLevelSelect.initialize();
 					break;
 				case "main_menu":
-					screenLevelSelect.initialize();
+					screenLevelSelect.disposeTemporarily();
 					screenMainMenu.initialize();
-				case "Btn1":
+					break;
+				case "level_1":
 					screenLevelSelect.disposeTemporarily();
 					screenPlayground.initialize();
 					break;

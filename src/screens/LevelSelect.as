@@ -14,9 +14,9 @@ package screens
 	
 	public class LevelSelect extends Sprite 
 	{
-		public var LSImg:Image;
 		public var Back:Button;
 		public var Btn1:Button;
+		public var Btn2:Button;
 		
 		
 		public function LevelSelect() 
@@ -37,6 +37,11 @@ package screens
 			{
 				trace("ROW ROW FIGHT THE POWAH");
 				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, { id: "level_1" }, true));
+			}
+			if ((buttonClicked as Button) == Btn2)
+			{
+				trace("ROW ROW FIGHT THE POWAH");
+				this.dispatchEvent(new NavigationEvent(NavigationEvent.CHANGE_SCREEN, { id: "level_2" }, true));
 			}
 		}
 		
@@ -59,10 +64,6 @@ package screens
 		
 		private function drawScreen():void
 		{
-			LSImg = new Image(Assets.getTexture("LevelSelect"));
-			LSImg.x = 256;
-			LSImg.y = 32;
-			this.addChild(LSImg);
 			
 			Back = new Button(Assets.getTexture("Back"));
 			Back.x = 16;
@@ -74,7 +75,12 @@ package screens
 			Btn1.y = 128;
 			this.addChild(Btn1);
 			
+			Btn2 = new Button(Assets.getTexture("Btn1"));
+			Btn2.x = 264;
+			Btn2.y = 128;
+			this.addChild(Btn2);
+			
 			this.addEventListener(Event.TRIGGERED, onLevelSelectClick);
 		}
-
+	}
 }

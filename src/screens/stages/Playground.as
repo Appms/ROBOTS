@@ -59,9 +59,6 @@ package screens.stages
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			this.addEventListener(Event.ENTER_FRAME, onGameTick);
-			this.addEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
-			this.addEventListener(Event.TRIGGERED, changeCurrentRobot);
 		}
 		
 		private function onAddedToStage(event:Event):void
@@ -77,6 +74,24 @@ package screens.stages
 		public function initialize():void
 		{
 			this.visible = true;
+			
+			musica = Assets.getMusic("Theme1");
+			musica.play(0, 0);
+			//var sc:SoundChannel = new SoundChannel();
+			//sc.stop();
+			
+			/*var i:uint;
+			while (current_robot == null)
+			{
+				current_robot = obj.objectsArray[i][0];
+				i++;
+			}
+			current_robot.state = 1;
+			*/
+			
+			this.addEventListener(Event.ENTER_FRAME, onGameTick);
+			this.addEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
+			this.addEventListener(Event.TRIGGERED, changeCurrentRobot);
 		}
 		
 		private function drawGame():void 
@@ -102,20 +117,6 @@ package screens.stages
 			this.addChild(esc_menu);
 			
 			hipstom.visible = false;
-			
-			musica = Assets.getMusic("Theme1");
-			musica.play(0, 0);
-			//var sc:SoundChannel = new SoundChannel();
-			//sc.stop();
-			
-			/*var i:uint;
-			while (current_robot == null)
-			{
-				current_robot = obj.objectsArray[i][0];
-				i++;
-			}
-			current_robot.state = 1;
-			*/
 			
 		}
 		
