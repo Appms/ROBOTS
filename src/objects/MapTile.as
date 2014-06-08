@@ -43,7 +43,12 @@ package objects
 				if (activated)
 				{
 					if (desty < y) y -= 8;
-					else { y = desty; removeEventListener(EnterFrameEvent.ENTER_FRAME, onGameTick); }
+					else y = desty;
+					//else { y = desty; removeEventListener(EnterFrameEvent.ENTER_FRAME, onGameTick); }
+				}
+				else
+				{
+					if (y < desty + (desty / 64) * 100) y += 8;
 				}
 			}
 		}

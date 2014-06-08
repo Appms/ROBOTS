@@ -4,6 +4,7 @@ package screens.stages.Playgrounds
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import objects.Cube;
+	import objects.Laser;
 	import objects.MapTile;
 	import screens.stages.EscMenu;
 	import objects.BBot;
@@ -47,6 +48,7 @@ package screens.stages.Playgrounds
 		private var user_int:UI;
 		private var hipstom:Hipstom;
 		private var esc_menu:EscMenu;
+		private var laser:Laser;
 		
 		private var musica:Sound;
 		
@@ -78,7 +80,7 @@ package screens.stages.Playgrounds
 			drawGame();
 			
 			musica = Assets.getMusic("Theme1");
-			musica.play(0, 0);
+			//musica.play(0, 0);
 			//var sc:SoundChannel = new SoundChannel();
 			//sc.stop();
 			
@@ -120,6 +122,48 @@ package screens.stages.Playgrounds
 			
 			hipstom.visible = false;
 			
+			for (k = 0; k < obj.objectsArray[10].length; k++)
+			{
+				//DOWN
+				laser = new Laser(obj.objectsArray[10][k], obj.objectsArray[10][k].i+1, obj.objectsArray[10][k].j)
+				while (obj.matrix[laser.i][laser.j] == 0 || obj.matrix[laser.i][laser.j] == 2 || obj.matrix[laser.i][laser.j] == 3)
+				{
+					if (obj.matrix[laser.i][laser.j] == 3) trace("Destroy");
+					laser.x = 128 * (laser.j - laser.i);
+					laser.y = 64 * (laser.j + laser.i);
+					if (laser.j < laser.i) laser.y * -1;
+					obj.objectsArray[11].push(laser);
+					//this.addChild(laser.img);
+					laser = new Laser(laser, laser.i +1, laser.j);
+				}
+				laser.img = new Image(Assets.getTexture("LaserEndBot"));
+				laser.x = 128 * (laser.j - laser.i);
+				laser.y = 64 * (laser.j + laser.i);
+				if (laser.j < laser.i) laser.y * -1;
+				obj.objectsArray[11].push(laser);
+				this.addChild(laser.img);
+				
+				//UP
+				laser = new Laser(obj.objectsArray[10][k], obj.objectsArray[10][k].i -1, obj.objectsArray[10][k].j)
+				while (laser.i > 0 &&(obj.matrix[laser.i][laser.j] == 0 || obj.matrix[laser.i][laser.j] == 2 || obj.matrix[laser.i][laser.j] == 3))
+				{
+					if (obj.matrix[laser.i][laser.j] == 2) trace("Destroy");
+					laser.x = 128 * (laser.j - laser.i);
+					laser.y = 64 * (laser.j + laser.i);
+					if (laser.j < laser.i) laser.y * -1;
+					obj.objectsArray[11].push(laser);
+					//this.addChild(laser.img);
+					laser = new Laser(laser, laser.i -1, laser.j);
+				}
+				laser.img = new Image(Assets.getTexture("LaserEndTop"));
+				laser.x = 128 * (laser.j - laser.i);
+				laser.y = 64 * (laser.j + laser.i);
+				if (laser.j < laser.i) laser.y * -1;
+				obj.objectsArray[11].push(laser);
+				this.addChild(laser.img);
+				
+			}
+			
 		}
 		
 		private function KeyDown(event:KeyboardEvent):void 
@@ -134,9 +178,9 @@ package screens.stages.Playgrounds
 			{
 				if (!hipstom.visible)
 				{
-					if (current_robot.state == 1)
+					if (current_robot.state == 1 && map.matrix[current_robot.i][current_robot.j] != 6 )
 					{
-						switch (event.keyCode) 
+						switch (event.keyCode)
 						{
 							/*case Keyboard.W:
 								
@@ -685,7 +729,7 @@ package screens.stages.Playgrounds
 									current_robot.skeleton.state.setAnimationByName(0, "back_idle", true);
 								}
 								
-								else if (map.matrix[current_robot.i - 1][current_robot.j] == 2)
+								else if (map.matrix[current_robot.i - 1][current_robot.j] == 2 || map.matrix[current_robot.i - 1][current_robot.j] == 6)
 								{
 									if(obj.matrix[current_robot.i - 1][current_robot.j] == 0)
 									{
@@ -813,7 +857,7 @@ package screens.stages.Playgrounds
 									current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
 								}
 								
-								else if (map.matrix[current_robot.i + 1][current_robot.j] == 2)
+								else if (map.matrix[current_robot.i + 1][current_robot.j] == 2 || map.matrix[current_robot.i + 1][current_robot.j] == 6)
 								{
 									if(obj.matrix[current_robot.i + 1][current_robot.j] == 0)
 									{
@@ -943,7 +987,7 @@ package screens.stages.Playgrounds
 									current_robot.skeleton.state.setAnimationByName(0, "back_idle", true);
 								}
 								
-								else if (map.matrix[current_robot.i][current_robot.j - 1] == 2)
+								else if (map.matrix[current_robot.i][current_robot.j - 1] == 2 || map.matrix[current_robot.i][current_robot.j - 1] == 6)
 								{
 									if(obj.matrix[current_robot.i][current_robot.j - 1] == 0)
 									{
@@ -1077,7 +1121,7 @@ package screens.stages.Playgrounds
 									current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
 								}
 								
-								else if (map.matrix[current_robot.i][current_robot.j + 1] == 2)
+								else if (map.matrix[current_robot.i][current_robot.j + 1] == 2 || map.matrix[current_robot.i][current_robot.j + 1] == 6)
 								{
 									if(obj.matrix[current_robot.i][current_robot.j + 1] == 0)
 									{
@@ -1168,7 +1212,7 @@ package screens.stages.Playgrounds
 															obj.matrix[current_robot.i][current_robot.j] = 0;
 														}
 
-														if (obj.matrix[current_robot.i][current_robot.j + 1] = 5)
+														if (obj.matrix[current_robot.i][current_robot.j + 1] == 5)
 														{
 															obj.matrix[current_robot.i][current_robot.j + 1] = 1;
 														}
@@ -1177,7 +1221,7 @@ package screens.stages.Playgrounds
 															obj.matrix[current_robot.i][current_robot.j + 1] = 41;
 														}
 														
-														if (obj.matrix[current_robot.i][current_robot.j + 2] = 0)
+														if (obj.matrix[current_robot.i][current_robot.j + 2] == 0)
 														{
 															obj.matrix[current_robot.i][current_robot.j + 2] = 5;
 														}
@@ -1270,18 +1314,17 @@ package screens.stages.Playgrounds
 												
 												if (obj.matrix[current_robot.i][current_robot.j] == 3 || obj.matrix[current_robot.i][current_robot.j] == 16)
 												{
-													for (k = 0; k < obj.objectsArray[9].length ; k++) 
+													for (k = 0; k < obj.objectsArray[3].length ; k++) 
 													{
-														if (obj.objectsArray[9][k].i == (current_robot.i - 1) && obj.objectsArray[9][k].j == (current_robot.j - 1)) 
+														if (obj.objectsArray[3][k].i == (current_robot.i - 1) && obj.objectsArray[3][k].j == (current_robot.j - 1)) 
 														{
-															if (obj.objectsArray[9][k].activated == false)
+															if (obj.objectsArray[3][k].activated == false)
 															{
 																obj.matrix[current_robot.i][current_robot.j] = 0;
 																obj.matrix[current_robot.i][current_robot.j-1] = 3;
 																current_robot.scaleX = 0;
 																current_robot.scaleY = 0;
 																obj.objectsArray[8][0].ready = true;
-																scripts[2] = 1;
 																current_robot.j--;
 																current_robot.state = 3;
 															}
@@ -1294,7 +1337,7 @@ package screens.stages.Playgrounds
 																obj.matrix[current_robot.i][current_robot.j - 1] = 16;
 																current_robot.state = 2;
 															}
-															obj.objectsArray[9][k].update();
+															obj.objectsArray[3][k].update();
 															
 															break;
 														}
@@ -1577,6 +1620,56 @@ package screens.stages.Playgrounds
 					scripts[5] = 1;
 				}*/
 				
+				//PLATFORMS_2
+				if (obj.objectsArray[3][0].activated == true && map.drawArray[114].y != map.drawArray[113].desty) scripts[10] = 1;
+				
+				//PLATFORMS_1
+				if (obj.objectsArray[3][3].state && !obj.objectsArray[3][3].last_state)
+				{
+					obj.objectsArray[3][3].last_state = true;
+					scripts[8] = 1;
+				}
+				else if (!obj.objectsArray[3][3].state && obj.objectsArray[3][3].last_state)
+				{
+					obj.objectsArray[3][3].last_state = false;
+					scripts[9] = 1;
+				}
+				
+				// MAGNETIC FLOOR_1
+				if (obj.objectsArray[3][1].state == false)
+				{
+					for (k = 0; k < obj.objectsArray[3][1].targets.length ; k++) 
+					{
+						map.matrix[obj.objectsArray[3][1].targets[k].i][obj.objectsArray[3][1].targets[k].j] = 6;
+					}
+				}
+				else
+				{
+					for (k = 0; k < obj.objectsArray[3][1].targets.length ; k++) 
+					{
+						map.matrix[obj.objectsArray[3][1].targets[k].i][obj.objectsArray[3][1].targets[k].j] = 2;
+					}
+				}
+				
+				// MAGNETIC FLOOR_2
+				if (obj.objectsArray[3][2].state == false)
+				{
+					for (k = 0; k < obj.objectsArray[3][2].targets.length ; k++) 
+					{
+						map.matrix[obj.objectsArray[3][2].targets[k].i][obj.objectsArray[3][2].targets[k].j] = 6;
+					}
+				}
+				else
+				{
+					for (k = 0; k < obj.objectsArray[3][2].targets.length ; k++) 
+					{
+						map.matrix[obj.objectsArray[3][2].targets[k].i][obj.objectsArray[3][2].targets[k].j] = 2;
+					}
+				}
+				
+				// LASERS
+				
+				
 				checkScripts();
 				
 				
@@ -1756,39 +1849,66 @@ package screens.stages.Playgrounds
 							scripts[k] = 0;
 							break;
 							
-						case 4:
-							/*
-							map.drawArray[54].activated = true;
-							map.drawArray[55].activated = true;
-							map.drawArray[56].activated = true;
-							map.drawArray[57].activated = true;
-							if (map.drawArray[54].y == map.drawArray[54].desty) map.matrix[7][2] = 2;
-							if (map.drawArray[55].y == map.drawArray[55].desty) map.matrix[7][3] = 2;
-							if (map.drawArray[56].y == map.drawArray[56].desty) map.matrix[7][4] = 2;
-							if (map.drawArray[57].y == map.drawArray[57].desty) map.matrix[7][5] = 2;
-							if ((map.drawArray[54].y == map.drawArray[54].desty) && (map.drawArray[55].y == map.drawArray[55].desty) && (map.drawArray[56].y == map.drawArray[56].desty) && (map.drawArray[57].y == map.drawArray[57].desty)) 
+						case 8:
+							map.drawArray[162].activated = true;
+							map.drawArray[163].activated = true;
+							map.drawArray[164].activated = true;
+							map.drawArray[165].activated = true;
+							map.drawArray[175].activated = true;
+							map.drawArray[176].activated = true;
+							map.drawArray[177].activated = true;
+							map.drawArray[178].activated = true;
+							if (map.drawArray[162].y == map.drawArray[162].desty) map.matrix[18][11] = 2;
+							if (map.drawArray[163].y == map.drawArray[163].desty) map.matrix[18][12] = 2;
+							if (map.drawArray[164].y == map.drawArray[164].desty) map.matrix[18][13] = 2;
+							if (map.drawArray[165].y == map.drawArray[165].desty) map.matrix[18][14] = 2;
+							if (map.drawArray[175].y == map.drawArray[175].desty) map.matrix[19][11] = 2;
+							if (map.drawArray[176].y == map.drawArray[176].desty) map.matrix[19][12] = 2;
+							if (map.drawArray[177].y == map.drawArray[177].desty) map.matrix[19][13] = 2;
+							if (map.drawArray[178].y == map.drawArray[178].desty) map.matrix[19][14] = 2;
+							if ((map.drawArray[162].y == map.drawArray[162].desty) && (map.drawArray[163].y == map.drawArray[163].desty) && (map.drawArray[164].y == map.drawArray[164].desty) && (map.drawArray[165].y == map.drawArray[165].desty) && (map.drawArray[175].y == map.drawArray[175].desty) && (map.drawArray[176].y == map.drawArray[176].desty) && (map.drawArray[177].y == map.drawArray[177].desty) && (map.drawArray[178].y == map.drawArray[178].desty)) 
 							{
-								scripts[4] = 0;
-							}*/
-							map.drawArray[82].activated = true;
-							map.drawArray[87].activated = true;
-							map.drawArray[92].activated = true;
-							if (map.drawArray[82].y == map.drawArray[82].desty) map.matrix[9][4] = 2;
-							if (map.drawArray[87].y == map.drawArray[87].desty) map.matrix[10][4] = 2;
-							if (map.drawArray[92].y == map.drawArray[92].desty) map.matrix[11][4] = 2;
-							if ((map.drawArray[82].y == map.drawArray[82].desty) && (map.drawArray[87].y == map.drawArray[87].desty) && (map.drawArray[92].y == map.drawArray[92].desty)) 
-							{
-								scripts[4] = 0;
+								scripts[8] = 0;
 							}
 							break;
 							
-						case 5:
-							map.drawArray[82].activated = false; map.matrix[9][4] = 0; map.drawArray[82].y = 100000;
-							map.drawArray[87].activated = false; map.matrix[10][4] = 0; map.drawArray[87].y = 100000;
-							map.drawArray[92].activated = false; map.matrix[11][4] = 0; map.drawArray[92].y = 100000;
-							scripts[5] = 0;
-							scripts[2] = 1;
+						case 9:
+							map.drawArray[162].activated = false; map.matrix[18][11] = 0;
+							map.drawArray[163].activated = false; map.matrix[18][12] = 0;
+							map.drawArray[164].activated = false; map.matrix[18][13] = 0;
+							map.drawArray[165].activated = false; map.matrix[18][14] = 0;
+							map.drawArray[175].activated = false; map.matrix[19][11] = 0;
+							map.drawArray[176].activated = false; map.matrix[19][12] = 0;
+							map.drawArray[177].activated = false; map.matrix[19][13] = 0;
+							map.drawArray[178].activated = false; map.matrix[19][14] = 0;
+							scripts[9] = 0;
 						default:
+							
+						case 10:
+							
+							map.drawArray[114].activated = true;
+							map.drawArray[115].activated = true;
+							map.drawArray[116].activated = true;
+							map.drawArray[117].activated = true;
+							map.drawArray[131].activated = true;
+							map.drawArray[132].activated = true;
+							map.drawArray[133].activated = true;
+							map.drawArray[134].activated = true;
+							if (map.drawArray[114].y == map.drawArray[114].desty) map.matrix[12][11] = 2;
+							if (map.drawArray[115].y == map.drawArray[115].desty) map.matrix[12][12] = 2;
+							if (map.drawArray[116].y == map.drawArray[116].desty) map.matrix[12][13] = 2;
+							if (map.drawArray[117].y == map.drawArray[117].desty) map.matrix[12][14] = 2;
+							if (map.drawArray[131].y == map.drawArray[131].desty) map.matrix[13][11] = 2;
+							if (map.drawArray[132].y == map.drawArray[132].desty) map.matrix[13][12] = 2;
+							if (map.drawArray[133].y == map.drawArray[133].desty) map.matrix[13][13] = 2;
+							if (map.drawArray[134].y == map.drawArray[134].desty) map.matrix[13][14] = 2;
+							if ((map.drawArray[114].y == map.drawArray[114].desty) && (map.drawArray[115].y == map.drawArray[115].desty) && (map.drawArray[116].y == map.drawArray[116].desty) && (map.drawArray[117].y == map.drawArray[117].desty) && (map.drawArray[131].y == map.drawArray[131].desty) && (map.drawArray[132].y == map.drawArray[132].desty) && (map.drawArray[133].y == map.drawArray[133].desty) && (map.drawArray[134].y == map.drawArray[134].desty))
+							{
+								scripts[10] = 0;
+							}
+							break;
+							
+						
 					}
 					break;
 				}

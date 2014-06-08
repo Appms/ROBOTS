@@ -10,6 +10,8 @@ package objects
 	 */
 	public class PressurePlate extends Activator 
 	{	
+		private var _last_state:Boolean = false;
+		
 		public function PressurePlate(posi:int, posj:int) 
 		{
 			super(posi, posj);
@@ -41,6 +43,16 @@ package objects
 			}
 			
 			trace("Override Success");
+		}
+		
+		public function get last_state():Boolean 
+		{
+			return _last_state;
+		}
+		
+		public function set last_state(value:Boolean):void 
+		{
+			_last_state = value;
 		}
 	}
 }

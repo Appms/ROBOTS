@@ -5,32 +5,34 @@ package objects
 	 * ...
 	 * @author EGOD
 	 */
-	
-	public class Lamp extends Activable 
+	public class MagneticFloor extends Activable
 	{
-		public function Lamp(posi:int, posj:int) 
+		public function MagneticFloor(posi:int, posj:int) 
 		{
-			img = new Image(Assets.getTexture("LampOff"));
 			super(posi, posj);
+			img = new Image(Assets.getTexture("MagneticFloorON"));
+			pivotX = 128;
+			pivotY = 64;
 		}
 		
 		override protected function changeState():void
 		{
-			if (_state == false)
+			if (_state)
 			{
 				this.removeChild(img);
-				img = new Image(Assets.getTexture("LampOff"));
+				img = new Image(Assets.getTexture("MagneticFloorOFF"));
 				this.addChild(img);
 			}
 			else
 			{
 				this.removeChild(img);
-				img = new Image(Assets.getTexture("LampOn"));
+				img = new Image(Assets.getTexture("MagneticFloorON"));
 				this.addChild(img);
 			}
 			
 			trace("Override Success");
 		}
+		
 	}
 
 }

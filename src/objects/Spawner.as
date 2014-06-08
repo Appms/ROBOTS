@@ -25,7 +25,7 @@ package objects
 		private var _i:int;
 		private var _j:int;
 		
-		public var type:int = 3;
+		public var type:int = 1;
 		public var ready:Boolean = true;
 		
 		public function Spawner(posi:int, posj:int) 

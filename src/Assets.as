@@ -141,6 +141,21 @@ package
 		[Embed(source = "../media/graphics/Torreta.png")]
 		static public const Torreta:Class;
 		
+		[Embed(source = "../media/graphics/MagneticFloorOFF.png")]
+		static public const MagneticFloorOFF:Class;
+		
+		[Embed(source = "../media/graphics/MagneticFloorON.png")]
+		static public const MagneticFloorON:Class;
+		
+		[Embed(source = "../media/graphics/Laser.png")]
+		static public const Laser:Class;
+		
+		[Embed(source = "../media/graphics/LaserEndTop.png")]
+		static public const LaserEndTop:Class;
+		
+		[Embed(source = "../media/graphics/LaserEndBot.png")]
+		static public const LaserEndBot:Class;
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		private static var gameMusic:Dictionary = new Dictionary();
 		
