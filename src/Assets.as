@@ -180,6 +180,31 @@ package
 		[Embed(source = "../media/graphics/LevelSelect/2.png")]
 		static public const Btn2:Class;
 		
+		[Embed(source = "../media/graphics/INTRO.atlas", mimeType = "application/octet-stream")]
+		static public const IntroAtlas:Class;
+
+		[Embed(source = "../media/graphics/INTRO.png")]
+		static public const IntroTexture:Class;
+
+		[Embed(source = "../media/graphics/INTRO.json", mimeType = "application/octet-stream")]
+		static public const IntroJson:Class;
+		
+		[Embed(source = "../media/graphics/cursor.png")]
+		static public const Cursor:Class;
+		
+		[Embed(source = "../media/graphics/YELLOWSTRIPE.jpg")]
+		static public const YellowStripe:Class;
+		
+		[Embed(source = "../media/graphics/BLACKSTRIPE.jpg")]
+		static public const BlackStripe:Class;
+		
+		[Embed(source = "../media/graphics/BackArrow.png")]
+		static public const BackArrow:Class;
+		
+		[Embed(source = "../media/graphics/Controls.png")]
+		static public const Controls:Class;
+
+		
 		public static function getTexture(name:String):Texture
 		{
 			if (gameTextures[name] == undefined)

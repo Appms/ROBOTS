@@ -72,7 +72,7 @@ package screens.stages.omaps
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-			this.addEventListener(Event.ENTER_FRAME, onGameTick);
+			//this.addEventListener(Event.ENTER_FRAME, onGameTick);
 		}
 		
 		private function onAddedToStage(event:Event):void 
