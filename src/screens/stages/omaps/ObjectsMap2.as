@@ -23,6 +23,7 @@ package screens.stages.omaps
 	import starling.display.Button;
 	import starling.display.Image;
 	import starling.display.Sprite;
+	import starling.events.KeyboardEvent;
 	import starling.textures.Texture;
 	import starling.events.Event;
 	
@@ -56,10 +57,10 @@ package screens.stages.omaps
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 5, 5, 5, 5, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 5, 5, 5, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 		
 		
@@ -73,6 +74,7 @@ package screens.stages.omaps
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			//this.addEventListener(Event.ENTER_FRAME, onGameTick);
+			this.addEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
 		}
 		
 		private function onAddedToStage(event:Event):void 
@@ -256,48 +258,6 @@ package screens.stages.omaps
 							if (j < i) torreta.y * -1;
 							_objectsArray[10].push(torreta);
 							this.addChild(torreta);
-							
-							//DOWN
-							var laser:Laser = new Laser(torreta, torreta.i+1, torreta.j)
-							while (_matrix[laser.i][laser.j] == 0 || _matrix[laser.i][laser.j] == 2 || _matrix[laser.i][laser.j] == 3)
-							{
-								if (_matrix[laser.i][laser.j] == 3) trace("Destroy");
-								laser.x = 128 * (laser.j - laser.i);
-								laser.y = 64 * (laser.j + laser.i);
-								if (laser.j < laser.i) laser.y * -1;
-								_objectsArray[11].push(laser);
-								this.addChild(laser);
-								laser = new Laser(laser, laser.i +1, laser.j);
-							}
-							laser.img = new Image(Assets.getTexture("LaserEndBot"));
-							this.addChild(laser.img);
-							laser.x = 128 * (laser.j - laser.i);
-							laser.y = 64 * (laser.j + laser.i);
-							if (laser.j < laser.i) laser.y * -1;
-							_objectsArray[11].push(laser);
-							this.addChild(laser);
-							
-							
-							//UP
-							laser = new Laser(torreta, torreta.i -1, torreta.j)
-							while (laser.i > 0 &&(_matrix[laser.i][laser.j] == 0 || _matrix[laser.i][laser.j] == 2 || _matrix[laser.i][laser.j] == 3))
-							{
-								if (_matrix[laser.i][laser.j] == 2) trace("Destroy");
-								laser.x = 128 * (laser.j - laser.i);
-								laser.y = 64 * (laser.j + laser.i);
-								if (laser.j < laser.i) laser.y * -1;
-								_objectsArray[11].push(laser);
-								this.addChild(laser);
-								laser = new Laser(laser, laser.i -1, laser.j);
-							}
-							laser.img = new Image(Assets.getTexture("LaserEndTop"));
-							this.addChild(laser.img);
-							laser.x = 128 * (laser.j - laser.i);
-							laser.y = 64 * (laser.j + laser.i);
-							if (laser.j < laser.i) laser.y * -1;
-							_objectsArray[11].push(laser);
-							this.addChild(laser);
-							
 							break;
 							
 						case 18:
@@ -359,15 +319,86 @@ package screens.stages.omaps
 					}
 				}
 			}
+			
+			drawLasers();
 		}
 		
-		//private function onGameTick(event:Event):void
-		//{
-		//	for (k = 0; k < _objectsArray[11].length; k++)
-		//	{
-		//		
-		//	}
-		//}
+		private function KeyDown/*onGameTick*/(event:Event):void
+		{
+			
+			/*for (var k:int = 0; k < _objectsArray[11].length; k++)
+			{
+				if (_matrix[_objectsArray[11][k].i][_objectsArray[11][k].j] != 0 || _matrix[_objectsArray[11][k].i][_objectsArray[11][k].j] != 2 || _matrix[_objectsArray[11][k].i][_objectsArray[11][k].j] != 3)
+				{
+					this.removeChild(_objectsArray[11][k]);
+					_objectsArray[11][k] = null;
+				}
+			}
+			
+			for (var k:int = 0; k < _objectsArray[11].length; k++)
+			{
+				if (_objectsArray[11][k].father == null)
+				{
+					this.removeChild(_objectsArray[11][k]);
+					_objectsArray[11][k] = null;
+				}
+			}*/
+			
+			for (var k:int = 0; k < _objectsArray[11].length; k++)
+			{
+				this.removeChild(_objectsArray[11][k]);
+			}
+			_objectsArray[11] = [];
+			
+			drawLasers();
+		}
+		
+		private function drawLasers():void
+		{
+			for (var k:int = 0; k < _objectsArray[10].length; k++)
+			{
+				//DOWN
+				var laser:Laser = new Laser(/*_objectsArray[10][k], */_objectsArray[10][k].i+1, _objectsArray[10][k].j)
+				while (_matrix[laser.i][laser.j] == 0 || _matrix[laser.i][laser.j] == 2 || _matrix[laser.i][laser.j] == 3)
+				{
+					if (_matrix[laser.i][laser.j] == 3) trace("Destroy");
+					laser.x = 128 * (laser.j - laser.i);
+					laser.y = 64 * (laser.j + laser.i);
+					if (laser.j < laser.i) laser.y * -1;
+					_objectsArray[11].push(laser);
+					this.addChild(laser);
+					laser = new Laser(/*laser, */laser.i +1, laser.j);
+				}
+				laser.img = new Image(Assets.getTexture("LaserEndBot"));
+				this.addChild(laser.img);
+				laser.x = 128 * (laser.j - laser.i);
+				laser.y = 64 * (laser.j + laser.i);
+				if (laser.j < laser.i) laser.y * -1;
+				_objectsArray[11].push(laser);
+				this.addChild(laser);
+				
+				
+				//UP
+				laser = new Laser(/*_objectsArray[10][k], */_objectsArray[10][k].i -1, _objectsArray[10][k].j)
+				while (laser.i > 0 &&(_matrix[laser.i][laser.j] == 0 || _matrix[laser.i][laser.j] == 2 || _matrix[laser.i][laser.j] == 3))
+				{
+					if (_matrix[laser.i][laser.j] == 2) trace("Destroy");
+					laser.x = 128 * (laser.j - laser.i);
+					laser.y = 64 * (laser.j + laser.i);
+					if (laser.j < laser.i) laser.y * -1;
+					_objectsArray[11].push(laser);
+					this.addChild(laser);
+					laser = new Laser(/*laser, */laser.i -1, laser.j);
+				}
+				laser.img = new Image(Assets.getTexture("LaserEndTop"));
+				this.addChild(laser.img);
+				laser.x = 128 * (laser.j - laser.i);
+				laser.y = 64 * (laser.j + laser.i);
+				if (laser.j < laser.i) laser.y * -1;
+				_objectsArray[11].push(laser);
+				this.addChild(laser);
+			}
+		}
 		
 		public function get matrix():Array 
 		{

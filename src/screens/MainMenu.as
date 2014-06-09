@@ -149,16 +149,17 @@ package screens
 					case 0:
 						switch (e.keyCode) 
 						{
-							case Keyboard.W:
+							case Keyboard.W;// , Keyboard.UP:
 								break;
 							
-							case Keyboard.S:
+							case Keyboard.S;//, Keyboard.DOWN:
 								cursorId ++;
 								cursorImg.x -= 170;
 								cursorImg.y += 50;
 								break
 							
-							case Keyboard.ENTER:
+							case Keyboard.ENTER;// , Keyboard.SPACE:
+								this.removeEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
 								transition = true;
 								break;
 						}
@@ -167,19 +168,19 @@ package screens
 					case 1:
 						switch (e.keyCode) 
 						{
-							case Keyboard.W:
+							case Keyboard.W;// , Keyboard.UP:
 								cursorId --;
 								cursorImg.x += 170;
 								cursorImg.y -= 50;
 								break;
 							
-							case Keyboard.S:
+							case Keyboard.S;// , Keyboard.DOWN:
 								cursorId ++;
 								cursorImg.x += 120;
 								cursorImg.y += 50;
 								break
 							
-							case Keyboard.ENTER:
+							case Keyboard.ENTER;// , Keyboard.SPACE:
 								transition = true;
 								break;
 						}
@@ -188,16 +189,16 @@ package screens
 					case 2:
 						switch (e.keyCode) 
 						{
-							case Keyboard.W:
+							case Keyboard.W;// , Keyboard.UP:
 								cursorId --;
 								cursorImg.x -= 120;
 								cursorImg.y -= 50;
 								break;
 							
-							case Keyboard.S:
+							case Keyboard.S;// , Keyboard.DOWN:
 								break
 							
-							case Keyboard.ENTER:
+							case Keyboard.ENTER;// , Keyboard.SPACE:
 								skeleton.state.addAnimationByName(0, "CREDITS", false, 0);
 								cursorImg.visible = false;
 								break;

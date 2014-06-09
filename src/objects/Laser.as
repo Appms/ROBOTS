@@ -13,21 +13,21 @@ package objects
 		private var _img:Image;
 		
 		private var _direction:Boolean;
-		private var _father:Sprite;
+		//private var _father:Sprite;
 		
 		private var _i:int;
 		private var _j:int;
 		
-		public function Laser(dad:Sprite, posi:int, posj:int) 
+		public function Laser(/*dad:Sprite, */posi:int, posj:int) 
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			//this.addEventListener(Event.ENTER_FRAME, onGameTick);
-			_father = dad;
+			//_father = dad;
 			_i = posi;
 			_j = posj;
-			pivotX = 256;
-			pivotY = 128;
+			pivotX = 128;
+			pivotY = 256;
 			_img = new Image(Assets.getTexture("Laser"));
 		}
 		
