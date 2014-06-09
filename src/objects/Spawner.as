@@ -25,7 +25,7 @@ package objects
 		private var _i:int;
 		private var _j:int;
 		
-		public var type:int = 1;
+		private var _type:int = 1;
 		public var ready:Boolean = true;
 		
 		public function Spawner(posi:int, posj:int) 
@@ -72,6 +72,16 @@ package objects
 		public function set j(value:int):void 
 		{
 			_j = value;
+		}
+		
+		public function get type():int 
+		{
+			return _type;
+		}
+		
+		public function set type(value:int):void 
+		{
+			_type = value;
 		}
 		
 	}

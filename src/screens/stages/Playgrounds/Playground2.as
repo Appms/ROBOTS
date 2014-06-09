@@ -40,7 +40,7 @@ package screens.stages.Playgrounds
 		private const SpeedY:Number = 2;
 		
 		private var camera_offset_x:int = -20 * TileSizeX;
-		private var camera_offset_y:int = -28 * TileSizeY;
+		private var camera_offset_y:int= -28 * TileSizeY;
 		
 		private var map:LevelMap2;
 		private var obj:ObjectsMap2;
@@ -49,13 +49,17 @@ package screens.stages.Playgrounds
 		private var hipstom:Hipstom;
 		private var esc_menu:EscMenu;
 		
+		private var nanoPowerUp:Boolean = false;
 		private var run:Boolean;
+		private var botPowerUp:Boolean = false;
 		
 		private var musica:Sound;
 		
 		private var k:int; //iterator
+		private var p:int; //iterator_2
+		private var t:int; //iterator_3
 		
-		private var scripts:Array = [1, 0, 0, 0, 0, 0, 0, 0, 0];
+		private var scripts:Array = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 		
 		private var controlable:Boolean = false;
 		
@@ -79,6 +83,9 @@ package screens.stages.Playgrounds
 			this.visible = true;
 			
 			drawGame();
+			
+			//camera_offset_x = -20 * TileSizeX;
+			//camera_offset_y = -28 * TileSizeY;
 			
 			musica = Assets.getMusic("Theme1");
 			//musica.play(0, 0);
@@ -134,6 +141,12 @@ package screens.stages.Playgrounds
 				esc_menu.EscBtn.visible = true;
 			}
 			
+			if (event.keyCode == Keyboard.R)
+			{
+				this.removeChildren();
+				initialize();
+			}
+			
 			if (controlable) 
 			{
 				if (!hipstom.visible)
@@ -153,6 +166,40 @@ package screens.stages.Playgrounds
 									current_robot.skeleton.state.setAnimationByName(0, "back_idle", true);
 								}
 								
+								// BIG POWER UP
+								else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i - 1][current_robot.j] == 20)
+								{
+									botPowerUp = true;
+									obj.BBooster.Activate()
+									
+									current_robot.state = 2;
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.i--;
+									obj.matrix[current_robot.i][current_robot.j] = 1;
+									camera_offset_x -= TileSizeX;
+									camera_offset_y += TileSizeY;
+									
+									if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
+									else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
+								}
+								
+								// NANO POWER UP
+								else if (obj.matrix[current_robot.i][current_robot.j] == 3 && obj.matrix[current_robot.i - 1][current_robot.j] == 19)
+								{
+									nanoPowerUp = true;
+									obj.NBooster.Activate()
+									
+									current_robot.state = 2;
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.i--;
+									obj.matrix[current_robot.i][current_robot.j] = 3;
+									camera_offset_x -= TileSizeX;
+									camera_offset_y += TileSizeY;
+									
+									if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
+									else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
+								}
+								
 								else if (map.matrix[current_robot.i - 1][current_robot.j] == 2 || map.matrix[current_robot.i - 1][current_robot.j] == 6)
 								{
 									if(obj.matrix[current_robot.i - 1][current_robot.j] == 0)
@@ -160,12 +207,17 @@ package screens.stages.Playgrounds
 										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
 										else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
 										
-										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										if (obj.matrix[current_robot.i][current_robot.j] > 50)
+										{
+											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 50; 
+											obj.matrix[current_robot.i][current_robot.j] = 12;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] < 40)
 										{
 											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
 											obj.matrix[current_robot.i][current_robot.j] = 0;
 										}
-										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										else
 										{
 											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
 											obj.matrix[current_robot.i][current_robot.j] = 14;
@@ -174,82 +226,27 @@ package screens.stages.Playgrounds
 												if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
 												{
 													obj.objectsArray[3][s].interact();
-													break;
 												}
 											}
 										}
-										else
-										{
-											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 30; 
-											obj.matrix[current_robot.i][current_robot.j] = 13;
-										}
+										
 										current_robot.state = 2;
 										current_robot.i--;
 										camera_offset_x -= TileSizeX;
 										camera_offset_y += TileSizeY;
 									}
 									
-									else if ((obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 31 || obj.matrix[current_robot.i][current_robot.j] == 41) && obj.matrix[current_robot.i - 1][current_robot.j] == 5 && obj.matrix[current_robot.i - 2][current_robot.j] == 0 && map.matrix[current_robot.i - 2][current_robot.j] == 2)
-									{
-										for (k = 0; k < obj.objectsArray[4].length ; k++) 
-										{
-											if (obj.objectsArray[4][k].i == (current_robot.i - 1) && obj.objectsArray[4][k].j == current_robot.j) 
-											{
-												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
-												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
-												if (obj.matrix[current_robot.i][current_robot.j] < 30)
-												{
-													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
-													obj.matrix[current_robot.i][current_robot.j] = 0;
-												}
-												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
-												{
-													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
-													obj.matrix[current_robot.i][current_robot.j] = 14;
-													for (var s:int; s < obj.objectsArray[3].length; s++)
-													{
-														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
-														{
-															obj.objectsArray[3][s].interact();
-															break;
-														}
-													}
-												}
-												else
-												{
-													obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 30; 
-													obj.matrix[current_robot.i][current_robot.j] = 13;
-												}
-												current_robot.skeleton.state.setAnimationByName(0, "back_push", false);
-												obj.matrix[current_robot.i - 2][current_robot.j] = 5;
-												current_robot.i--;
-												obj.objectsArray[4][k].i --;
-												current_robot.state = 2;
-												obj.objectsArray[4][k].state = 1;
-												camera_offset_x -= TileSizeX;
-												camera_offset_y += TileSizeY;
-												
-												break;
-											}
-										}
-									}
-									
 									else if (obj.matrix[current_robot.i - 1][current_robot.j] == 14)
 									{
-										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										if (obj.matrix[current_robot.i][current_robot.j] < 40)
 										{
 											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 40; 
 											obj.matrix[current_robot.i][current_robot.j] = 0;
 										}
-										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										else
 										{
 											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
 											obj.matrix[current_robot.i][current_robot.j] = 14;
-										}
-										else
-										{
-											obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 10; 
-											obj.matrix[current_robot.i][current_robot.j] = 13;
 										}
 										
 										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
@@ -264,6 +261,76 @@ package screens.stages.Playgrounds
 											if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
 											{
 												obj.objectsArray[3][s].interact();
+											}
+										}
+									}
+									
+									else if (obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 41)
+									{
+										if (obj.matrix[current_robot.i - 1][current_robot.j] == 5 || obj.matrix[current_robot.i - 1][current_robot.j] == 45)
+										{
+											if ((obj.matrix[current_robot.i - 2][current_robot.j] == 0 || obj.matrix[current_robot.i - 2][current_robot.j] == 14) && map.matrix[current_robot.i - 2][current_robot.j] == 2)
+											{
+												for (k = 0; k < obj.objectsArray[4].length ; k++) 
+												{
+													if (obj.objectsArray[4][k].i == (current_robot.i - 1) && obj.objectsArray[4][k].j == current_robot.j) 
+													{
+														obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x + 128;
+														obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
+														
+														if (obj.matrix[current_robot.i][current_robot.j] == 41)
+														{
+															obj.matrix[current_robot.i - 2][current_robot.j] = 5;
+															obj.matrix[current_robot.i - 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+															obj.matrix[current_robot.i][current_robot.j] = 14;
+															for (var s:int; s < obj.objectsArray[3].length; s++)
+															{
+																if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+																{
+																	obj.objectsArray[3][s].interact();
+																}
+															}
+														}
+														else
+														{
+															obj.matrix[current_robot.i][current_robot.j] = 0;
+														}
+														if (obj.matrix[current_robot.i - 1][current_robot.j] == 5)
+														{
+															obj.matrix[current_robot.i - 1][current_robot.j] = 1;
+														}
+														else
+														{
+															obj.matrix[current_robot.i - 1][current_robot.j] = 41;
+														}
+														
+													if (obj.matrix[current_robot.i - 2][current_robot.j] == 0)
+														{
+															obj.matrix[current_robot.i - 2][current_robot.j] = 5;
+														}
+														else
+														{
+															obj.matrix[current_robot.i - 2][current_robot.j] = 45;
+															for (var s:int; s < obj.objectsArray[3].length; s++)
+															{
+																if (obj.objectsArray[3][s].i == current_robot.i - 2 && obj.objectsArray[3][s].j == current_robot.j)
+																{
+																	obj.objectsArray[3][s].interact();
+																}
+															}
+														}
+														
+														current_robot.skeleton.state.setAnimationByName(0, "back_push", false);
+														current_robot.i--;
+														obj.objectsArray[4][k].i--;
+														current_robot.state = 2;
+														obj.objectsArray[4][k].state = 1;
+														camera_offset_x -= TileSizeX;
+														camera_offset_y += TileSizeY;
+														
+														break;
+													}
+												}
 											}
 										}
 									}
@@ -281,6 +348,40 @@ package screens.stages.Playgrounds
 									current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
 								}
 								
+								// BOT POWER UP	
+								else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i + 1][current_robot.j] == 20)
+								{
+									botPowerUp = true;
+									obj.BBooster.Activate()
+									
+									current_robot.state = 2;
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.i++;
+									obj.matrix[current_robot.i][current_robot.j] = 1;
+									camera_offset_x += TileSizeX;
+									camera_offset_y -= TileSizeY;
+									
+									if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
+									else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
+								}
+								
+								//NANO POWER UP
+								else if (obj.matrix[current_robot.i][current_robot.j] == 3 && obj.matrix[current_robot.i + 1][current_robot.j] == 19)
+								{
+									nanoPowerUp = true;
+									obj.NBooster.Activate()
+									
+									current_robot.state = 2;
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.i++;
+									obj.matrix[current_robot.i][current_robot.j] = 3;
+									camera_offset_x += TileSizeX;
+									camera_offset_y -= TileSizeY;
+									
+									if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
+									else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
+								}
+								
 								else if (map.matrix[current_robot.i + 1][current_robot.j] == 2 || map.matrix[current_robot.i + 1][current_robot.j] == 6)
 								{
 									if(obj.matrix[current_robot.i + 1][current_robot.j] == 0)
@@ -288,12 +389,17 @@ package screens.stages.Playgrounds
 										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
 										else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
 										
-										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										if (obj.matrix[current_robot.i][current_robot.j] > 50)
+										{
+											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 50; 
+											obj.matrix[current_robot.i][current_robot.j] = 12;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] < 40)
 										{
 											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
 											obj.matrix[current_robot.i][current_robot.j] = 0;
 										}
-										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										else
 										{
 											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
 											obj.matrix[current_robot.i][current_robot.j] = 14;
@@ -302,14 +408,8 @@ package screens.stages.Playgrounds
 												if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
 												{
 													obj.objectsArray[3][s].interact();
-													break;
 												}
 											}
-										}
-										else
-										{
-											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 30; 
-											obj.matrix[current_robot.i][current_robot.j] = 13;
 										}
 										
 										current_robot.state = 2;
@@ -318,68 +418,17 @@ package screens.stages.Playgrounds
 										camera_offset_y -= TileSizeY;
 									}
 									
-									else if ((obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 31 || obj.matrix[current_robot.i][current_robot.j] == 41) && obj.matrix[current_robot.i + 1][current_robot.j] == 5 && obj.matrix[current_robot.i + 2][current_robot.j] == 0 && map.matrix[current_robot.i + 2][current_robot.j] == 2)
-									{
-										for (k = 0; k < obj.objectsArray[4].length ; k++) 
-										{
-											if (obj.objectsArray[4][k].i == (current_robot.i + 1) && obj.objectsArray[4][k].j == current_robot.j) 
-											{
-												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
-												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
-												if (obj.matrix[current_robot.i][current_robot.j] < 30)
-												{
-													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
-													obj.matrix[current_robot.i][current_robot.j] = 0;
-												}
-												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
-												{
-													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
-													obj.matrix[current_robot.i][current_robot.j] = 14;
-													for (var s:int; s < obj.objectsArray[3].length; s++)
-													{
-														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
-														{
-															obj.objectsArray[3][s].interact();
-															break;
-														}
-													}
-												}
-												else
-												{
-													obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 30; 
-													obj.matrix[current_robot.i][current_robot.j] = 13;
-												}
-												
-												current_robot.skeleton.state.setAnimationByName(0, "front_push", false);
-												obj.matrix[current_robot.i + 2][current_robot.j] = 5;
-												current_robot.i++;
-												obj.objectsArray[4][k].i++;
-												current_robot.state = 2;
-												obj.objectsArray[4][k].state = 1;
-												camera_offset_x += TileSizeX;
-												camera_offset_y -= TileSizeY;
-												
-												break;
-											}
-										}
-									}
-									
 									else if (obj.matrix[current_robot.i + 1][current_robot.j] == 14)
 									{
-										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										if (obj.matrix[current_robot.i][current_robot.j] < 40)
 										{
 											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 40; 
 											obj.matrix[current_robot.i][current_robot.j] = 0;
 										}
-										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										else
 										{
 											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j]; 
 											obj.matrix[current_robot.i][current_robot.j] = 14;
-										}
-										else
-										{
-											obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] + 10; 
-											obj.matrix[current_robot.i][current_robot.j] = 13;
 										}
 										
 										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
@@ -394,6 +443,76 @@ package screens.stages.Playgrounds
 											if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
 											{
 												obj.objectsArray[3][s].interact();
+											}
+										}
+									}
+									
+									else if (obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 41)
+									{
+										if (obj.matrix[current_robot.i + 1][current_robot.j] == 5 || obj.matrix[current_robot.i + 1][current_robot.j] == 45)
+										{
+											if ((obj.matrix[current_robot.i + 2][current_robot.j] == 0 || obj.matrix[current_robot.i + 2][current_robot.j] == 14) && map.matrix[current_robot.i + 2][current_robot.j] == 2)
+											{
+												for (k = 0; k < obj.objectsArray[4].length ; k++) 
+												{
+													if (obj.objectsArray[4][k].i == (current_robot.i + 1) && obj.objectsArray[4][k].j == current_robot.j) 
+													{
+														obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
+														obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y + 64;
+														
+														if (obj.matrix[current_robot.i][current_robot.j] == 41)
+														{
+															obj.matrix[current_robot.i + 2][current_robot.j] = 5;
+															obj.matrix[current_robot.i + 1][current_robot.j] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+															obj.matrix[current_robot.i][current_robot.j] = 14;
+															for (var s:int; s < obj.objectsArray[3].length; s++)
+															{
+																if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+																{
+																	obj.objectsArray[3][s].interact();
+																}
+															}
+														}
+														else
+														{
+															obj.matrix[current_robot.i][current_robot.j] = 0;
+														}
+														if (obj.matrix[current_robot.i + 1][current_robot.j] == 5)
+														{
+															obj.matrix[current_robot.i + 1][current_robot.j] = 1;
+														}
+														else
+														{
+															obj.matrix[current_robot.i + 1][current_robot.j] = 41;
+														}
+														
+													if (obj.matrix[current_robot.i + 2][current_robot.j] == 0)
+														{
+															obj.matrix[current_robot.i + 2][current_robot.j] = 5;
+														}
+														else
+														{
+															obj.matrix[current_robot.i + 2][current_robot.j] = 45;
+															for (var s:int; s < obj.objectsArray[3].length; s++)
+															{
+																if (obj.objectsArray[3][s].i == current_robot.i + 2 && obj.objectsArray[3][s].j == current_robot.j)
+																{
+																	obj.objectsArray[3][s].interact();
+																}
+															}
+														}
+														
+														current_robot.skeleton.state.setAnimationByName(0, "front_push", false);
+														current_robot.i++;
+														obj.objectsArray[4][k].i++;
+														current_robot.state = 2;
+														obj.objectsArray[4][k].state = 1;
+														camera_offset_x += TileSizeX;
+														camera_offset_y -= TileSizeY;
+														
+														break;
+													}
+												}
 											}
 										}
 									}
@@ -411,6 +530,40 @@ package screens.stages.Playgrounds
 									current_robot.skeleton.state.setAnimationByName(0, "back_idle", true);
 								}
 								
+								// BOT POWER UP
+								else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i][current_robot.j - 1] == 20)
+								{
+									botPowerUp = true;
+									obj.NBooster.Activate()
+									
+									current_robot.state = 2;
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.j--;
+									obj.matrix[current_robot.i][current_robot.j] = 1;
+									camera_offset_x += TileSizeX;
+									camera_offset_y += TileSizeY;
+									
+									if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
+									else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
+								}
+								
+								// NANO POWER UP
+								else if (obj.matrix[current_robot.i][current_robot.j] == 3 && obj.matrix[current_robot.i][current_robot.j - 1] == 19)
+								{
+									nanoPowerUp = true;
+									obj.NBooster.Activate()
+									
+									current_robot.state = 2;
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.j--;
+									obj.matrix[current_robot.i][current_robot.j] = 3;
+									camera_offset_x += TileSizeX;
+									camera_offset_y += TileSizeY;
+									
+									if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
+									else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
+								}
+								
 								else if (map.matrix[current_robot.i][current_robot.j - 1] == 2 || map.matrix[current_robot.i][current_robot.j - 1] == 6)
 								{
 									if(obj.matrix[current_robot.i][current_robot.j - 1] == 0)
@@ -418,17 +571,17 @@ package screens.stages.Playgrounds
 										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
 										else { current_robot.skeleton.state.setAnimationByName(0, "back_left_step", false); current_robot.rightstep = true; }
 										
-										if (obj.matrix[current_robot.i][current_robot.j] < 30)
-										{
-											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
-											obj.matrix[current_robot.i][current_robot.j] = 0;
-										}
-										else if (obj.matrix[current_robot.i][current_robot.j] > 50)
+										if (obj.matrix[current_robot.i][current_robot.j] > 50)
 										{
 											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 50; 
 											obj.matrix[current_robot.i][current_robot.j] = 12;
 										}
-										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										else if (obj.matrix[current_robot.i][current_robot.j] < 40)
+										{
+											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
+											obj.matrix[current_robot.i][current_robot.j] = 0;
+										}
+										else
 										{
 											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 40; 
 											obj.matrix[current_robot.i][current_robot.j] = 14;
@@ -437,83 +590,27 @@ package screens.stages.Playgrounds
 												if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
 												{
 													obj.objectsArray[3][s].interact();
-													break;
 												}
 											}
 										}
-										else
-										{
-											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 30; 
-											obj.matrix[current_robot.i][current_robot.j] = 13;
-										}
+										
 										current_robot.state = 2;
 										current_robot.j--;
 										camera_offset_x += TileSizeX;
 										camera_offset_y += TileSizeY;
 									}
 									
-									else if ((obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 31 || obj.matrix[current_robot.i][current_robot.j] == 41) && obj.matrix[current_robot.i][current_robot.j - 1] == 5 && obj.matrix[current_robot.i][current_robot.j - 2] == 0 && map.matrix[current_robot.i][current_robot.j - 2] == 2)
-									{
-										for (k = 0; k < obj.objectsArray[4].length ; k++) 
-										{
-											if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j - 1)) 
-											{
-												obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
-												obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
-												if (obj.matrix[current_robot.i][current_robot.j] < 30)
-												{
-													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
-													obj.matrix[current_robot.i][current_robot.j] = 0;
-												}
-												else if (obj.matrix[current_robot.i][current_robot.j] > 40)
-												{
-													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 40; 
-													obj.matrix[current_robot.i][current_robot.j] = 14;
-													for (var s:int; s < obj.objectsArray[3].length; s++)
-													{
-														if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
-														{
-															obj.objectsArray[3][s].interact();
-															break;
-														}
-													}
-												}
-												else
-												{
-													obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 30; 
-													obj.matrix[current_robot.i][current_robot.j] = 13;
-												}
-												
-												current_robot.skeleton.state.setAnimationByName(0, "back_push", false);
-												obj.matrix[current_robot.i][current_robot.j - 2] = 5;
-												current_robot.j--;
-												obj.objectsArray[4][k].j--;
-												current_robot.state = 2;
-												obj.objectsArray[4][k].state = 1;
-												camera_offset_x += TileSizeX;
-												camera_offset_y += TileSizeY;
-												
-												break;
-											}
-										}
-									}
-									
 									else if (obj.matrix[current_robot.i][current_robot.j - 1] == 14)
 									{
-										if (obj.matrix[current_robot.i][current_robot.j] < 30)
+										if (obj.matrix[current_robot.i][current_robot.j] < 40)
 										{
 											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] + 40; 
 											obj.matrix[current_robot.i][current_robot.j] = 0;
 										}
-										else if (obj.matrix[current_robot.i][current_robot.j] > 40)
+										else
 										{
 											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j]; 
 											obj.matrix[current_robot.i][current_robot.j] = 14;
-										}
-										else
-										{
-											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] + 10; 
-											obj.matrix[current_robot.i][current_robot.j] = 13;
 										}
 										
 										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false); current_robot.rightstep = false; }
@@ -531,7 +628,79 @@ package screens.stages.Playgrounds
 											}
 										}
 									}
+									
+									else if (obj.matrix[current_robot.i][current_robot.j] == 1 || obj.matrix[current_robot.i][current_robot.j] == 41)
+									{
+										if (obj.matrix[current_robot.i][current_robot.j - 1] == 5 || obj.matrix[current_robot.i][current_robot.j - 1] == 45)
+										{
+											if ((obj.matrix[current_robot.i][current_robot.j - 2] == 0 || obj.matrix[current_robot.i][current_robot.j - 2] == 14) && map.matrix[current_robot.i][current_robot.j - 2] == 2)
+											{
+												for (k = 0; k < obj.objectsArray[4].length ; k++) 
+												{
+													if (obj.objectsArray[4][k].i == current_robot.i && obj.objectsArray[4][k].j == (current_robot.j - 1)) 
+													{
+														obj.objectsArray[4][k].destx = obj.objectsArray[4][k].x - 128;
+														obj.objectsArray[4][k].desty = obj.objectsArray[4][k].y - 64;
+														
+														if (obj.matrix[current_robot.i][current_robot.j] == 41)
+														{
+															obj.matrix[current_robot.i][current_robot.j - 2] = 5;
+															obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 40; 
+															obj.matrix[current_robot.i][current_robot.j] = 14;
+															for (var s:int; s < obj.objectsArray[3].length; s++)
+															{
+																if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j)
+																{
+																	obj.objectsArray[3][s].interact();
+																}
+															}
+														}
+														else
+														{
+															obj.matrix[current_robot.i][current_robot.j] = 0;
+														}
+
+														if (obj.matrix[current_robot.i][current_robot.j - 1] == 5)
+														{
+															obj.matrix[current_robot.i][current_robot.j - 1] = 1;
+														}
+														else
+														{
+															obj.matrix[current_robot.i][current_robot.j - 1] = 41;
+														}
+														
+														if (obj.matrix[current_robot.i][current_robot.j - 2] == 0)
+														{
+															obj.matrix[current_robot.i][current_robot.j - 2] = 5;
+														}
+														else
+														{
+															obj.matrix[current_robot.i][current_robot.j - 2] = 45;
+															for (var s:int; s < obj.objectsArray[3].length; s++)
+															{
+																if (obj.objectsArray[3][s].i == current_robot.i && obj.objectsArray[3][s].j == current_robot.j - 2)
+																{
+																	obj.objectsArray[3][s].interact();
+																}
+															}
+														}
+														
+														current_robot.skeleton.state.setAnimationByName(0, "back_push", false);
+														current_robot.j--;
+														obj.objectsArray[4][k].j--;
+														current_robot.state = 2;
+														obj.objectsArray[4][k].state = 1;
+														camera_offset_x += TileSizeX;
+														camera_offset_y += TileSizeY;
+														
+														break;
+													}
+												}
+											}
+										}
+									}
 								}
+								
 								break;
 							
 							case Keyboard.D:
@@ -545,6 +714,40 @@ package screens.stages.Playgrounds
 									current_robot.skeleton.state.setAnimationByName(0, "front_idle", true);
 								}
 								
+								// BOT POWER UP
+								else if (obj.matrix[current_robot.i][current_robot.j] == 1 && obj.matrix[current_robot.i][current_robot.j + 1] == 20)
+								{
+									botPowerUp = true;
+									obj.NBooster.Activate()
+									
+									current_robot.state = 2;
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.j++;
+									obj.matrix[current_robot.i][current_robot.j] = 1;
+									camera_offset_x -= TileSizeX;
+									camera_offset_y -= TileSizeY;
+									
+									if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
+									else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
+								}
+								
+								// NANO POWER UP
+								else if (obj.matrix[current_robot.i][current_robot.j] == 3 && obj.matrix[current_robot.i][current_robot.j + 1] == 19)
+								{
+									nanoPowerUp = true;
+									obj.NBooster.Activate()
+									
+									current_robot.state = 2;
+									obj.matrix[current_robot.i][current_robot.j] = 0;
+									current_robot.j++;
+									obj.matrix[current_robot.i][current_robot.j] = 3;
+									camera_offset_x -= TileSizeX;
+									camera_offset_y -= TileSizeY;
+									
+									if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
+									else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
+								}
+								
 								else if (map.matrix[current_robot.i][current_robot.j + 1] == 2 || map.matrix[current_robot.i][current_robot.j + 1] == 6)
 								{
 									if(obj.matrix[current_robot.i][current_robot.j + 1] == 0)
@@ -552,7 +755,12 @@ package screens.stages.Playgrounds
 										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
 										else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
 										
-										if (obj.matrix[current_robot.i][current_robot.j] < 40)
+										if (obj.matrix[current_robot.i][current_robot.j] > 50)
+										{
+											obj.matrix[current_robot.i][current_robot.j - 1] = obj.matrix[current_robot.i][current_robot.j] - 50; 
+											obj.matrix[current_robot.i][current_robot.j] = 12;
+										}
+										else if (obj.matrix[current_robot.i][current_robot.j] < 40)
 										{
 											obj.matrix[current_robot.i][current_robot.j + 1] = obj.matrix[current_robot.i][current_robot.j]; 
 											obj.matrix[current_robot.i][current_robot.j] = 0;
@@ -635,7 +843,7 @@ package screens.stages.Playgrounds
 														{
 															obj.matrix[current_robot.i][current_robot.j] = 0;
 														}
-
+														
 														if (obj.matrix[current_robot.i][current_robot.j + 1] == 5)
 														{
 															obj.matrix[current_robot.i][current_robot.j + 1] = 1;
@@ -676,6 +884,22 @@ package screens.stages.Playgrounds
 										}
 									}
 								}
+								/*else if (obj.matrix[current_robot.i][current_robot.j] == 3)
+								{
+									if (obj.matrix[current_robot.i][current_robot.j + 1] == 19)
+									{
+										nanoPowerUp = true;
+										obj.NBooster.Activate()
+										
+										current_robot.state = 2;
+										current_robot.j++;
+										camera_offset_x -= TileSizeX;
+										camera_offset_y -= TileSizeY;
+										
+										if (current_robot.rightstep) { current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false); current_robot.rightstep = false; }
+										else { current_robot.skeleton.state.setAnimationByName(0, "front_left_step", false); current_robot.rightstep = true; }
+									}
+								}*/
 								break;
 							}
 						}
@@ -899,60 +1123,162 @@ package screens.stages.Playgrounds
 						if (event.keyCode == Keyboard.Q)
 						{
 							// NANOBOT
-							if (obj.matrix[current_robot.i][current_robot.j] == 3 && current_robot.state == 1)
+							if (nanoPowerUp)
 							{
-								switch(current_robot.aim)
+								if (obj.matrix[current_robot.i][current_robot.j] == 3 && current_robot.state == 1)
 								{
-									//if ((map.matrix[current_robot.i][current_robot.j] == 2 || map.matrix[current_robot.i][current_robot.j] == 6)&& (obj.matrix[current_robot.i][current_robot.j] == 0 || obj.matrix[current_robot.i][current_robot.j] == 14))
-									case 8:
-										if ((map.matrix[current_robot.i - 1][current_robot.j] == 2 || map.matrix[current_robot.i - 1][current_robot.j] == 6) && (obj.matrix[current_robot.i - 1][current_robot.j] == 0 || obj.matrix[current_robot.i - 1][current_robot.j] == 14))
-										{
-											if (obj.matrix[current_robot.i][current_robot.j] == 3) obj.matrix[current_robot.i][current_robot.j] = 0;
-											else obj.matrix[current_robot.i][current_robot.j] = 14;
-											
-											current_robot.skeleton.state.setAnimationByName(0, "back_right_step", true);
-											
-											run = true;
-										}
-										break;
-									case 2:
-										if ((map.matrix[current_robot.i + 1][current_robot.j] == 2 || map.matrix[current_robot.i + 1][current_robot.j] == 6) && (obj.matrix[current_robot.i + 1][current_robot.j] == 0 || obj.matrix[current_robot.i + 1][current_robot.j] == 14))
-										{
-											if (obj.matrix[current_robot.i][current_robot.j] == 3) obj.matrix[current_robot.i][current_robot.j] = 0;
-											else obj.matrix[current_robot.i][current_robot.j] = 14;
-											
-											current_robot.skeleton.state.setAnimationByName(0, "front_right_step", true);
-											
-											run = true;
-										}
-										break;
-									case 4:
-										if ((map.matrix[current_robot.i][current_robot.j - 1] == 2 || map.matrix[current_robot.i][current_robot.j - 1] == 6) && (obj.matrix[current_robot.i][current_robot.j - 1] == 0 || obj.matrix[current_robot.i][current_robot.j - 1] == 14))
-										{
-											if (obj.matrix[current_robot.i][current_robot.j] == 3) obj.matrix[current_robot.i][current_robot.j] = 0;
-											else obj.matrix[current_robot.i][current_robot.j] = 14;
-											
-											current_robot.skeleton.state.setAnimationByName(0, "back_right_step", true);
-											
-											run = true;
-										}
-										break;
-									case 6:
-										if ((map.matrix[current_robot.i][current_robot.j + 1] == 2 || map.matrix[current_robot.i][current_robot.j + 1] == 6) && (obj.matrix[current_robot.i][current_robot.j + 1] == 0 || obj.matrix[current_robot.i][current_robot.j + 1] == 14))
-										{
-											if (obj.matrix[current_robot.i][current_robot.j] == 3) obj.matrix[current_robot.i][current_robot.j] = 0;
-											else obj.matrix[current_robot.i][current_robot.j] = 14;
-											
-											current_robot.skeleton.state.setAnimationByName(0, "front_right_step", true);
-											
-											run = true;
-										}
-										break;
-									default:
-										break;
+									switch(current_robot.aim)
+									{
+										//if ((map.matrix[current_robot.i][current_robot.j] == 2 || map.matrix[current_robot.i][current_robot.j] == 6)&& (obj.matrix[current_robot.i][current_robot.j] == 0 || obj.matrix[current_robot.i][current_robot.j] == 14))
+										case 8:
+											if ((map.matrix[current_robot.i - 1][current_robot.j] == 2 || map.matrix[current_robot.i - 1][current_robot.j] == 6) && (obj.matrix[current_robot.i - 1][current_robot.j] == 0 || obj.matrix[current_robot.i - 1][current_robot.j] == 14))
+											{
+												if (obj.matrix[current_robot.i][current_robot.j] == 3) obj.matrix[current_robot.i][current_robot.j] = 0;
+												else
+												{
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (k = 0; k < obj.objectsArray[3].length; k++) 
+													{
+														if (obj.objectsArray[3][k].i == current_robot.i && obj.objectsArray[3][k].j == current_robot.j)
+															obj.objectsArray[3][k].interact();
+													}
+												}
+												
+												current_robot.skeleton.state.setAnimationByName(0, "back_right_step", true);
+												
+												run = true;
+												current_robot.state = 2;
+											}
+											break;
+										case 2:
+											if ((map.matrix[current_robot.i + 1][current_robot.j] == 2 || map.matrix[current_robot.i + 1][current_robot.j] == 6) && (obj.matrix[current_robot.i + 1][current_robot.j] == 0 || obj.matrix[current_robot.i + 1][current_robot.j] == 14))
+											{
+												if (obj.matrix[current_robot.i][current_robot.j] == 3) obj.matrix[current_robot.i][current_robot.j] = 0;
+												else
+												{
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (k = 0; k < obj.objectsArray[3].length; k++) 
+													{
+														if (obj.objectsArray[3][k].i == current_robot.i && obj.objectsArray[3][k].j == current_robot.j)
+															obj.objectsArray[3][k].interact();
+													}
+												}
+												
+												current_robot.skeleton.state.setAnimationByName(0, "front_right_step", true);
+												
+												run = true;
+												current_robot.state = 2;
+											}
+											break;
+										case 4:
+											if ((map.matrix[current_robot.i][current_robot.j - 1] == 2 || map.matrix[current_robot.i][current_robot.j - 1] == 6) && (obj.matrix[current_robot.i][current_robot.j - 1] == 0 || obj.matrix[current_robot.i][current_robot.j - 1] == 14))
+											{
+												if (obj.matrix[current_robot.i][current_robot.j] == 3) obj.matrix[current_robot.i][current_robot.j] = 0;
+												else
+												{
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (k = 0; k < obj.objectsArray[3].length; k++) 
+													{
+														if (obj.objectsArray[3][k].i == current_robot.i && obj.objectsArray[3][k].j == current_robot.j)
+															obj.objectsArray[3][k].interact();
+													}
+												}
+												
+												current_robot.skeleton.state.setAnimationByName(0, "back_right_step", true);
+												
+												run = true;
+												current_robot.state = 2;
+											}
+											break;
+										case 6:
+											if ((map.matrix[current_robot.i][current_robot.j + 1] == 2 || map.matrix[current_robot.i][current_robot.j + 1] == 6) && (obj.matrix[current_robot.i][current_robot.j + 1] == 0 || obj.matrix[current_robot.i][current_robot.j + 1] == 14))
+											{
+												if (obj.matrix[current_robot.i][current_robot.j] == 3) obj.matrix[current_robot.i][current_robot.j] = 0;
+												else
+												{
+													obj.matrix[current_robot.i][current_robot.j] = 14;
+													for (k = 0; k < obj.objectsArray[3].length; k++) 
+													{
+														if (obj.objectsArray[3][k].i == current_robot.i && obj.objectsArray[3][k].j == current_robot.j)
+															obj.objectsArray[3][k].interact();
+													}
+												}
+												
+												current_robot.skeleton.state.setAnimationByName(0, "front_right_step", true);
+												
+												run = true;
+												current_robot.state = 2;
+											}
+											break;
+										default:
+											break;
+									}
 								}
 							}
 							
+							// BIGBOT
+							if (botPowerUp)
+							{
+								if (obj.matrix[current_robot.i][current_robot.j] == 1 && current_robot.state == 1)
+								{
+									switch(current_robot.aim)
+									{
+										//if ((map.matrix[current_robot.i][current_robot.j] == 2 || map.matrix[current_robot.i][current_robot.j] == 6)&& (obj.matrix[current_robot.i][current_robot.j] == 0 || obj.matrix[current_robot.i][current_robot.j] == 14))
+										case 8:
+											
+											if (obj.matrix[current_robot.i - 1][current_robot.j] == 17)
+											{
+												for (k = 0; k < obj.objectsArray[10].length ; k++) 
+												{
+													if (obj.objectsArray[10][k].i == current_robot.i - 1 && obj.objectsArray[10][k].j == current_robot.j)
+														trace("destroy turret");
+												}
+											}
+											current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false);
+											break;
+											
+										case 2:
+											if (obj.matrix[current_robot.i + 1][current_robot.j] == 17)
+											{
+												for (k = 0; k < obj.objectsArray[10].length ; k++) 
+												{
+													if (obj.objectsArray[10][k].i == current_robot.i + 1 && obj.objectsArray[10][k].j == current_robot.j)
+														trace("destroy turret");
+												}
+											}
+											current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false);
+											
+											break;
+											
+										case 4:
+											if (obj.matrix[current_robot.i][current_robot.j - 1] == 17)
+											{
+												for (k = 0; k < obj.objectsArray[10].length ; k++) 
+												{
+													if (obj.objectsArray[10][k].i == current_robot.i && obj.objectsArray[10][k].j == current_robot.j - 1)
+														trace("destroy turret");
+												}
+											}	
+											current_robot.skeleton.state.setAnimationByName(0, "back_right_step", false);
+											break;
+											
+										case 6:
+											if (obj.matrix[current_robot.i][current_robot.j + 1] == 17)
+											{
+												for (k = 0; k < obj.objectsArray[10].length ; k++) 
+												{
+													if (obj.objectsArray[10][k].i == current_robot.i && obj.objectsArray[10][k].j == current_robot.j + 1)
+														trace("destroy turret");
+												}
+											}
+											current_robot.skeleton.state.setAnimationByName(0, "front_right_step", false);
+											break;
+											
+										default:
+											break;
+									}
+								}
+							}
 							//animated
 							//current_robot.state = 4;
 							//current_robot.robotSpecial();
@@ -1090,6 +1416,35 @@ package screens.stages.Playgrounds
 				obj.sortChildren(entitySort);
 				drawScreen();
 				
+				// ----- DEATH -----
+				if (controlable && current_robot != null)
+				{
+					if (current_robot.state == 1)
+					{
+						for (k = 0; k < 3; k++)
+						{
+							for (p = 0; p < obj.objectsArray[k].length; p++)
+							{
+								if (map.matrix[obj.objectsArray[k][p].i][obj.objectsArray[k][p].j] == 0)
+								{
+									scripts[10 + obj.matrix[obj.objectsArray[k][p].i][obj.objectsArray[k][p].j]] = 1;
+									obj.objectsArray[8][3 - obj.matrix[obj.objectsArray[k][p].i][obj.objectsArray[k][p].j]].ready = true;
+									obj.matrix[obj.objectsArray[k][p].i][obj.objectsArray[k][p].j] = 0;
+									this.removeChild(obj.objectsArray[k][p]);
+									obj.objectsArray[k] = [];
+									current_robot = null;
+									this.removeChild(current_robot);
+									controlable = false;
+									
+								}
+							}
+						}
+					}
+				}
+				
+				
+				
+				
 				
 				// ----- SCRIPTS -----
 				
@@ -1175,12 +1530,21 @@ package screens.stages.Playgrounds
 								else
 								{
 									if (obj.matrix[current_robot.i][current_robot.j] == 0) obj.matrix[current_robot.i][current_robot.j] = 3;
-									else obj.matrix[current_robot.i][current_robot.j] = 43;
+									else
+									{
+										obj.matrix[current_robot.i][current_robot.j] = 43;
+										for (k = 0; k < obj.objectsArray[3].length; k++) 
+										{
+											if (obj.objectsArray[3][k].i == current_robot.i && obj.objectsArray[3][k].j == current_robot.j)
+												obj.objectsArray[3][k].interact();
+										}
+									}
 									
 									current_robot.skeleton.state.addAnimationByName(0, "back_idle", true, 0);
 									
 									run = false;
 									current_robot.state = 1;
+
 								}
 								break;
 								
@@ -1197,12 +1561,21 @@ package screens.stages.Playgrounds
 								else
 								{
 									if (obj.matrix[current_robot.i][current_robot.j] == 0) obj.matrix[current_robot.i][current_robot.j] = 3;
-									else obj.matrix[current_robot.i][current_robot.j] = 43;
+									else
+									{
+										obj.matrix[current_robot.i][current_robot.j] = 43;
+										for (k = 0; k < obj.objectsArray[3].length; k++) 
+										{
+											if (obj.objectsArray[3][k].i == current_robot.i && obj.objectsArray[3][k].j == current_robot.j)
+												obj.objectsArray[3][k].interact();
+										}
+									}
 									
 									current_robot.skeleton.state.addAnimationByName(0, "front_idle", true, 0);
 									
 									run = false;
 									current_robot.state = 1;
+
 								}
 								break;
 								
@@ -1219,12 +1592,21 @@ package screens.stages.Playgrounds
 								else
 								{
 									if (obj.matrix[current_robot.i][current_robot.j] == 0) obj.matrix[current_robot.i][current_robot.j] = 3;
-									else obj.matrix[current_robot.i][current_robot.j] = 43;
+									else
+									{
+										obj.matrix[current_robot.i][current_robot.j] = 43;
+										for (k = 0; k < obj.objectsArray[3].length; k++) 
+										{
+											if (obj.objectsArray[3][k].i == current_robot.i && obj.objectsArray[3][k].j == current_robot.j)
+												obj.objectsArray[3][k].interact();
+										}
+									}
 									
 									current_robot.skeleton.state.addAnimationByName(0, "back_idle", true, 0);
 									
 									run = false;
 									current_robot.state = 1;
+
 								}
 								break;
 								
@@ -1241,12 +1623,21 @@ package screens.stages.Playgrounds
 								else
 								{
 									if (obj.matrix[current_robot.i][current_robot.j] == 0) obj.matrix[current_robot.i][current_robot.j] = 3;
-									else obj.matrix[current_robot.i][current_robot.j] = 43;
+									else
+									{
+										obj.matrix[current_robot.i][current_robot.j] = 43;
+										for (k = 0; k < obj.objectsArray[3].length; k++) 
+										{
+											if (obj.objectsArray[3][k].i == current_robot.i && obj.objectsArray[3][k].j == current_robot.j)
+												obj.objectsArray[3][k].interact();
+										}
+									}
 									
 									current_robot.skeleton.state.addAnimationByName(0, "front_idle", true, 0);
 									
 									run = false;
 									current_robot.state = 1;
+
 								}
 								break;
 							default:
@@ -1273,31 +1664,31 @@ package screens.stages.Playgrounds
 						{ 
 							controlable = true;
 							
-							if (camera_offset_x == 3 * TileSizeX && camera_offset_y == -5 * TileSizeY) 
+							if (camera_offset_x == 3 * TileSizeX && camera_offset_y == -5 * TileSizeY && obj.objectsArray[8][0].ready && obj.objectsArray[8][1].ready && obj.objectsArray[8][2].ready) 
 							{
 								scripts[1] = 1;
 							}
-							else if (camera_offset_x == 10 * TileSizeX && camera_offset_y == -12 * TileSizeY) 
+							else if (camera_offset_x == 10 * TileSizeX && camera_offset_y == -12 * TileSizeY && obj.objectsArray[8][0].ready && obj.objectsArray[8][1].ready && obj.objectsArray[8][2].ready) 
 							{
 								scripts[2] = 1;
 							}
-							else if (camera_offset_x == 0 * TileSizeX && camera_offset_y == -22 * TileSizeY && obj.objectsArray[8][0].ready) 
+							else if (camera_offset_x == 0 * TileSizeX && camera_offset_y == -22 * TileSizeY && obj.objectsArray[8][0].ready && obj.objectsArray[8][1].ready && obj.objectsArray[8][2].ready) 
 							{
 								scripts[3] = 1;
 							}
-							else if (camera_offset_x == 7 * TileSizeX && camera_offset_y == -29 * TileSizeY && obj.objectsArray[8][0].ready) 
+							else if (camera_offset_x == 7 * TileSizeX && camera_offset_y == -29 * TileSizeY && obj.objectsArray[8][0].ready && obj.objectsArray[8][1].ready && obj.objectsArray[8][2].ready) 
 							{
 								scripts[4] = 1;
 							}
-							else if (camera_offset_x == 16 * TileSizeX && camera_offset_y == -20 * TileSizeY && obj.objectsArray[8][0].ready) 
+							else if (camera_offset_x == 16 * TileSizeX && camera_offset_y == -20 * TileSizeY && obj.objectsArray[8][0].ready && obj.objectsArray[8][1].ready && obj.objectsArray[8][2].ready) 
 							{
 								scripts[5] = 1;
 							}
-							else if (camera_offset_x == 22 * TileSizeX && camera_offset_y == -26 * TileSizeY && obj.objectsArray[8][0].ready) 
+							else if (camera_offset_x == 22 * TileSizeX && camera_offset_y == -26 * TileSizeY && obj.objectsArray[8][0].ready && obj.objectsArray[8][1].ready && obj.objectsArray[8][2].ready) 
 							{
 								scripts[6] = 1;
 							}
-							else if (camera_offset_x == 13 * TileSizeX && camera_offset_y == -35 * TileSizeY && obj.objectsArray[8][0].ready) 
+							else if (camera_offset_x == 13 * TileSizeX && camera_offset_y == -35 * TileSizeY && obj.objectsArray[8][0].ready && obj.objectsArray[8][1].ready && obj.objectsArray[8][2].ready) 
 							{
 								scripts[7] = 1;
 							}
@@ -1316,7 +1707,8 @@ package screens.stages.Playgrounds
 						else if (map.y > camera_offset_y) {map.y -= SpeedY; obj.y -= SpeedY; current_robot.y += SpeedY;}
 						
 						if (map.x == camera_offset_x && map.y == camera_offset_y) { 
-							current_robot.state = 1; 
+							current_robot.state = 1;
+							obj.drawLasers();
 							if (current_robot.aim == 2 || current_robot.aim == 6) current_robot.skeleton.state.addAnimationByName(0, "front_idle", true, 0); 
 							else current_robot.skeleton.state.addAnimationByName(0, "back_idle", true, 0)
 						}
@@ -1400,36 +1792,35 @@ package screens.stages.Playgrounds
 							break;
 							
 						case 7:
-							obj.matrix[26][16] = 50 + obj.objectsArray[8][0].type;
+							
+							obj.objectsArray[8][2].ready = false;
+							obj.objectsArray[8][1].ready = false;
 							obj.objectsArray[8][0].ready = false;
 							var Bot:Hipsbot;
-							switch (obj.objectsArray[8][0].type) 
-							{
-								case 1:
-									Bot = new BBot(obj.objectsArray[8][0].i,obj.objectsArray[8][0].j);
-									Bot.x = obj.objectsArray[8][0].x;
-									Bot.y = obj.objectsArray[8][0].y;
-									obj.objectsArray[0].push(Bot);
-									break;
-									
-								case 2:
-									Bot = new MBot(obj.objectsArray[8][0].i,obj.objectsArray[8][0].j);
-									Bot.x = obj.objectsArray[8][0].x;
-									Bot.y = obj.objectsArray[8][0].y;
-									obj.objectsArray[1].push(Bot);
-									obj.objectsArray[8][0].type = 1;
-									break;
-									
-								case 3:
-									Bot = new NBot(obj.objectsArray[8][0].i,obj.objectsArray[8][0].j);
-									Bot.x = obj.objectsArray[8][0].x;
-									Bot.y = obj.objectsArray[8][0].y;
-									obj.objectsArray[2].push(Bot);
-									obj.objectsArray[8][0].type = 2;
-									break;
-							}
-							current_robot = Bot;
+							
+							Bot = new NBot(obj.objectsArray[8][0].i,obj.objectsArray[8][0].j);
+							Bot.x = obj.objectsArray[8][0].x;
+							Bot.y = obj.objectsArray[8][0].y;
+							obj.matrix[24][16] = 50 + obj.objectsArray[8][0].type;
+							obj.objectsArray[2].push(Bot);
 							obj.addChild(Bot);
+							
+							Bot = new MBot(obj.objectsArray[8][1].i,obj.objectsArray[8][1].j);
+							Bot.x = obj.objectsArray[8][1].x;
+							Bot.y = obj.objectsArray[8][1].y;
+							obj.matrix[25][16] = 50 + obj.objectsArray[8][1].type;
+							obj.objectsArray[1].push(Bot);
+							obj.addChild(Bot);
+							
+							obj.matrix[26][16] = 50 + obj.objectsArray[8][2].type;
+							Bot = new BBot(obj.objectsArray[8][2].i,obj.objectsArray[8][2].j);
+							Bot.x = obj.objectsArray[8][2].x;
+							Bot.y = obj.objectsArray[8][2].y;
+							obj.objectsArray[0].push(Bot);
+							obj.addChild(Bot);
+							
+							current_robot = Bot;
+							
 							controlable = true;
 							hipstom.visible = true;
 							hipstom.messageText.visible = true;
@@ -1439,61 +1830,119 @@ package screens.stages.Playgrounds
 							break;
 							
 						case 8:
+							map.drawArray[161].activated = true;
 							map.drawArray[162].activated = true;
 							map.drawArray[163].activated = true;
 							map.drawArray[164].activated = true;
-							map.drawArray[165].activated = true;
+							map.drawArray[174].activated = true;
 							map.drawArray[175].activated = true;
 							map.drawArray[176].activated = true;
 							map.drawArray[177].activated = true;
-							map.drawArray[178].activated = true;
-							if (map.drawArray[162].y == map.drawArray[162].desty) map.matrix[18][11] = 2;
-							if (map.drawArray[163].y == map.drawArray[163].desty) map.matrix[18][12] = 2;
-							if (map.drawArray[164].y == map.drawArray[164].desty) map.matrix[18][13] = 2;
-							if (map.drawArray[165].y == map.drawArray[165].desty) map.matrix[18][14] = 2;
-							if (map.drawArray[175].y == map.drawArray[175].desty) map.matrix[19][11] = 2;
-							if (map.drawArray[176].y == map.drawArray[176].desty) map.matrix[19][12] = 2;
-							if (map.drawArray[177].y == map.drawArray[177].desty) map.matrix[19][13] = 2;
-							if (map.drawArray[178].y == map.drawArray[178].desty) map.matrix[19][14] = 2;
-							if ((map.drawArray[162].y == map.drawArray[162].desty) && (map.drawArray[163].y == map.drawArray[163].desty) && (map.drawArray[164].y == map.drawArray[164].desty) && (map.drawArray[165].y == map.drawArray[165].desty) && (map.drawArray[175].y == map.drawArray[175].desty) && (map.drawArray[176].y == map.drawArray[176].desty) && (map.drawArray[177].y == map.drawArray[177].desty) && (map.drawArray[178].y == map.drawArray[178].desty)) 
+							if (map.drawArray[161].y == map.drawArray[161].desty) map.matrix[18][11] = 2;
+							if (map.drawArray[162].y == map.drawArray[162].desty) map.matrix[18][12] = 2;
+							if (map.drawArray[163].y == map.drawArray[163].desty) map.matrix[18][13] = 2;
+							if (map.drawArray[164].y == map.drawArray[164].desty) map.matrix[18][14] = 2;
+							if (map.drawArray[174].y == map.drawArray[174].desty) map.matrix[19][11] = 2;
+							if (map.drawArray[175].y == map.drawArray[175].desty) map.matrix[19][12] = 2;
+							if (map.drawArray[176].y == map.drawArray[176].desty) map.matrix[19][13] = 2;
+							if (map.drawArray[177].y == map.drawArray[177].desty) map.matrix[19][14] = 2;
+							if ((map.drawArray[161].y == map.drawArray[161].desty) && (map.drawArray[162].y == map.drawArray[162].desty) && (map.drawArray[163].y == map.drawArray[163].desty) && (map.drawArray[164].y == map.drawArray[164].desty) && (map.drawArray[174].y == map.drawArray[174].desty) && (map.drawArray[175].y == map.drawArray[175].desty) && (map.drawArray[176].y == map.drawArray[176].desty) && (map.drawArray[177].y == map.drawArray[177].desty)) 
 							{
 								scripts[8] = 0;
 							}
 							break;
 							
 						case 9:
-							map.drawArray[162].activated = false; map.matrix[18][11] = 0;
-							map.drawArray[163].activated = false; map.matrix[18][12] = 0;
-							map.drawArray[164].activated = false; map.matrix[18][13] = 0;
-							map.drawArray[165].activated = false; map.matrix[18][14] = 0;
-							map.drawArray[175].activated = false; map.matrix[19][11] = 0;
-							map.drawArray[176].activated = false; map.matrix[19][12] = 0;
-							map.drawArray[177].activated = false; map.matrix[19][13] = 0;
-							map.drawArray[178].activated = false; map.matrix[19][14] = 0;
+							map.drawArray[161].activated = false; map.matrix[18][11] = 0;
+							map.drawArray[162].activated = false; map.matrix[18][12] = 0;
+							map.drawArray[163].activated = false; map.matrix[18][13] = 0;
+							map.drawArray[164].activated = false; map.matrix[18][14] = 0;
+							map.drawArray[174].activated = false; map.matrix[19][11] = 0;
+							map.drawArray[175].activated = false; map.matrix[19][12] = 0;
+							map.drawArray[176].activated = false; map.matrix[19][13] = 0;
+							map.drawArray[177].activated = false; map.matrix[19][14] = 0;
 							scripts[9] = 0;
 							break;
 							
 						case 10:
 							
+							map.drawArray[113].activated = true;
 							map.drawArray[114].activated = true;
 							map.drawArray[115].activated = true;
 							map.drawArray[116].activated = true;
-							map.drawArray[117].activated = true;
+							map.drawArray[130].activated = true;
 							map.drawArray[131].activated = true;
 							map.drawArray[132].activated = true;
 							map.drawArray[133].activated = true;
-							map.drawArray[134].activated = true;
-							if (map.drawArray[114].y == map.drawArray[114].desty) map.matrix[12][11] = 2;
-							if (map.drawArray[115].y == map.drawArray[115].desty) map.matrix[12][12] = 2;
-							if (map.drawArray[116].y == map.drawArray[116].desty) map.matrix[12][13] = 2;
-							if (map.drawArray[117].y == map.drawArray[117].desty) map.matrix[12][14] = 2;
-							if (map.drawArray[131].y == map.drawArray[131].desty) map.matrix[13][11] = 2;
-							if (map.drawArray[132].y == map.drawArray[132].desty) map.matrix[13][12] = 2;
-							if (map.drawArray[133].y == map.drawArray[133].desty) map.matrix[13][13] = 2;
-							if (map.drawArray[134].y == map.drawArray[134].desty) map.matrix[13][14] = 2;
-							if ((map.drawArray[114].y == map.drawArray[114].desty) && (map.drawArray[115].y == map.drawArray[115].desty) && (map.drawArray[116].y == map.drawArray[116].desty) && (map.drawArray[117].y == map.drawArray[117].desty) && (map.drawArray[131].y == map.drawArray[131].desty) && (map.drawArray[132].y == map.drawArray[132].desty) && (map.drawArray[133].y == map.drawArray[133].desty) && (map.drawArray[134].y == map.drawArray[134].desty))
+							if (map.drawArray[113].y == map.drawArray[113].desty) map.matrix[12][11] = 2;
+							if (map.drawArray[114].y == map.drawArray[114].desty) map.matrix[12][12] = 2;
+							if (map.drawArray[115].y == map.drawArray[115].desty) map.matrix[12][13] = 2;
+							if (map.drawArray[116].y == map.drawArray[116].desty) map.matrix[12][14] = 2;
+							if (map.drawArray[130].y == map.drawArray[130].desty) map.matrix[13][11] = 2;
+							if (map.drawArray[131].y == map.drawArray[131].desty) map.matrix[13][12] = 2;
+							if (map.drawArray[132].y == map.drawArray[132].desty) map.matrix[13][13] = 2;
+							if (map.drawArray[133].y == map.drawArray[133].desty) map.matrix[13][14] = 2;
+							if ((map.drawArray[113].y == map.drawArray[113].desty) && (map.drawArray[114].y == map.drawArray[114].desty) && (map.drawArray[115].y == map.drawArray[115].desty) && (map.drawArray[116].y == map.drawArray[116].desty) && (map.drawArray[130].y == map.drawArray[130].desty) && (map.drawArray[131].y == map.drawArray[131].desty) && (map.drawArray[132].y == map.drawArray[132].desty) && (map.drawArray[133].y == map.drawArray[133].desty))
 							{
 								scripts[10] = 0;
+							}
+							break;
+							
+						case 11:
+							camera_offset_x = 13 * TileSizeX;
+							camera_offset_y = -35 * TileSizeY;
+							controlable = false;
+							if (map.x == camera_offset_x && map.y == camera_offset_y && obj.objectsArray[8][2].ready)
+							{
+								obj.matrix[26][16] = 50 + obj.objectsArray[8][2].type;
+								obj.objectsArray[8][2].ready = false;
+								var newBot:Hipsbot = new BBot(obj.objectsArray[8][2].i,obj.objectsArray[8][2].j);
+								newBot.x = obj.objectsArray[8][2].x;
+								newBot.y = obj.objectsArray[8][2].y;
+								obj.objectsArray[0].push(newBot);
+								obj.addChild(newBot);
+								current_robot = newBot;
+								controlable = true;
+								obj.objectsArray[8][2].ready = false;
+								scripts[k] = 0;
+							}
+							break;
+						case 12:
+							camera_offset_x = 12 * TileSizeX;
+							camera_offset_y = -34 * TileSizeY;
+							controlable = false;
+							if (map.x == camera_offset_x && map.y == camera_offset_y && obj.objectsArray[8][1].ready)
+							{
+								obj.matrix[26][16] = 50 + obj.objectsArray[8][1].type;
+								obj.objectsArray[8][0].ready = false;
+								var newBot:Hipsbot = new MBot(obj.objectsArray[8][1].i,obj.objectsArray[8][1].j);
+								newBot.x = obj.objectsArray[8][1].x;
+								newBot.y = obj.objectsArray[8][1].y;
+								obj.objectsArray[1].push(newBot);
+								obj.addChild(newBot);
+								current_robot = newBot;
+								controlable = true;
+								obj.objectsArray[8][1].ready = false;
+								scripts[k] = 0;
+							}
+							break;
+						case 13:
+							camera_offset_x = 11 * TileSizeX;
+							camera_offset_y = -33 * TileSizeY;
+							controlable = false;
+							if (map.x == camera_offset_x && map.y == camera_offset_y && obj.objectsArray[8][0].ready)
+							{
+								obj.matrix[26][16] = 50 + obj.objectsArray[8][0].type;
+								obj.objectsArray[8][0].ready = false;
+								var newBot:Hipsbot = new NBot(obj.objectsArray[8][0].i,obj.objectsArray[8][0].j);
+								newBot.x = obj.objectsArray[8][0].x;
+								newBot.y = obj.objectsArray[8][0].y;
+								obj.objectsArray[2].push(newBot);
+								obj.addChild(newBot);
+								current_robot = newBot;
+								controlable = true;
+								obj.objectsArray[8][0].ready = false;
+								scripts[k] = 0;
 							}
 							break;
 							

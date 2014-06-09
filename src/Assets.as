@@ -156,6 +156,9 @@ package
 		[Embed(source = "../media/graphics/LaserEndBot.png")]
 		static public const LaserEndBot:Class;
 		
+		[Embed(source = "../media/graphics/PlateButton.png")]
+		public static const NanoPowerUp:Class;
+		
 		private static var gameTextures:Dictionary = new Dictionary();
 		private static var gameMusic:Dictionary = new Dictionary();
 		

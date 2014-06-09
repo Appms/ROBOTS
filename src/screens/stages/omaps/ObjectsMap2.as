@@ -3,6 +3,7 @@ package screens.stages.omaps
 	import adobe.utils.CustomActions;
 	import objects.Activable;
 	import objects.Activator;
+	import objects.BotBoost;
 	import objects.Cube;
 	import objects.Generator;
 	import objects.Hipsbot;
@@ -11,6 +12,7 @@ package screens.stages.omaps
 	import objects.MagneticFloor;
 	import objects.MaquinaCafe;
 	import objects.MBot;
+	import objects.NanoBoost;
 	import objects.NBot;
 	import objects.Lamp;
 	import objects.Pilar;
@@ -36,17 +38,17 @@ package screens.stages.omaps
 	{	
 		private var _matrix:Array = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 18, 18, 18, 0, 0, 0, 17, 17, 17, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 18, 18, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, , 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -57,17 +59,20 @@ package screens.stages.omaps
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 5, 5, 5, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 5, 5, 5, 5, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 									 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 		
 		
-		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
+		private var _objectsArray:Array = [new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array(), new Array()];
 		
-		private var _connections:Array = [[10,8,7,5],[10,4,8,6],[10,4,8,7],[11,9,7,5],[11,9,7,6],[11,9,7,7]] //[originI,originJ,destI,destJ]
-		private var _rejillas:Array = [[9,4,19,5]] //[originI,originJ,destI,destJ]
+		private var _connections:Array = [[10,4,8,5],[10,4,8,6],[10,4,8,7],[11,9,7,5],[11,9,7,6],[11,9,7,7]] //[originI,originJ,destI,destJ]
+		private var _rejillas:Array = [[9, 4, 19, 5]] //[originI,originJ,destI,destJ]
+		
+		private var nBooster:NanoBoost;
+		private var bBooster:BotBoost;
 		
 		public function ObjectsMap2()
 		{
@@ -210,11 +215,32 @@ package screens.stages.omaps
 							this.addChild(rejillaL);
 							break;
 							
-						case 12:
+						case 31:
 							var spawner:Spawner = new Spawner(i,j);
 							spawner.x = 128 * (j-i);
 							spawner.y = 64 * (j + i);
 							if (j < i) spawner.y * -1;
+							matrix[i][j] = 12;
+							_objectsArray[8].push(spawner);
+							this.addChild(spawner);
+							break;	
+						case 32:
+							var spawner:Spawner = new Spawner(i,j);
+							spawner.x = 128 * (j-i);
+							spawner.y = 64 * (j + i);
+							if (j < i) spawner.y * -1;
+							spawner.type = 2;
+							matrix[i][j] = 12;
+							_objectsArray[8].push(spawner);
+							this.addChild(spawner);
+							break;	
+						case 33:
+							var spawner:Spawner = new Spawner(i,j);
+							spawner.x = 128 * (j-i);
+							spawner.y = 64 * (j + i);
+							if (j < i) spawner.y * -1;
+							spawner.type = 3;
+							matrix[i][j] = 12;
 							_objectsArray[8].push(spawner);
 							this.addChild(spawner);
 							break;
@@ -270,9 +296,27 @@ package screens.stages.omaps
 							this.addChild(magnetic);
 							break;
 							
+						case 19:
+							var NBoost:NanoBoost = new NanoBoost();
+							NBoost.x = 128 * (j - i);
+							NBoost.y = 64 * (j + i);
+							if (j < i) NBoost.y * -1;
+							nBooster = NBoost;
+							this.addChild(NBoost);
+							break;
+							
+						case 20:
+							var BBoost:BotBoost = new BotBoost();
+							BBoost.x = 128 * (j - i);
+							BBoost.y = 64 * (j + i);
+							if (j < i) BBoost.y * -1;
+							bBooster = BBoost;
+							this.addChild(BBoost);
+							break;
+							
 						default:
 							break;
-					} 
+					}
 				}
 			}
 			
@@ -344,17 +388,23 @@ package screens.stages.omaps
 				}
 			}*/
 			
+			/*for (var k:int = 0; k < _objectsArray[11].length; k++)
+			{
+				this.removeChild(_objectsArray[11][k]);
+			}
+			_objectsArray[11] = [];*/
+			
+			//drawLasers();
+		}
+		
+		public function drawLasers():void
+		{
 			for (var k:int = 0; k < _objectsArray[11].length; k++)
 			{
 				this.removeChild(_objectsArray[11][k]);
 			}
 			_objectsArray[11] = [];
 			
-			drawLasers();
-		}
-		
-		private function drawLasers():void
-		{
 			for (var k:int = 0; k < _objectsArray[10].length; k++)
 			{
 				//DOWN
@@ -382,7 +432,7 @@ package screens.stages.omaps
 				laser = new Laser(/*_objectsArray[10][k], */_objectsArray[10][k].i -1, _objectsArray[10][k].j)
 				while (laser.i > 0 &&(_matrix[laser.i][laser.j] == 0 || _matrix[laser.i][laser.j] == 2 || _matrix[laser.i][laser.j] == 3))
 				{
-					if (_matrix[laser.i][laser.j] == 2) trace("Destroy");
+					if (_matrix[laser.i][laser.j] == 2 || _matrix[laser.i][laser.j] == 3) trace("Destroy");
 					laser.x = 128 * (laser.j - laser.i);
 					laser.y = 64 * (laser.j + laser.i);
 					if (laser.j < laser.i) laser.y * -1;
@@ -408,6 +458,26 @@ package screens.stages.omaps
 		public function get objectsArray():Array 
 		{
 			return _objectsArray;
+		}
+		
+		public function get NBooster():NanoBoost 
+		{
+			return nBooster;
+		}
+		
+		public function set NBooster(value:NanoBoost):void 
+		{
+			nBooster = value;
+		}
+		
+		public function get BBooster():BotBoost 
+		{
+			return bBooster;
+		}
+		
+		public function set BBooster(value:BotBoost):void 
+		{
+			bBooster = value;
 		}
 		
 	}
